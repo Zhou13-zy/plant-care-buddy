@@ -13,8 +13,8 @@ PlantBuddy/                     ← Solution root
 ├── PlantBuddy.sln              ← Visual Studio solution file
 ├── PlantBuddy.Domain/          ← Domain entities and business rules
 │   ├── Entities/               ← Core domain entities (Plant, CareEvent, etc.)
-│   │   ├── Enums/                  ← Enumeration types
-│   │   └── Exceptions/             ← Domain-specific exceptions
+│   │   ├── Enums/              ← Enumeration types
+│   │   └── Exceptions/         ← Domain-specific exceptions
 │   │
 │   ├── PlantBuddy.Application/     ← Application services and business logic
 │   │   ├── DTOs/                   ← Data Transfer Objects
@@ -44,7 +44,7 @@ PlantBuddy/                     ← Solution root
 │       ├── Extensions/             ← Service collection extensions
 │       ├── Filters/                ← Action filters
 │       └── Program.cs              ← Application entry point and configuration
-│```
+```
 
 ### Frontend Structure
 
@@ -527,6 +527,8 @@ This structure promotes:
 **Reference:** README.md Section 14.2.5 describes page components including PlantDetailPage.
 
 ### Task 2.7: Add routing to detail page from list
+**Purpose:** Create seamless navigation between the plant list and detail views, allowing users to explore specific plant information while maintaining context and enabling easy navigation back to the list.
+
 **Requirements:**
 - Implement routing from plant list to detail view
 - Handle URL parameters for plant ID
@@ -553,6 +555,8 @@ This structure promotes:
 **Reference:** README.md Section 14.1 mentions the directory structure including routing setup.
 
 ### Task 2.8: Display complete plant information with styling
+**Purpose:** Create a visually appealing and informative plant detail page that presents all relevant plant information in a well-organized, user-friendly layout that adapts to different screen sizes.
+
 **Requirements:**
 - Create styled layout for all plant details
 - Display plant photo prominently
