@@ -1,0 +1,6 @@
+@PlantCareBuddy.API_HostAddress = http://localhost:5207
+
+GET {{PlantCareBuddy.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
