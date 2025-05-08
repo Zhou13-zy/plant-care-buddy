@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlantCareBuddy.Domain.Entities;
 
-namespace PlantCareBuddy.Infrastructure.Data
+namespace PlantCareBuddy.Infrastructure.Persistence
 {
     public class PlantCareBuddyContext : DbContext
     {
