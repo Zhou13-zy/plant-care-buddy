@@ -1,5 +1,5 @@
-﻿using PlantBuddy.Domain.Enums;
-namespace PlantBuddy.Domain.Entities
+﻿using PlantCareBuddy.Domain.Enums;
+namespace PlantCareBuddy.Domain.Entities
 {
     public class Plant
     {

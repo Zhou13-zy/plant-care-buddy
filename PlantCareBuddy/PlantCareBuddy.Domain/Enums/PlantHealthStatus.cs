@@ -1,4 +1,4 @@
-﻿namespace PlantBuddy.Domain.Enums
+﻿namespace PlantCareBuddy.Domain.Enums
 {
     public enum PlantHealthStatus
     {
