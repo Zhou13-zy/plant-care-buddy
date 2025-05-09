@@ -1,4 +1,7 @@
 // This is the main entry point and configuration file
+using Microsoft.EntityFrameworkCore;
+using PlantCareBuddy.Infrastructure.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +20,10 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+
+// Use Sql Server
+builder.Services.AddDbContext<PlantCareBuddyContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
