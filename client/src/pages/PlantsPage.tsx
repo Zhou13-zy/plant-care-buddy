@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import PlantList, { Plant } from '../components/plants/PlantList';
-import api from '../api/axiosConfig';
+import { getAllPlants } from '../api/plantService';
+import { Plant } from '../models/plant';
+import PlantList from '../components/plants/PlantList';
 
 const PlantsPage: React.FC = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get<Plant[]>('/plants')
-      .then(response => setPlants(response.data))
+    getAllPlants()
+      .then(setPlants)
       .catch(() => setPlants([]))
       .finally(() => setLoading(false));
   }, []);
