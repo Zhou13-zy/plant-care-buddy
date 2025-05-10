@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantCareBuddy.Domain", "Pl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantCareBuddy.Infrastructure", "PlantCareBuddy.Infrastructure\PlantCareBuddy.Infrastructure.csproj", "{39F1E2B8-174C-4E8A-A935-107B69F22D46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantCareBuddy.Application", "PlantCareBuddy.Application\PlantCareBuddy.Application.csproj", "{D9CEA7EE-AE62-4047-A5A7-FB47596C2E6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{39F1E2B8-174C-4E8A-A935-107B69F22D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39F1E2B8-174C-4E8A-A935-107B69F22D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39F1E2B8-174C-4E8A-A935-107B69F22D46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9CEA7EE-AE62-4047-A5A7-FB47596C2E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9CEA7EE-AE62-4047-A5A7-FB47596C2E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9CEA7EE-AE62-4047-A5A7-FB47596C2E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9CEA7EE-AE62-4047-A5A7-FB47596C2E6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
