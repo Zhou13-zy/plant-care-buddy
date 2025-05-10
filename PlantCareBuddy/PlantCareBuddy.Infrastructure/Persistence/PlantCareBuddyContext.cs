@@ -7,20 +7,15 @@ namespace PlantCareBuddy.Infrastructure.Persistence
     {
         public PlantCareBuddyContext(DbContextOptions<PlantCareBuddyContext> options)
             : base(options)
-        {}
+        { }
+
         public DbSet<Plant> Plants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure Plant entity
-            modelBuilder.Entity<Plant>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Name).IsRequired();
-                entity.Property(e => e.Species).IsRequired();
-                entity.Property(e => e.AcquisitionDate).IsRequired();
-                entity.Property(e => e.HealthStatus).IsRequired();
-            });
+            // Only add advanced configuration here if needed.
+            // For example, relationships, indexes, or table names.
+            // No need to repeat .IsRequired() or .HasMaxLength() for Plant properties.
         }
     }
 }
