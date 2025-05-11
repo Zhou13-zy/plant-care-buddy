@@ -67,5 +67,13 @@ namespace PlantCareBuddy.API.Controllers
 
             return Ok(updatedPlant);
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePlant(int id)
+        {
+            var success = await _plantService.DeletePlantAsync(id);
+            if (!success)
+                return NotFound();
+            return NoContent();
+        }
     }
 }
