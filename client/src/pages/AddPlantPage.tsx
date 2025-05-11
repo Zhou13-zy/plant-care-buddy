@@ -20,7 +20,7 @@ const AddPlantPage: React.FC = () => {
   return (
     <div>
       <h1>Add a New Plant</h1>
-      <PlantForm onSubmit={handleAddPlant} />
+      <PlantForm<CreatePlantDto> onSubmit={handleAddPlant} />
     </div>
   );
 };
