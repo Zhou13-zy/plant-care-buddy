@@ -1,4 +1,6 @@
-﻿namespace PlantCareBuddy.Application.DTOs.Plant
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PlantCareBuddy.Application.DTOs.Plant
 {
     /// <summary>
     /// Data Transfer Object for Plant entity.
@@ -9,6 +11,9 @@
         public string Name { get; set; }
         public string Species { get; set; }
         public string Location { get; set; }
+        public DateTime AcquisitionDate { get; set; }
         public string HealthStatus { get; set; }
+        public string? Notes { get; set; }
+        public string? PrimaryImagePath { get; set; }
     }
 }
