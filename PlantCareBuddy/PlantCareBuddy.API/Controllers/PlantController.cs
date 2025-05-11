@@ -37,5 +37,14 @@ namespace PlantCareBuddy.API.Controllers
             var createdPlant = await _plantService.CreatePlantAsync(dto);
             return CreatedAtAction(nameof(GetPlants), new { id = createdPlant.Id }, createdPlant);
         }
+        [HttpPost("batch")]
+        public async Task<ActionResult<IEnumerable<PlantDto>>> CreatePlants([FromBody] List<CreatePlantDto> dtos)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var createdPlants = await _plantService.CreatePlantsAsync(dtos);
+            return Ok(createdPlants);
+        }
     }
 }

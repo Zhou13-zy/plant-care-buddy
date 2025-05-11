@@ -54,5 +54,30 @@ namespace PlantCareBuddy.Application.Services
                 HealthStatus = plant.HealthStatus.ToString()
             };
         }
+        public async Task<IEnumerable<PlantDto>> CreatePlantsAsync(List<CreatePlantDto> dtos)
+        {
+            var plants = dtos.Select(dto => new Plant
+            {
+                Name = dto.Name,
+                Species = dto.Species,
+                AcquisitionDate = dto.AcquisitionDate,
+                Location = dto.Location,
+                HealthStatus = dto.HealthStatus,
+                Notes = dto.Notes,
+                PrimaryImagePath = dto.PrimaryImagePath
+            }).ToList();
+
+            _context.Plants.AddRange(plants);
+            await _context.SaveChangesAsync();
+
+            return plants.Select(plant => new PlantDto
+            {
+                Id = plant.Id,
+                Name = plant.Name,
+                Species = plant.Species,
+                Location = plant.Location,
+                HealthStatus = plant.HealthStatus.ToString()
+            }).ToList();
+        }
     }
 }

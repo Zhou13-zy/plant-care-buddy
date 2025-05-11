@@ -6,5 +6,6 @@ namespace PlantCareBuddy.Application.Interfaces
     {
         Task<IEnumerable<PlantDto>> GetAllPlantsAsync();
         Task<PlantDto> CreatePlantAsync(CreatePlantDto dto);
+        Task<IEnumerable<PlantDto>> CreatePlantsAsync(List<CreatePlantDto> dtos);
     }
 }
