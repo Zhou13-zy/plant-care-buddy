@@ -7,6 +7,11 @@ export const getAllPlants = async (): Promise<Plant[]> => {
   return response.data;
 };
 
+export const getPlantById = async (id: number | string): Promise<Plant> => {
+    const response = await api.get<Plant>(`/plants/${id}`);
+    return response.data;
+};
+
 export const addPlant = async (plant: CreatePlantDto) => {
     const response = await api.post('/plants', plant);
     return response.data;

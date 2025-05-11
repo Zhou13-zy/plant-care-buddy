@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import PlantsPage from './pages/PlantsPage';
 import AddPlantPage from './pages/AddPlantPage';
-
+import PlantDetailPage from './pages/PlantDetailPage';
 function App() {
   return (
     <Router>
@@ -12,6 +12,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/plants" element={<PlantsPage />} />
         <Route path="/add-plant" element={<AddPlantPage />} />
+        <Route path="/plants/:id" element={<PlantDetailPage />} />
       </Routes>
     </Router>
   );
