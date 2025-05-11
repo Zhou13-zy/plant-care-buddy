@@ -3,6 +3,7 @@ using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Domain.Entities;
 using PlantCareBuddy.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using PlantCareBuddy.Domain.Enums;
 
 namespace PlantCareBuddy.Application.Services
 {
@@ -125,6 +126,33 @@ namespace PlantCareBuddy.Application.Services
             _context.Plants.Remove(plant);
             await _context.SaveChangesAsync();
             return true;
+        }
+        public async Task<IEnumerable<PlantDto>> SearchPlantsAsync(string? name, string? species, PlantHealthStatus? healthStatus, string? location)
+        {
+            var query = _context.Plants.AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+                query = query.Where(p => p.Name.Contains(name));
+            if (!string.IsNullOrEmpty(species))
+                query = query.Where(p => p.Species.Contains(species));
+            if (healthStatus.HasValue)
+                query = query.Where(p => p.HealthStatus == healthStatus.Value);
+            if (!string.IsNullOrEmpty(location))
+                query = query.Where(p => p.Location.Contains(location));
+
+            return await query
+                .Select(p => new PlantDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Species = p.Species,
+                    Location = p.Location,
+                    AcquisitionDate = p.AcquisitionDate,
+                    HealthStatus = p.HealthStatus.ToString(),
+                    Notes = p.Notes,
+                    PrimaryImagePath = p.PrimaryImagePath
+                })
+                .ToListAsync();
         }
     }
 }

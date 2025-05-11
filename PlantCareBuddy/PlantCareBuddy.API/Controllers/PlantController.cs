@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Application.DTOs.Plant;
+using PlantCareBuddy.Domain.Enums;
 
 namespace PlantCareBuddy.API.Controllers
 {
@@ -74,6 +75,16 @@ namespace PlantCareBuddy.API.Controllers
             if (!success)
                 return NotFound();
             return NoContent();
+        }
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<PlantDto>>> SearchPlants(
+            [FromQuery] string? name,
+            [FromQuery] string? species,
+            [FromQuery] PlantHealthStatus? healthStatus,
+            [FromQuery] string? location)
+        {
+            var results = await _plantService.SearchPlantsAsync(name, species, healthStatus, location);
+            return Ok(results);
         }
     }
 }
