@@ -117,5 +117,14 @@ namespace PlantCareBuddy.Application.Services
                 PrimaryImagePath = plant.PrimaryImagePath
             };
         }
+        public async Task<bool> DeletePlantAsync(int id)
+        {
+            var plant = await _context.Plants.FindAsync(id);
+            if (plant == null) return false;
+
+            _context.Plants.Remove(plant);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

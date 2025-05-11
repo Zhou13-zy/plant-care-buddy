@@ -23,4 +23,8 @@ export const updatePlant = async (id: number, data: UpdatePlantDto): Promise<Pla
   return response.data;
 };
 
+export const deletePlant = async (id: number | string): Promise<void> => {
+  await api.delete(`/plants/${id}`);
+};
+
 // add more methods here later (updatePlant, deletePlant, etc.)
