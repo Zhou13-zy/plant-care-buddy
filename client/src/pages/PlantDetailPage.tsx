@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Plant } from '../models/plant';
-import { getPlantById } from '../api/plantService';
+import { deletePlant, getPlantById } from '../api/plantService';
 import './PlantDetailPage.css';
 
 const PlantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [plant, setPlant] = useState<Plant | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    if (!plant) return;
+    if (window.confirm('Are you sure you want to delete this plant?')) {
+      await deletePlant(plant.id);
+      alert('Plant deleted!');
+      navigate('/plants');
+    }
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -45,6 +56,9 @@ const PlantDetailPage: React.FC = () => {
       <Link to={`/plants/${id}/edit`} className="edit-button">
         Edit Plant
       </Link>
+      <button className="delete-button" onClick={handleDelete}>
+        Delete Plant
+      </button>
     </div>
   );
 };
