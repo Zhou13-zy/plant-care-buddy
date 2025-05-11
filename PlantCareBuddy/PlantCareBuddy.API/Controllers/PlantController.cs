@@ -55,5 +55,17 @@ namespace PlantCareBuddy.API.Controllers
             var createdPlants = await _plantService.CreatePlantsAsync(dtos);
             return Ok(createdPlants);
         }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<PlantDto>> UpdatePlant(int id, [FromBody] UpdatePlantDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var updatedPlant = await _plantService.UpdatePlantAsync(id, dto);
+            if (updatedPlant == null)
+                return NotFound();
+
+            return Ok(updatedPlant);
+        }
     }
 }
