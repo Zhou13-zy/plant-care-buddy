@@ -24,11 +24,30 @@ namespace PlantCareBuddy.Application.Services
                     Name = p.Name,
                     Species = p.Species,
                     Location = p.Location,
-                    HealthStatus = p.HealthStatus.ToString()
+                    AcquisitionDate = p.AcquisitionDate,
+                    HealthStatus = p.HealthStatus.ToString(),
+                    Notes = p.Notes,
+                    PrimaryImagePath = p.PrimaryImagePath
                 })
                 .ToListAsync();
         }
+        public async Task<PlantDto?> GetPlantByIdAsync(int id)
+        {
+            var plant = await _context.Plants.FindAsync(id);
+            if (plant == null) return null;
 
+            return new PlantDto
+            {
+                Id = plant.Id,
+                Name = plant.Name,
+                Species = plant.Species,
+                Location = plant.Location,
+                AcquisitionDate = plant.AcquisitionDate,
+                HealthStatus = plant.HealthStatus.ToString(),
+                Notes = plant.Notes,
+                PrimaryImagePath = plant.PrimaryImagePath
+            };
+        }
         public async Task<PlantDto> CreatePlantAsync(CreatePlantDto dto)
         {
             var plant = new Plant
@@ -48,10 +67,6 @@ namespace PlantCareBuddy.Application.Services
             return new PlantDto
             {
                 Id = plant.Id,
-                Name = plant.Name,
-                Species = plant.Species,
-                Location = plant.Location,
-                HealthStatus = plant.HealthStatus.ToString()
             };
         }
         public async Task<IEnumerable<PlantDto>> CreatePlantsAsync(List<CreatePlantDto> dtos)
@@ -73,10 +88,6 @@ namespace PlantCareBuddy.Application.Services
             return plants.Select(plant => new PlantDto
             {
                 Id = plant.Id,
-                Name = plant.Name,
-                Species = plant.Species,
-                Location = plant.Location,
-                HealthStatus = plant.HealthStatus.ToString()
             }).ToList();
         }
     }

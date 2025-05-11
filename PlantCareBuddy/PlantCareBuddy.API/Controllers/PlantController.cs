@@ -25,6 +25,15 @@ namespace PlantCareBuddy.API.Controllers
             return Ok(plants);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PlantDto>> GetPlant(int id)
+        {
+            var plant = await _plantService.GetPlantByIdAsync(id);
+            if (plant == null)
+                return NotFound();
+            return Ok(plant);
+        }
+
         /// <summary>
         /// Adds a new plant to the collection.
         /// </summary>
