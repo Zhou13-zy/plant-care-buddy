@@ -27,4 +27,20 @@ export const deletePlant = async (id: number | string): Promise<void> => {
   await api.delete(`/plants/${id}`);
 };
 
+export const searchPlants = async (filters: {
+  name?: string;
+  species?: string;
+  healthStatus?: number;
+  location?: string;
+}): Promise<Plant[]> => {
+  const params = new URLSearchParams();
+  if (filters.name) params.append('name', filters.name);
+  if (filters.species) params.append('species', filters.species);
+  if (filters.healthStatus !== undefined) params.append('healthStatus', String(filters.healthStatus));
+  if (filters.location) params.append('location', filters.location);
+
+  const response = await api.get<Plant[]>(`/plants/search?${params.toString()}`);
+  return response.data;
+};
+
 // add more methods here later (updatePlant, deletePlant, etc.)
