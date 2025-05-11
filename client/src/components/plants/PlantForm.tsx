@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { CreatePlantDto } from '../../models/createPlantDto';
+import { UpdatePlantDto } from '../../models/updatePlantDto';
+import { healthStatusOptions } from '../../utils/plantUtils';
 import './PlantForm.css';
 
-interface PlantFormProps {
-  onSubmit: (data: CreatePlantDto) => void;
-  initialData?: CreatePlantDto;
+interface PlantFormProps<T extends CreatePlantDto | UpdatePlantDto> {
+  onSubmit: (data: T) => void;
+  initialData?: T;
+  isEdit?: boolean;
 }
 
-const healthStatusOptions = [
-  { value: 0, label: 'Healthy' },
-  { value: 1, label: 'NeedsAttention' },
-  { value: 2, label: 'Unhealthy' },
-  { value: 3, label: 'Dormant' },
-];
-
-const PlantForm: React.FC<PlantFormProps> = ({ onSubmit, initialData }) => {
-  const [form, setForm] = useState<CreatePlantDto>(
+const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({ 
+  onSubmit, 
+  initialData, 
+  isEdit 
+}: PlantFormProps<T>) => {
+  const [form, setForm] = useState<T>(
     initialData || {
       name: '',
       species: '',
@@ -24,7 +24,8 @@ const PlantForm: React.FC<PlantFormProps> = ({ onSubmit, initialData }) => {
       healthStatus: 0,
       notes: '',
       primaryImagePath: '',
-    }
+      ...(isEdit ? { id: 0 } : {})
+    } as T
   );
 
   const handleChange = (
@@ -44,79 +45,94 @@ const PlantForm: React.FC<PlantFormProps> = ({ onSubmit, initialData }) => {
 
   return (
     <form onSubmit={handleSubmit} className="plant-form">
-      <label>
-        Name:
+      <div className="form-group">
+        <label htmlFor="name">Name:</label>
         <input
+          type="text"
+          id="name"
           name="name"
           value={form.name}
           onChange={handleChange}
           required
-          maxLength={100}
         />
-      </label>
-      <label>
-        Species:
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="species">Species:</label>
         <input
+          type="text"
+          id="species"
           name="species"
           value={form.species}
           onChange={handleChange}
           required
-          maxLength={100}
         />
-      </label>
-      <label>
-        Acquisition Date:
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="acquisitionDate">Acquisition Date:</label>
         <input
           type="date"
+          id="acquisitionDate"
           name="acquisitionDate"
           value={form.acquisitionDate}
           onChange={handleChange}
           required
         />
-      </label>
-      <label>
-        Location:
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="location">Location:</label>
         <input
+          type="text"
+          id="location"
           name="location"
-          value={form.location || ''}
+          value={form.location}
           onChange={handleChange}
-          maxLength={200}
         />
-      </label>
-      <label>
-        Health Status:
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="healthStatus">Health Status:</label>
         <select
+          id="healthStatus"
           name="healthStatus"
           value={form.healthStatus}
           onChange={handleChange}
           required
         >
-          {healthStatusOptions.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
+          {healthStatusOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
             </option>
           ))}
         </select>
-      </label>
-      <label>
-        Notes:
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="notes">Notes:</label>
         <textarea
+          id="notes"
           name="notes"
-          value={form.notes || ''}
+          value={form.notes}
           onChange={handleChange}
-          maxLength={1000}
         />
-      </label>
-      <label>
-        Primary Image Path:
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="primaryImagePath">Primary Image Path:</label>
         <input
+          type="text"
+          id="primaryImagePath"
           name="primaryImagePath"
-          value={form.primaryImagePath || ''}
+          value={form.primaryImagePath}
           onChange={handleChange}
-          maxLength={500}
         />
-      </label>
-      <button type="submit">Save Plant</button>
+      </div>
+
+      <button type="submit" className="submit-button">
+        {initialData ? 'Update Plant' : 'Add Plant'}
+      </button>
     </form>
   );
 };
