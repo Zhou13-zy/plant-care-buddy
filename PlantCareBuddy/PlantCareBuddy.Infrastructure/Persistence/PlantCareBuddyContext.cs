@@ -13,9 +13,33 @@ namespace PlantCareBuddy.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Only add advanced configuration here if needed.
-            // For example, relationships, indexes, or table names.
-            // No need to repeat .IsRequired() or .HasMaxLength() for Plant properties.
+            modelBuilder.Entity<Plant>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+
+                entity.Property(p => p.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(p => p.Species)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(p => p.AcquisitionDate)
+                    .IsRequired();
+
+                entity.Property(p => p.Location)
+                    .HasMaxLength(200);
+
+                entity.Property(p => p.HealthStatus)
+                    .IsRequired();
+
+                entity.Property(p => p.Notes)
+                    .HasMaxLength(1000);
+
+                entity.Property(p => p.PrimaryImagePath)
+                    .HasMaxLength(500);
+            });
         }
     }
 }
