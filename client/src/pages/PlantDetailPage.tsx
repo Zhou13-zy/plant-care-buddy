@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Plant } from '../models/plant';
 import { getPlantById } from '../api/plantService';
 import './PlantDetailPage.css';
@@ -42,6 +42,9 @@ const PlantDetailPage: React.FC = () => {
       {plant.notes && (
         <p><strong>Notes:</strong> {plant.notes}</p>
       )}
+      <Link to={`/plants/${id}/edit`} className="edit-button">
+        Edit Plant
+      </Link>
     </div>
   );
 };
