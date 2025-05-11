@@ -28,7 +28,20 @@ namespace PlantCareBuddy.Application.Services
                 })
                 .ToListAsync();
         }
+        public async Task<PlantDto?> GetPlantByIdAsync(int id)
+        {
+            var plant = await _context.Plants.FindAsync(id);
+            if (plant == null) return null;
 
+            return new PlantDto
+            {
+                Id = plant.Id,
+                Name = plant.Name,
+                Species = plant.Species,
+                Location = plant.Location,
+                HealthStatus = plant.HealthStatus.ToString()
+            };
+        }
         public async Task<PlantDto> CreatePlantAsync(CreatePlantDto dto)
         {
             var plant = new Plant
