@@ -10,6 +10,9 @@ namespace PlantCareBuddy.Infrastructure.Persistence
         { }
 
         public DbSet<Plant> Plants { get; set; }
+        public DbSet<CareEvent> CareEvents { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,6 +43,28 @@ namespace PlantCareBuddy.Infrastructure.Persistence
                 entity.Property(p => p.PrimaryImagePath)
                     .HasMaxLength(500);
             });
+            modelBuilder.Entity<CareEvent>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.EventType)
+                    .IsRequired();
+
+                entity.Property(e => e.EventDate)
+                    .IsRequired();
+
+                entity.Property(e => e.Notes)
+                    .HasMaxLength(1000);
+
+                entity.Property(e => e.ImagePath)
+                    .HasMaxLength(500);
+
+                entity.HasOne(e => e.Plant)
+                    .WithMany(p => p.CareEvents)
+                    .HasForeignKey(e => e.PlantId)
+                    .OnDelete(DeleteBehavior.Cascade); // Delete care events when plant is deleted
+            });
         }
+
     }
 }
