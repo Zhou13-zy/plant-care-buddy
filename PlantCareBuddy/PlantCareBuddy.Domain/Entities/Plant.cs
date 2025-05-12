@@ -4,6 +4,10 @@ namespace PlantCareBuddy.Domain.Entities
 {
     public class Plant
     {
+        public Plant()
+        {
+            CareEvents = new HashSet<CareEvent>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Species { get; set; }
@@ -12,5 +16,8 @@ namespace PlantCareBuddy.Domain.Entities
         public PlantHealthStatus HealthStatus { get; set; }
         public string? Notes { get; set; }
         public string? PrimaryImagePath { get; set; }
+
+        // Navigation property - collection of care events
+        public virtual ICollection<CareEvent> CareEvents { get; set; }
     }
 }
