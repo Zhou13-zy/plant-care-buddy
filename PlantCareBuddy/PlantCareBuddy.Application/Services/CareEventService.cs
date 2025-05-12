@@ -72,6 +72,24 @@ namespace PlantCareBuddy.Application.Services
 
             return MapToDto(careEvent);
         }
+        public async Task<CareEventDto?> UpdateCareEventAsync(int id, UpdateCareEventDto dto)
+        {
+            var careEvent = await _context.CareEvents
+                .Include(ce => ce.Plant)
+                .FirstOrDefaultAsync(ce => ce.Id == id);
+
+            if (careEvent == null)
+                return null;
+
+            careEvent.EventType = dto.EventType;
+            careEvent.EventDate = dto.EventDate;
+            careEvent.Notes = dto.Notes;
+            careEvent.ImagePath = dto.ImagePath;
+
+            await _context.SaveChangesAsync();
+
+            return MapToDto(careEvent);
+        }
 
         private static CareEventDto MapToDto(CareEvent careEvent)
         {

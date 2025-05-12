@@ -66,5 +66,20 @@ namespace PlantCareBuddy.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        /// <summary>
+        /// Updates an existing care event.
+        /// </summary>
+        [HttpPut("{id}")]
+        public async Task<ActionResult<CareEventDto>> UpdateCareEvent(int id, [FromBody] UpdateCareEventDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var updatedCareEvent = await _careEventService.UpdateCareEventAsync(id, dto);
+            if (updatedCareEvent == null)
+                return NotFound();
+
+            return Ok(updatedCareEvent);
+        }
     }
 }
