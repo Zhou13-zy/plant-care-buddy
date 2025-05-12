@@ -4,6 +4,7 @@ using PlantCareBuddy.Domain.Entities;
 using PlantCareBuddy.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using PlantCareBuddy.Domain.Enums;
+using PlantCareBuddy.Infrastructure.Extensions;
 
 namespace PlantCareBuddy.Application.Services
 {
@@ -131,14 +132,11 @@ namespace PlantCareBuddy.Application.Services
         {
             var query = _context.Plants.AsQueryable();
 
-            if (!string.IsNullOrEmpty(name))
-                query = query.Where(p => p.Name.Contains(name));
-            if (!string.IsNullOrEmpty(species))
-                query = query.Where(p => p.Species.Contains(species));
-            if (healthStatus.HasValue)
-                query = query.Where(p => p.HealthStatus == healthStatus.Value);
-            if (!string.IsNullOrEmpty(location))
-                query = query.Where(p => p.Location.Contains(location));
+            query = query
+                .WhereNameContainsInsensitive(name)
+                .WhereSpeciesContainsInsensitive(species)
+                .WhereLocationContainsInsensitive(location)
+                .WithHealthStatus(healthStatus);
 
             return await query
                 .Select(p => new PlantDto
