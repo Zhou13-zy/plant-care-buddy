@@ -81,5 +81,17 @@ namespace PlantCareBuddy.API.Controllers
 
             return Ok(updatedCareEvent);
         }
+        /// <summary>
+        /// Deletes a care event.
+        /// </summary>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCareEvent(int id)
+        {
+            var success = await _careEventService.DeleteCareEventAsync(id);
+            if (!success)
+                return NotFound();
+
+            return NoContent();
+        }
     }
 }

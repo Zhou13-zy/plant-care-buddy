@@ -9,5 +9,6 @@ namespace PlantCareBuddy.Application.Interfaces
         Task<CareEventDto?> GetCareEventByIdAsync(int id);
         Task<CareEventDto> CreateCareEventAsync(CreateCareEventDto dto);
         Task<CareEventDto?> UpdateCareEventAsync(int id, UpdateCareEventDto dto);
+        Task<bool> DeleteCareEventAsync(int id);
     }
 }

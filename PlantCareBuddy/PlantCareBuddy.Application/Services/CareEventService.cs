@@ -90,6 +90,15 @@ namespace PlantCareBuddy.Application.Services
 
             return MapToDto(careEvent);
         }
+        public async Task<bool> DeleteCareEventAsync(int id)
+        {
+            var careEvent = await _context.CareEvents.FindAsync(id);
+            if (careEvent == null) return false;
+
+            _context.CareEvents.Remove(careEvent);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
         private static CareEventDto MapToDto(CareEvent careEvent)
         {
