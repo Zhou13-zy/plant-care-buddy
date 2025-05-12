@@ -47,5 +47,24 @@ namespace PlantCareBuddy.API.Controllers
 
             return Ok(careEvent);
         }
+        /// <summary>
+        /// Creates a new care event.
+        /// </summary>
+        [HttpPost]
+        public async Task<ActionResult<CareEventDto>> CreateCareEvent([FromBody] CreateCareEventDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var createdCareEvent = await _careEventService.CreateCareEventAsync(dto);
+                return CreatedAtAction(nameof(GetCareEvent), new { id = createdCareEvent.Id }, createdCareEvent);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

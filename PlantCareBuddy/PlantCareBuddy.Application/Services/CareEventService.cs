@@ -48,6 +48,31 @@ namespace PlantCareBuddy.Application.Services
             return MapToDto(careEvent);
         }
 
+        public async Task<CareEventDto> CreateCareEventAsync(CreateCareEventDto dto)
+        {
+            // Verify that the plant exists
+            var plant = await _context.Plants.FindAsync(dto.PlantId);
+            if (plant == null)
+                throw new ArgumentException($"Plant with ID {dto.PlantId} not found");
+
+            var careEvent = new CareEvent
+            {
+                PlantId = dto.PlantId,
+                EventType = dto.EventType,
+                EventDate = dto.EventDate,
+                Notes = dto.Notes,
+                ImagePath = dto.ImagePath
+            };
+
+            _context.CareEvents.Add(careEvent);
+            await _context.SaveChangesAsync();
+
+            // Reload the care event with plant data for the response
+            await _context.Entry(careEvent).Reference(ce => ce.Plant).LoadAsync();
+
+            return MapToDto(careEvent);
+        }
+
         private static CareEventDto MapToDto(CareEvent careEvent)
         {
             return new CareEventDto

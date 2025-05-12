@@ -7,5 +7,6 @@ namespace PlantCareBuddy.Application.Interfaces
         Task<IEnumerable<CareEventDto>> GetAllCareEventsAsync();
         Task<IEnumerable<CareEventDto>> GetCareEventsByPlantIdAsync(int plantId);
         Task<CareEventDto?> GetCareEventByIdAsync(int id);
+        Task<CareEventDto> CreateCareEventAsync(CreateCareEventDto dto);
     }
 }
