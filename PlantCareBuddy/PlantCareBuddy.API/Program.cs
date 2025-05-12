@@ -28,6 +28,7 @@ builder.Services.AddDbContext<PlantCareBuddyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IPlantService, PlantService>();
+builder.Services.AddScoped<ICareEventService, CareEventService>();
 
 var app = builder.Build();
 
