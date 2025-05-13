@@ -1,8 +1,7 @@
 import api from './axiosConfig';
-import { Plant } from '../models/plant';
-import { PlantHealthStatus } from '../models/plantHealthStatus';
-import { CreatePlantDto } from '../models/createPlantDto';
-import { UpdatePlantDto } from '../models/updatePlantDto';
+import { Plant } from '../models/Plant/plant';
+import { CreatePlantDto } from '../models/Plant/createPlantDto';
+import { UpdatePlantDto } from '../models/Plant/updatePlantDto';
 
 export const getAllPlants = async (): Promise<Plant[]> => {
   const response = await api.get<Plant[]>('/plants');

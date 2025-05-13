@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllPlants, searchPlants } from '../api/plantService';
-import { Plant } from '../models/plant';
+import { Plant } from '../models/Plant/plant';
 import PlantList from '../components/plants/PlantList';
 import SearchBar from '../components/plants/SearchBar';
 import { useSearchParams } from 'react-router-dom';

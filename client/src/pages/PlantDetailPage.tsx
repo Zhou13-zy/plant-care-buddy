@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Plant } from '../models/plant';
+import { Plant } from '../models/Plant/plant';
 import { deletePlant, getPlantById } from '../api/plantService';
 import './PlantDetailPage.css';
 import { getHealthStatusName, getHealthStatusClass } from '../utils/healthStatusUtils';
