@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Plant } from '../models/plant';
 import { deletePlant, getPlantById } from '../api/plantService';
 import './PlantDetailPage.css';
+import { getHealthStatusName, getHealthStatusClass } from '../utils/healthStatusUtils';
 
 const PlantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -46,8 +47,8 @@ const PlantDetailPage: React.FC = () => {
       <p><strong>Acquisition Date:</strong> {plant.acquisitionDate}</p>
       <p>
         <strong>Health Status:</strong>
-        <span className={`health-status health-${plant.healthStatus.toLowerCase()}`}>
-          {plant.healthStatus}
+        <span className={`health-status health-${getHealthStatusClass(plant.healthStatus)}`}>
+          {getHealthStatusName(plant.healthStatus)}
         </span>
       </p>
       {plant.notes && (

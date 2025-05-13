@@ -3,6 +3,7 @@ import { CreatePlantDto } from '../../models/createPlantDto';
 import { UpdatePlantDto } from '../../models/updatePlantDto';
 import { healthStatusOptions } from '../../utils/plantUtils';
 import './PlantForm.css';
+import { PlantHealthStatus } from '../../models/plantHealthStatus';
 
 interface PlantFormProps<T extends CreatePlantDto | UpdatePlantDto> {
   onSubmit: (data: T) => void;
@@ -21,12 +22,14 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
       species: '',
       acquisitionDate: '',
       location: '',
-      healthStatus: 0,
+      healthStatus: PlantHealthStatus.Healthy,
       notes: '',
       primaryImagePath: '',
       ...(isEdit ? { id: 0 } : {})
     } as T
   );
+
+  console.log("initialData", initialData);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -34,7 +37,7 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: name === 'healthStatus' ? Number(value) : value,
+      [name]: name === 'healthStatus' ? Number(value) as PlantHealthStatus : value,
     }));
   };
 
@@ -42,6 +45,14 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
     e.preventDefault();
     onSubmit(form);
   };
+
+  const healthStatusOptions = Object.entries(PlantHealthStatus)
+    .filter(([key, value]) => typeof value === 'number')
+    .map(([key, value]) => (
+      <option key={value as number} value={value as number}>
+        {key}
+      </option>
+    ));
 
   return (
     <form onSubmit={handleSubmit} className="plant-form">
@@ -101,11 +112,7 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
           onChange={handleChange}
           required
         >
-          {healthStatusOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
+          {healthStatusOptions}
         </select>
       </div>
 

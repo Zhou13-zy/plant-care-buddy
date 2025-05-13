@@ -1,13 +1,15 @@
 import React from 'react';
 import './PlantList.css';
 import { Link } from 'react-router-dom';
+import { PlantHealthStatus } from '../../models/plantHealthStatus';
+import { getHealthStatusName, getHealthStatusClass } from '../../utils/healthStatusUtils';
 
 export interface Plant {
   id: number;
   name: string;
   species: string;
   location: string;
-  healthStatus: string;
+  healthStatus: PlantHealthStatus;
 }
 
 interface PlantsListProps {
@@ -24,7 +26,9 @@ const PlantsList: React.FC<PlantsListProps> = ({ plants }) => {
           </Link>
           <p><strong>Species:</strong> {plant.species}</p>
           <p><strong>Location:</strong> {plant.location}</p>
-          <p><strong>Health:</strong> {plant.healthStatus}</p>
+          <div className={`plant-health ${getHealthStatusClass(plant.healthStatus)}`}>
+            {getHealthStatusName(plant.healthStatus)}
+          </div>
         </div>
       ))}
     </div>

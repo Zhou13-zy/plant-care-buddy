@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PlantCareBuddy.Domain.Enums;
 
 namespace PlantCareBuddy.Application.DTOs.Plant
 {
@@ -12,7 +12,7 @@ namespace PlantCareBuddy.Application.DTOs.Plant
         public string Species { get; set; }
         public string Location { get; set; }
         public DateTime AcquisitionDate { get; set; }
-        public string HealthStatus { get; set; }
+        public PlantHealthStatus HealthStatus { get; set; }
         public string? Notes { get; set; }
         public string? PrimaryImagePath { get; set; }
     }

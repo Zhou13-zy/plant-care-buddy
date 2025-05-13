@@ -1,5 +1,6 @@
 import api from './axiosConfig';
 import { Plant } from '../models/plant';
+import { PlantHealthStatus } from '../models/plantHealthStatus';
 import { CreatePlantDto } from '../models/createPlantDto';
 import { UpdatePlantDto } from '../models/updatePlantDto';
 

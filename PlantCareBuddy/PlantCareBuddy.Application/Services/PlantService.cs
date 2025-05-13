@@ -27,7 +27,7 @@ namespace PlantCareBuddy.Application.Services
                     Species = p.Species,
                     Location = p.Location,
                     AcquisitionDate = p.AcquisitionDate,
-                    HealthStatus = p.HealthStatus.ToString(),
+                    HealthStatus = p.HealthStatus,
                     Notes = p.Notes,
                     PrimaryImagePath = p.PrimaryImagePath
                 })
@@ -45,7 +45,7 @@ namespace PlantCareBuddy.Application.Services
                 Species = plant.Species,
                 Location = plant.Location,
                 AcquisitionDate = plant.AcquisitionDate,
-                HealthStatus = plant.HealthStatus.ToString(),
+                HealthStatus = plant.HealthStatus,
                 Notes = plant.Notes,
                 PrimaryImagePath = plant.PrimaryImagePath
             };
@@ -114,7 +114,7 @@ namespace PlantCareBuddy.Application.Services
                 Species = plant.Species,
                 Location = plant.Location,
                 AcquisitionDate = plant.AcquisitionDate,
-                HealthStatus = plant.HealthStatus.ToString(),
+                HealthStatus = plant.HealthStatus,
                 Notes = plant.Notes,
                 PrimaryImagePath = plant.PrimaryImagePath
             };
@@ -146,7 +146,7 @@ namespace PlantCareBuddy.Application.Services
                     Species = p.Species,
                     Location = p.Location,
                     AcquisitionDate = p.AcquisitionDate,
-                    HealthStatus = p.HealthStatus.ToString(),
+                    HealthStatus = p.HealthStatus,
                     Notes = p.Notes,
                     PrimaryImagePath = p.PrimaryImagePath
                 })
