@@ -1,4 +1,4 @@
-import { PlantHealthStatus } from '../models/plantHealthStatus';
+import { PlantHealthStatus } from '../models/Plant/plantHealthStatus';
 
 /**
  * Gets the display name for a health status enum value

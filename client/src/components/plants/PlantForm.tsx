@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { CreatePlantDto } from '../../models/createPlantDto';
-import { UpdatePlantDto } from '../../models/updatePlantDto';
-import { healthStatusOptions } from '../../utils/plantUtils';
+import { CreatePlantDto } from '../../models/Plant/createPlantDto';
+import { UpdatePlantDto } from '../../models/Plant/updatePlantDto';
 import './PlantForm.css';
-import { PlantHealthStatus } from '../../models/plantHealthStatus';
+import { PlantHealthStatus } from '../../models/Plant/plantHealthStatus';
 
 interface PlantFormProps<T extends CreatePlantDto | UpdatePlantDto> {
   onSubmit: (data: T) => void;

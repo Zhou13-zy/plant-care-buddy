@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import PlantForm from '../components/plants/PlantForm';
 import { getPlantById, updatePlant } from '../api/plantService';
-import { Plant } from '../models/plant';
-import { UpdatePlantDto } from '../models/updatePlantDto';
-import { healthStatusMap } from '../utils/plantUtils';
+import { Plant } from '../models/Plant/plant';
+import { UpdatePlantDto } from '../models/Plant/updatePlantDto';
 import { formatDate } from '../utils/dateUtils';
 
 const EditPlantPage: React.FC = () => {

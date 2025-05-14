@@ -1,7 +1,7 @@
 import React from 'react';
 import './PlantList.css';
 import { Link } from 'react-router-dom';
-import { PlantHealthStatus } from '../../models/plantHealthStatus';
+import { PlantHealthStatus } from '../../models/Plant/plantHealthStatus';
 import { getHealthStatusName, getHealthStatusClass } from '../../utils/healthStatusUtils';
 
 export interface Plant {

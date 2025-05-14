@@ -1,4 +1,3 @@
-// client/src/models/createPlantDto.ts
 import { PlantHealthStatus } from './plantHealthStatus';
 
 export interface CreatePlantDto {

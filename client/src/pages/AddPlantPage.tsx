@@ -2,7 +2,7 @@ import React from 'react';
 import PlantForm from '../components/plants/PlantForm';
 import { addPlant } from '../api/plantService';
 import { useNavigate } from 'react-router-dom';
-import { CreatePlantDto } from '../models/createPlantDto';
+import { CreatePlantDto } from '../models/Plant/createPlantDto';
 
 const AddPlantPage: React.FC = () => {
   const navigate = useNavigate();
