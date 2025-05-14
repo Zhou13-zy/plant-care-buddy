@@ -15,7 +15,7 @@ namespace PlantCareBuddy.Application.DTOs.HealthObservation
 
         [Required]
         public string Notes { get; set; }
-
-        public string ImagePath { get; set; }  // Optional
+        [MaxLength(500)]
+        public string? ImagePath { get; set; }
     }
 }

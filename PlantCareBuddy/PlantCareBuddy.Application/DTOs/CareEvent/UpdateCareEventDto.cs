@@ -11,9 +11,9 @@ namespace PlantCareBuddy.Application.DTOs.CareEvent
 
         [Required]
         public DateTime EventDate { get; set; }
-
+        [MaxLength(500)]
         public string? Notes { get; set; }
-
+        [MaxLength(500)]
         public string? ImagePath { get; set; }
     }
 }
