@@ -11,6 +11,7 @@ namespace PlantCareBuddy.Infrastructure.Persistence
 
         public DbSet<Plant> Plants { get; set; }
         public DbSet<CareEvent> CareEvents { get; set; }
+        public DbSet<HealthObservation> HealthObservations { get; set; }
 
 
 
@@ -62,7 +63,28 @@ namespace PlantCareBuddy.Infrastructure.Persistence
                 entity.HasOne(e => e.Plant)
                     .WithMany(p => p.CareEvents)
                     .HasForeignKey(e => e.PlantId)
-                    .OnDelete(DeleteBehavior.Cascade); // Delete care events when plant is deleted
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+            modelBuilder.Entity<HealthObservation>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.ObservationDate)
+                    .IsRequired();
+
+                entity.Property(p => p.HealthStatus)
+                    .IsRequired();
+
+                entity.Property(e => e.Notes)
+                    .IsRequired();
+
+                entity.Property(e => e.ImagePath)
+                    .HasMaxLength(500);
+
+                entity.HasOne(e => e.Plant)
+                    .WithMany(p => p.HealthObservations)
+                    .HasForeignKey(e => e.PlantId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
 
