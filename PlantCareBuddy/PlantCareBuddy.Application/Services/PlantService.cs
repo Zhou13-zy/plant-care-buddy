@@ -75,6 +75,7 @@ namespace PlantCareBuddy.Application.Services
             if (dto.AcquisitionDate.HasValue) plant.AcquisitionDate = dto.AcquisitionDate.Value;
             if (dto.Location != null) plant.Location = dto.Location;
             if (dto.HealthStatus.HasValue) plant.HealthStatus = dto.HealthStatus.Value;
+            if (dto.NextHealthCheckDate.HasValue) plant.NextHealthCheckDate = dto.NextHealthCheckDate.Value;
             if (dto.Notes != null) plant.Notes = dto.Notes;
             if (dto.PrimaryImagePath != null) plant.PrimaryImagePath = dto.PrimaryImagePath;
 
