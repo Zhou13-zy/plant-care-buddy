@@ -2,18 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Plant } from '../models/Plant/plant';
 import { CareEvent } from '../models/CareEvent/careEvent';
+import { HealthObservation } from '../models/HealthObservation/healthObservation';
 import { deletePlant, getPlantById } from '../api/plantService';
 import { getCareEventsByPlant } from '../api/careEventService';
+import { getHealthObservationsByPlantId } from '../api/healthObservationService';
 import { getHealthStatusName, getHealthStatusClass } from '../utils/healthStatusUtils';
 import CareEventList from '../components/care/CareEventList';
 import CareEventForm from '../components/care/CareEventForm';
 import Modal from '../components/common/Modal';
+import HealthObservationList from '../components/health/HealthObservationList';
 import './PlantDetailPage.css';
 
 const PlantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [plant, setPlant] = useState<Plant | null>(null);
   const [careEvents, setCareEvents] = useState<CareEvent[]>([]);
+  const [healthObservations, setHealthObservations] = useState<HealthObservation[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
 
@@ -40,6 +44,18 @@ const PlantDetailPage: React.FC = () => {
     } catch (error) {
       console.error('Error fetching care events:', error);
       setCareEvents([]);
+    }
+  };
+
+  const fetchHealthObservations = async () => {
+    if (!id) return;
+    
+    try {
+      const observations = await getHealthObservationsByPlantId(parseInt(id, 10));
+      setHealthObservations(observations);
+    } catch (error) {
+      console.error('Error fetching health observations:', error);
+      setHealthObservations([]);
     } finally {
       setLoading(false);
     }
@@ -50,6 +66,7 @@ const PlantDetailPage: React.FC = () => {
       setLoading(true);
       await fetchPlantData();
       await fetchCareEvents();
+      await fetchHealthObservations();
     };
     
     fetchData();
@@ -76,6 +93,10 @@ const PlantDetailPage: React.FC = () => {
 
   const handleEventDeleted = () => {
     fetchCareEvents();
+  };
+  
+  const handleHealthObservationDeleted = () => {
+    fetchHealthObservations();
   };
 
   if (loading) return <div>Loading...</div>;
@@ -113,6 +134,14 @@ const PlantDetailPage: React.FC = () => {
             Delete Plant
           </button>
         </div>
+      </div>
+
+      <div className="plant-health-section">
+        <HealthObservationList 
+          observations={healthObservations}
+          plantId={parseInt(id!, 10)}
+          onObservationDeleted={handleHealthObservationDeleted}
+        />
       </div>
 
       <CareEventList 
