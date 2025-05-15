@@ -8,6 +8,7 @@
     acquisitionDate?: string;
     location?: string;
     healthStatus?: PlantHealthStatus;
+    nextHealthCheckDate?: string;
     notes?: string;
     primaryImagePath?: string;
   }

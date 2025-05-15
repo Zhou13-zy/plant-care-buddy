@@ -24,6 +24,7 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
       healthStatus: PlantHealthStatus.Healthy,
       notes: '',
       primaryImagePath: '',
+      nextHealthCheckDate: '',
       ...(isEdit ? { id: 0 } : {})
     } as T
   );
@@ -133,6 +134,20 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
           name="primaryImagePath"
           value={form.primaryImagePath}
           onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="nextHealthCheckDate">Next Health Check Date</label>
+        <input
+          type="date"
+          id="nextHealthCheckDate"
+          className="form-control"
+          value={form.nextHealthCheckDate ? new Date(form.nextHealthCheckDate).toISOString().split('T')[0] : ''}
+          onChange={(e) => setForm({
+            ...form,
+            nextHealthCheckDate: e.target.value ? new Date(e.target.value).toISOString() : null
+          })}
         />
       </div>
 

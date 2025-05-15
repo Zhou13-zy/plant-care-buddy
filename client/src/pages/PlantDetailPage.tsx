@@ -101,6 +101,7 @@ const PlantDetailPage: React.FC = () => {
             {getHealthStatusName(plant.healthStatus)}
           </span>
         </p>
+        <p><strong>Next Health Check Date:</strong> {plant.nextHealthCheckDate}</p>
         {plant.notes && (
           <p><strong>Notes:</strong> {plant.notes}</p>
         )}

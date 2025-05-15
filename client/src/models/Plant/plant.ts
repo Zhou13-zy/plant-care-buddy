@@ -8,6 +8,7 @@ export interface Plant {
     location: string;
     healthStatus: PlantHealthStatus;
     healthStatusName?: string;
+    nextHealthCheckDate: string;
     notes?: string;
     primaryImagePath?: string;
   }
