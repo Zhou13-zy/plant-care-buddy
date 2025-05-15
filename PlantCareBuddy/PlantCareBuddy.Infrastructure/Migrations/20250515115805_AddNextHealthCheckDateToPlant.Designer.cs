@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlantCareBuddy.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using PlantCareBuddy.Infrastructure.Persistence;
 namespace PlantCareBuddy.Infrastructure.Migrations
 {
     [DbContext(typeof(PlantCareBuddyContext))]
-    partial class PlantCareBuddyContextModelSnapshot : ModelSnapshot
+    [Migration("20250515115805_AddNextHealthCheckDateToPlant")]
+    partial class AddNextHealthCheckDateToPlant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

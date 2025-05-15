@@ -25,6 +25,7 @@ namespace PlantCareBuddy.Application.DTOs.Plant
 
         [Required]
         public PlantHealthStatus HealthStatus { get; set; }
+        public DateTime? NextHealthCheckDate { get; set; }
 
         [MaxLength(1000)]
         public string? Notes { get; set; }

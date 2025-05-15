@@ -14,6 +14,7 @@ namespace PlantCareBuddy.Domain.Entities
         public DateTime AcquisitionDate { get; set; }
         public string Location { get; set; }
         public PlantHealthStatus HealthStatus { get; set; }
+        public DateTime? NextHealthCheckDate { get; set; }
         public string? Notes { get; set; }
         public string? PrimaryImagePath { get; set; }
 

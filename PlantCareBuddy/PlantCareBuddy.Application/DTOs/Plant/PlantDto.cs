@@ -13,6 +13,7 @@ namespace PlantCareBuddy.Application.DTOs.Plant
         public string Location { get; set; }
         public DateTime AcquisitionDate { get; set; }
         public PlantHealthStatus HealthStatus { get; set; }
+        public DateTime? NextHealthCheckDate { get; set; }
         public string? Notes { get; set; }
         public string? PrimaryImagePath { get; set; }
     }

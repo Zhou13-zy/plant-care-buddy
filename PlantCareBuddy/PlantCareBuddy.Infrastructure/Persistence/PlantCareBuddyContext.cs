@@ -38,6 +38,8 @@ namespace PlantCareBuddy.Infrastructure.Persistence
                 entity.Property(p => p.HealthStatus)
                     .IsRequired();
 
+                entity.Property(e => e.NextHealthCheckDate);
+
                 entity.Property(p => p.Notes)
                     .HasMaxLength(1000);
 
