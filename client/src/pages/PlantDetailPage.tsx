@@ -11,6 +11,7 @@ import CareEventList from '../components/care/CareEventList';
 import CareEventForm from '../components/care/CareEventForm';
 import Modal from '../components/common/Modal';
 import HealthObservationList from '../components/health/HealthObservationList';
+import HealthStatusIndicator from '../components/common/HealthStatusIndicator';
 import './PlantDetailPage.css';
 
 const PlantDetailPage: React.FC = () => {
@@ -118,9 +119,7 @@ const PlantDetailPage: React.FC = () => {
         <p><strong>Acquisition Date:</strong> {plant.acquisitionDate}</p>
         <p>
           <strong>Health Status:</strong>
-          <span className={`health-status health-${getHealthStatusClass(plant.healthStatus)}`}>
-            {getHealthStatusName(plant.healthStatus)}
-          </span>
+          <HealthStatusIndicator status={plant.healthStatus} size="medium" />
         </p>
         <p><strong>Next Health Check Date:</strong> {plant.nextHealthCheckDate}</p>
         {plant.notes && (

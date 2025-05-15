@@ -1,0 +1,81 @@
+.health-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 16px;
+  }
+  
+  .health-status-indicator.small {
+    padding: 2px 6px;
+  }
+  
+  .health-status-indicator.large {
+    padding: 6px 12px;
+  }
+  
+  .indicator-icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  
+  .health-status-indicator.small .indicator-icon {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .health-status-indicator.large .indicator-icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  /* Health status colors */
+  .health-status-indicator.healthy {
+    background-color: rgba(76, 175, 80, 0.15);
+  }
+  
+  .health-status-indicator.healthy .indicator-icon {
+    background-color: #4CAF50;
+  }
+  
+  .health-status-indicator.needsattention {
+    background-color: rgba(255, 152, 0, 0.15);
+  }
+  
+  .health-status-indicator.needsattention .indicator-icon {
+    background-color: #FF9800;
+  }
+  
+  .health-status-indicator.unhealthy {
+    background-color: rgba(244, 67, 54, 0.15);
+  }
+  
+  .health-status-indicator.unhealthy .indicator-icon {
+    background-color: #F44336;
+  }
+  
+  .indicator-label {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .health-status-indicator.healthy .indicator-label {
+    color: #2E7D32;
+  }
+  
+  .health-status-indicator.needsattention .indicator-label {
+    color: #E65100;
+  }
+  
+  .health-status-indicator.unhealthy .indicator-label {
+    color: #C62828;
+  }
+  
+  .health-status-indicator.small .indicator-label {
+    font-size: 10px;
+  }
+  
+  .health-status-indicator.large .indicator-label {
+    font-size: 14px;
+  }
