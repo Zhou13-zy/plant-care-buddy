@@ -20,8 +20,4 @@
     <ProjectReference Include="..\PlantCareBuddy.Infrastructure\PlantCareBuddy.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

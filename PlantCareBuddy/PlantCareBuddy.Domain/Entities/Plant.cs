@@ -19,5 +19,6 @@ namespace PlantCareBuddy.Domain.Entities
 
         // Navigation property - collection of care events
         public virtual ICollection<CareEvent> CareEvents { get; set; }
+        public virtual ICollection<HealthObservation> HealthObservations { get; set; }
     }
 }

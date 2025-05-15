@@ -29,6 +29,7 @@ builder.Services.AddDbContext<PlantCareBuddyContext>(options =>
 
 builder.Services.AddScoped<IPlantService, PlantService>();
 builder.Services.AddScoped<ICareEventService, CareEventService>();
+builder.Services.AddScoped<IHealthObservationService, HealthObservationService>();
 
 var app = builder.Build();
 
