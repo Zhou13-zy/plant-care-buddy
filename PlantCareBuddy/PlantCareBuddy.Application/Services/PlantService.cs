@@ -19,36 +19,15 @@ namespace PlantCareBuddy.Application.Services
 
         public async Task<IEnumerable<PlantDto>> GetAllPlantsAsync()
         {
-            return await _context.Plants
-                .Select(p => new PlantDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Species = p.Species,
-                    Location = p.Location,
-                    AcquisitionDate = p.AcquisitionDate,
-                    HealthStatus = p.HealthStatus,
-                    Notes = p.Notes,
-                    PrimaryImagePath = p.PrimaryImagePath
-                })
-                .ToListAsync();
+            var plants = await _context.Plants.ToListAsync();
+            return plants.Select(MapToDto);
         }
         public async Task<PlantDto?> GetPlantByIdAsync(int id)
         {
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null) return null;
 
-            return new PlantDto
-            {
-                Id = plant.Id,
-                Name = plant.Name,
-                Species = plant.Species,
-                Location = plant.Location,
-                AcquisitionDate = plant.AcquisitionDate,
-                HealthStatus = plant.HealthStatus,
-                Notes = plant.Notes,
-                PrimaryImagePath = plant.PrimaryImagePath
-            };
+            return MapToDto(plant);
         }
         public async Task<PlantDto> CreatePlantAsync(CreatePlantDto dto)
         {
@@ -66,10 +45,7 @@ namespace PlantCareBuddy.Application.Services
             _context.Plants.Add(plant);
             await _context.SaveChangesAsync();
 
-            return new PlantDto
-            {
-                Id = plant.Id,
-            };
+            return MapToDto(plant);
         }
         public async Task<IEnumerable<PlantDto>> CreatePlantsAsync(List<CreatePlantDto> dtos)
         {
@@ -87,10 +63,7 @@ namespace PlantCareBuddy.Application.Services
             _context.Plants.AddRange(plants);
             await _context.SaveChangesAsync();
 
-            return plants.Select(plant => new PlantDto
-            {
-                Id = plant.Id,
-            }).ToList();
+            return plants.Select(MapToDto);
         }
         public async Task<PlantDto?> UpdatePlantAsync(int id, UpdatePlantDto dto)
         {
@@ -107,17 +80,7 @@ namespace PlantCareBuddy.Application.Services
 
             await _context.SaveChangesAsync();
 
-            return new PlantDto
-            {
-                Id = plant.Id,
-                Name = plant.Name,
-                Species = plant.Species,
-                Location = plant.Location,
-                AcquisitionDate = plant.AcquisitionDate,
-                HealthStatus = plant.HealthStatus,
-                Notes = plant.Notes,
-                PrimaryImagePath = plant.PrimaryImagePath
-            };
+            return MapToDto(plant);
         }
         public async Task<bool> DeletePlantAsync(int id)
         {
@@ -138,19 +101,23 @@ namespace PlantCareBuddy.Application.Services
                 .WhereLocationContainsInsensitive(location)
                 .WithHealthStatus(healthStatus);
 
-            return await query
-                .Select(p => new PlantDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Species = p.Species,
-                    Location = p.Location,
-                    AcquisitionDate = p.AcquisitionDate,
-                    HealthStatus = p.HealthStatus,
-                    Notes = p.Notes,
-                    PrimaryImagePath = p.PrimaryImagePath
-                })
-                .ToListAsync();
+            var plants = await query.ToListAsync();
+            return plants.Select(MapToDto);
+        }
+        private static PlantDto MapToDto(Plant plant)
+        {
+            return new PlantDto
+            {
+                Id = plant.Id,
+                Name = plant.Name,
+                Species = plant.Species,
+                Location = plant.Location,
+                AcquisitionDate = plant.AcquisitionDate,
+                HealthStatus = plant.HealthStatus,
+                NextHealthCheckDate = plant.NextHealthCheckDate,
+                Notes = plant.Notes,
+                PrimaryImagePath = plant.PrimaryImagePath
+            };
         }
     }
 }
