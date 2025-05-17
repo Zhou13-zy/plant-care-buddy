@@ -45,6 +45,29 @@ namespace PlantCareBuddy.Application.Services
             _context.Plants.Add(plant);
             await _context.SaveChangesAsync();
 
+            // Create initial health observation
+            var initialObservation = new HealthObservation
+            {
+                PlantId = plant.Id,
+                ObservationDate = dto.AcquisitionDate,
+                HealthStatus = dto.HealthStatus,
+                Notes = $"Initial health assessment upon acquiring {dto.Name}.",
+                ImagePath = dto.PrimaryImagePath
+            };
+            _context.HealthObservations.Add(initialObservation);
+
+            // Create initial care event
+            var wateringEvent = new CareEvent
+            {
+                PlantId = plant.Id,
+                EventType = CareEventType.Watering,
+                EventDate = dto.AcquisitionDate,
+                Notes = "Initial watering after acquisition."
+            };
+            _context.CareEvents.Add(wateringEvent);
+
+            await _context.SaveChangesAsync();
+
             return MapToDto(plant);
         }
         public async Task<IEnumerable<PlantDto>> CreatePlantsAsync(List<CreatePlantDto> dtos)
