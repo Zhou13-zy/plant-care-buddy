@@ -18,3 +18,30 @@
   .plant-card:hover {
     box-shadow: 0 4px 12px rgba(0,128,0,0.10);
   }
+
+  .plant-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .plant-card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .plant-card-header a {
+    text-decoration: none;
+    color: #2e7d32;
+  }
+
+  .plant-card-header a:hover {
+    text-decoration: underline;
+  }
+
+  .plant-card p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #555;
+  }

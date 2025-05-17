@@ -4,8 +4,8 @@ using PlantCareBuddy.Application.Interfaces;
 
 namespace PlantCareBuddy.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/health-observations")]
     public class HealthObservationController : ControllerBase
     {
         private readonly IHealthObservationService _healthObservationService;
