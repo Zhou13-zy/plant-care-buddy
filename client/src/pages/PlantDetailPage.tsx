@@ -12,7 +12,10 @@ import CareEventForm from '../components/care/CareEventForm';
 import Modal from '../components/common/Modal';
 import HealthObservationList from '../components/health/HealthObservationList';
 import HealthStatusIndicator from '../components/common/HealthStatusIndicator';
+import ImageDisplay from '../components/common/ImageDisplay';
 import './PlantDetailPage.css';
+
+const API_BASE = "https://localhost:7226"; // Or use an environment variable
 
 const PlantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -106,14 +109,16 @@ const PlantDetailPage: React.FC = () => {
   return (
     <div className="plant-detail-page">
       <div className="plant-detail">
-        {plant.primaryImagePath && (
-          <img
-            src={plant.primaryImagePath}
-            alt={plant.name}
-            className="plant-detail-image"
-          />
-        )}
         <h1>{plant.name}</h1>
+        {plant.primaryImagePath && (
+          <div className="plant-photo">
+            <ImageDisplay
+              imagePath={plant.primaryImagePath}
+              alt={plant.name}
+              style={{ maxWidth: 300, maxHeight: 300, borderRadius: 8, marginBottom: 16 }}
+            />
+          </div>
+        )}
         <p><strong>Species:</strong> {plant.species}</p>
         <p><strong>Location:</strong> {plant.location}</p>
         <p><strong>Acquisition Date:</strong> {plant.acquisitionDate}</p>
