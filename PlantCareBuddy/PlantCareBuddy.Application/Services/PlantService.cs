@@ -5,6 +5,7 @@ using PlantCareBuddy.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using PlantCareBuddy.Domain.Enums;
 using PlantCareBuddy.Infrastructure.Extensions;
+using PlantCareBuddy.Infrastructure.Interfaces.Storage;
 
 namespace PlantCareBuddy.Application.Services
 {
@@ -29,8 +30,12 @@ namespace PlantCareBuddy.Application.Services
 
             return MapToDto(plant);
         }
-        public async Task<PlantDto> CreatePlantAsync(CreatePlantDto dto)
+        public async Task<PlantDto> CreatePlantAsync(CreatePlantDto dto, IPhotoStorageService photoStorage)
         {
+            string? imagePath = null;
+            if (dto.Photo != null)
+                imagePath = await photoStorage.StorePhotoAsync(dto.Photo, "plants");
+
             var plant = new Plant
             {
                 Name = dto.Name,
@@ -39,7 +44,7 @@ namespace PlantCareBuddy.Application.Services
                 Location = dto.Location,
                 HealthStatus = dto.HealthStatus,
                 Notes = dto.Notes,
-                PrimaryImagePath = dto.PrimaryImagePath
+                PrimaryImagePath = imagePath
             };
 
             _context.Plants.Add(plant);

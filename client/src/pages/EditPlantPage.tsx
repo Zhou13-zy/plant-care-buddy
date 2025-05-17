@@ -55,7 +55,6 @@ const EditPlantPage: React.FC = () => {
           acquisitionDate: formatDate(initialData.acquisitionDate),
           location: initialData.location,
           notes: initialData.notes || '',
-          primaryImagePath: initialData.primaryImagePath || ''
         }}
         isEdit={true}
       />

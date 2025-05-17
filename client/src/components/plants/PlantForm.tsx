@@ -3,6 +3,7 @@ import { CreatePlantDto } from '../../models/Plant/createPlantDto';
 import { UpdatePlantDto } from '../../models/Plant/updatePlantDto';
 import './PlantForm.css';
 import { PlantHealthStatus } from '../../models/Plant/plantHealthStatus';
+import ImageUpload from '../common/ImageUpload';
 
 interface PlantFormProps<T extends CreatePlantDto | UpdatePlantDto> {
   onSubmit: (data: T) => void;
@@ -23,11 +24,12 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
       location: '',
       ...(isEdit ? {} : { healthStatus: PlantHealthStatus.Healthy }), // Only include healthStatus for new plants
       notes: '',
-      primaryImagePath: '',
       nextHealthCheckDate: '',
       ...(isEdit ? { id: 0 } : {})
     } as T
   );
+
+  const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
 
   console.log("initialData", initialData);
 
@@ -129,13 +131,16 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
       </div>
 
       <div className="form-group">
-        <label htmlFor="primaryImagePath">Primary Image Path:</label>
-        <input
-          type="text"
-          id="primaryImagePath"
-          name="primaryImagePath"
-          value={form.primaryImagePath}
-          onChange={handleChange}
+        <label htmlFor="photo">Photo:</label>
+        <ImageUpload
+          onFileSelect={(file) => {
+            setSelectedPhoto(file);
+            setForm((prev: any) => ({
+              ...prev,
+              photo: file,
+            }));
+          }}
+          initialUrl={isEdit && initialData && (initialData as any).primaryImagePath ? (initialData as any).primaryImagePath : undefined}
         />
       </div>
 
