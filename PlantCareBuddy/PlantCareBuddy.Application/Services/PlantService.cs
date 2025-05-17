@@ -97,7 +97,6 @@ namespace PlantCareBuddy.Application.Services
             plant.Species = dto.Species;
             plant.AcquisitionDate = dto.AcquisitionDate;
             plant.Location = dto.Location;
-            plant.HealthStatus = dto.HealthStatus;
             plant.NextHealthCheckDate = dto.NextHealthCheckDate;
             plant.Notes = dto.Notes;
             plant.PrimaryImagePath = dto.PrimaryImagePath;

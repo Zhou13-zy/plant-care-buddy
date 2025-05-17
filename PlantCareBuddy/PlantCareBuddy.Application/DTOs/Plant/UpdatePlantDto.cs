@@ -1,11 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using PlantCareBuddy.Domain.Enums;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PlantCareBuddy.Application.DTOs.Plant
 {
     /// <summary>
     /// DTO for partially updating an existing plant.
+    /// Health status is not directly updatable and is derived from health observations.
     /// </summary>
     public class UpdatePlantDto
     {
@@ -23,9 +22,6 @@ namespace PlantCareBuddy.Application.DTOs.Plant
         [Required]
         [MaxLength(200)]
         public string Location { get; set; }
-
-        [Required]
-        public PlantHealthStatus HealthStatus { get; set; }
 
         public DateTime? NextHealthCheckDate { get; set; }
 
