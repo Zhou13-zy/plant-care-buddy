@@ -50,6 +50,12 @@ app.UseAuthorization();
 
 app.UseStaticFiles();
 
+var imagePath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot/images/plants");
+if (!Directory.Exists(imagePath))
+{
+    Directory.CreateDirectory(imagePath);
+}
+
 app.MapControllers();
 
 app.Run();
