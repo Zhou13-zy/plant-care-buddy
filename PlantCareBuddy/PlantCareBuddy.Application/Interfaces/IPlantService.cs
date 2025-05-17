@@ -10,7 +10,7 @@ namespace PlantCareBuddy.Application.Interfaces
         Task<PlantDto?> GetPlantByIdAsync(int id);
         Task<PlantDto> CreatePlantAsync(CreatePlantDto dto, IPhotoStorageService photoStorage);
         Task<IEnumerable<PlantDto>> CreatePlantsAsync(List<CreatePlantDto> dtos);
-        Task<PlantDto?> UpdatePlantAsync(int id, UpdatePlantDto dto);
+        Task<PlantDto?> UpdatePlantAsync(int id, UpdatePlantDto dto, IPhotoStorageService photoStorage);
         Task<bool> DeletePlantAsync(int id);
         Task<IEnumerable<PlantDto>> SearchPlantsAsync(string? name, string? species, PlantHealthStatus? healthStatus, string? location);
     }

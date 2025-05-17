@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace PlantCareBuddy.Application.DTOs.Plant
 {
@@ -30,5 +31,6 @@ namespace PlantCareBuddy.Application.DTOs.Plant
 
         [MaxLength(500)]
         public string? PrimaryImagePath { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }

@@ -93,10 +93,14 @@ namespace PlantCareBuddy.Application.Services
 
             return plants.Select(MapToDto);
         }
-        public async Task<PlantDto?> UpdatePlantAsync(int id, UpdatePlantDto dto)
+        public async Task<PlantDto?> UpdatePlantAsync(int id, UpdatePlantDto dto, IPhotoStorageService photoStorage)
         {
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null) return null;
+
+            string? imagePath = null;
+            if (dto.Photo != null)
+                imagePath = await photoStorage.StorePhotoAsync(dto.Photo, "plants");
 
             plant.Name = dto.Name;
             plant.Species = dto.Species;
@@ -104,7 +108,7 @@ namespace PlantCareBuddy.Application.Services
             plant.Location = dto.Location;
             plant.NextHealthCheckDate = dto.NextHealthCheckDate;
             plant.Notes = dto.Notes;
-            plant.PrimaryImagePath = dto.PrimaryImagePath;
+            plant.PrimaryImagePath = imagePath;
 
             await _context.SaveChangesAsync();
 
