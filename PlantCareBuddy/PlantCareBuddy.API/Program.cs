@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Application.Services;
 using PlantCareBuddy.Infrastructure.Persistence;
+using PlantCareBuddy.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,8 @@ builder.Services.AddDbContext<PlantCareBuddyContext>(options =>
 builder.Services.AddScoped<IPlantService, PlantService>();
 builder.Services.AddScoped<ICareEventService, CareEventService>();
 builder.Services.AddScoped<IHealthObservationService, HealthObservationService>();
+
+builder.Services.AddPhotoStorage(builder.Configuration);
 
 var app = builder.Build();
 
