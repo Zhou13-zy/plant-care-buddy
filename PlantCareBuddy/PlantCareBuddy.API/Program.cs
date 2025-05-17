@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Application.Services;
 using PlantCareBuddy.Infrastructure.Persistence;
+using PlantCareBuddy.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,8 @@ builder.Services.AddScoped<IPlantService, PlantService>();
 builder.Services.AddScoped<ICareEventService, CareEventService>();
 builder.Services.AddScoped<IHealthObservationService, HealthObservationService>();
 
+builder.Services.AddPhotoStorage(builder.Configuration);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +47,14 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseStaticFiles();
+
+var imagePath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot/images/plants");
+if (!Directory.Exists(imagePath))
+{
+    Directory.CreateDirectory(imagePath);
+}
 
 app.MapControllers();
 
