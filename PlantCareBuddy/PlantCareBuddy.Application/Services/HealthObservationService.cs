@@ -67,9 +67,19 @@ namespace PlantCareBuddy.Application.Services
             _context.HealthObservations.Add(observation);
             await _context.SaveChangesAsync();
 
-            // Update the plant's health status based on the new observation
-            plant.HealthStatus = dto.HealthStatus;
-            await _context.SaveChangesAsync();
+            // Find the latest observation for this plant by date, which might be the one we just created
+            // or could be a previously existing observation with a later date
+            var latestObservation = await _context.HealthObservations
+                .Where(ho => ho.PlantId == dto.PlantId)
+                .OrderByDescending(ho => ho.ObservationDate)
+                .FirstOrDefaultAsync();
+
+            // Update the plant's health status only if our new observation is the latest
+            if (latestObservation != null && latestObservation.Id == observation.Id)
+            {
+                plant.HealthStatus = dto.HealthStatus;
+                await _context.SaveChangesAsync();
+            }
 
             // Reload the observation with plant data for the response
             await _context.Entry(observation).Reference(ho => ho.Plant).LoadAsync();
