@@ -16,6 +16,7 @@
 | Care Event | A recorded maintenance action (watering, fertilizing, repotting, etc.) |
 | Growth Timeline | Chronological record of plant development with photos |
 | Care Reminder | Scheduled notification for upcoming plant maintenance |
+| User Account | Secure personalized access to manage a plant collection |
 
 ## 2. User Requirements
 
@@ -58,6 +59,13 @@
 - **Upcoming Tasks**: View imminent care activities
 - **Recent Additions**: See recently added plants
 
+### 2.7 User Management
+- **Registration**: Create a personal account with email and password
+- **Authentication**: Securely log in to access personal plant collection
+- **Profile Management**: Update personal information and preferences
+- **Account Security**: Reset password and manage account access
+- **Multi-device Access**: Access plant collection from any device with same credentials
+
 ## 3. Technical Requirements
 
 ### 3.1 Performance
@@ -70,6 +78,11 @@
 - Secure storage of user data
 - Safe image handling and storage
 - Protection against common web vulnerabilities
+- **User Authentication**: Secure login and registration system
+- **Authorization**: Role-based access control for user data
+- **Data Privacy**: Isolation of user data to prevent unauthorized access
+- **Password Security**: Secure password hashing and storage
+- **Token-based Authentication**: JWT for secure API access
 
 ### 3.3 Reliability
 - Data persistence with backup strategies
@@ -220,6 +233,35 @@
 - Quick action buttons for common tasks
 - Summary statistics (total plants, health distribution)
 
+### 4.7 User Authentication Module
+
+#### 4.7.1 User Entity
+**Properties:**
+- ID (unique identifier)
+- Email (required, unique)
+- Password (hashed, required)
+- First Name
+- Last Name
+- Created Date
+- Last Login Date
+
+#### 4.7.2 Authentication System
+**Functionality:**
+- User registration with email verification
+- Secure login with JWT token generation
+- Password reset capability
+- Remember me functionality
+- Account lockout after failed attempts
+- Session management
+
+#### 4.7.3 User Profile Management
+**Functionality:**
+- View and edit personal information
+- Change password
+- Profile picture upload
+- Email notification preferences
+- Account deactivation option
+
 ## 5. Technical Architecture
 
 ### 5.1 Frontend
@@ -229,6 +271,9 @@
 - Axios for API communication
 - CSS/SCSS for styling
 - SignalR for real-time updates
+- **Authentication state management**
+- **Protected routes for authenticated content**
+- **JWT token storage and management**
 
 ### 5.2 Backend
 - ASP.NET Core 8 Web API
@@ -245,6 +290,9 @@
 - Service layer with encapsulated LINQ business logic
 - Query pipeline patterns for complex data operations
 - Compiled LINQ queries for performance-critical operations
+- **ASP.NET Core Identity for user authentication**
+- **JWT token generation and validation**
+- **Role-based authorization**
 
 ### 5.3 Database
 - Relational database with the following main tables:
@@ -253,6 +301,9 @@
   - GrowthPhotos
   - CareReminders
   - Observations
+  - **Users**
+  - **UserRoles**
+  - **RefreshTokens**
 - Entity relationships as specified in data model
 
 ### 5.4 Deployment
@@ -373,12 +424,12 @@
 
 - **Entities and Value Objects**
   - *Purpose*: Distinguish objects with identity from those defined by attributes
-  - *Application*: Plants as entities, care requirements as value objects
+  - *Application*: Plants as entities, care requirements as value objects, users as identity entities
   - *Benefits*: Focused domain model, appropriate equality semantics
 
 - **Aggregates and Aggregate Roots**
   - *Purpose*: Cluster entities and value objects into cohesive units
-  - *Application*: Plant as aggregate root for care events and photos
+  - *Application*: Plant as aggregate root for care events and photos, user as aggregate root for plants
   - *Benefits*: Enforced invariants, transactional boundaries
 
 - **Domain Services**
@@ -396,6 +447,7 @@ LINQ (Language Integrated Query) provides powerful query capabilities directly w
   ```csharp
   // Find plants that need watering soon (next 3 days)
   var plantsNeedingWater = _context.Plants
+      .Where(p => p.UserId == currentUserId) // Filter by current user
       .Where(p => p.WateringSchedule.NextWateringDate <= DateTime.Now.AddDays(3))
       .OrderBy(p => p.WateringSchedule.NextWateringDate)
       .ToListAsync();
@@ -667,9 +719,18 @@ By following these basic LINQ practices, Plant Buddy will maintain good performa
 - Photo-centric layout
 - Visual status indicators
 
+### 6.4 Authentication Experience
+- Clear and simple registration flow
+- Frictionless login process
+- Transparent error messages
+- "Remember me" option
+- Password strength indicator
+- Smooth transitions between auth states
+
 ## 7. Implementation Milestones
 
 ### Phase 1: Core Functionality
+- User authentication and account management
 - Plant management (CRUD operations)
 - Basic care event tracking
 - Simple dashboard

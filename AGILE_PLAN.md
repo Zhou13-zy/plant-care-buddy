@@ -2340,10 +2340,261 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 9.7 (Seasonal Adjustments) implies the need for recurring patterns that adjust with seasons.
 
-## Epic 6: User Experience Enhancement
+## Epic 6: User Authentication and Management
+**Description:** Implement secure user authentication, account management, and data ownership
+
+### Task 6.1: Create user entity and authentication infrastructure
+**Purpose:** Establish the foundational data model and infrastructure for user authentication, enabling secure access control and personalized user experiences.
+
+**Requirements:**
+- Design User entity with required properties (email, password hash, etc.)
+- Set up ASP.NET Core Identity infrastructure
+- Configure password security requirements
+- Implement secure password hashing and storage
+- Add role management capabilities
+
+**Technology:**
+- ASP.NET Core Identity
+- Entity Framework Core
+- Password hashing algorithms
+- SQL Server database
+
+**Design Patterns:**
+- Repository pattern for user data
+- Factory pattern for user creation
+- Strategy pattern for password validation
+- Decorator pattern for security features
+
+**Output:**
+- ApplicationUser.cs entity in Identity folder
+- Identity configuration in DbContext
+- Password security setup
+- Database migration for Identity tables
+- Role definitions and configurations
+
+**Reference:** PLANT_BUDDY_PRD.md Section 4.7.1 details the User entity requirements.
+
+### Task 6.2: Implement JWT token authentication
+**Purpose:** Create a secure, stateless authentication mechanism using JWT tokens that enables API access control while supporting multiple client applications and maintaining security.
+
+**Requirements:**
+- Implement JWT token generation service
+- Configure token validation parameters
+- Add refresh token functionality
+- Create secure token storage strategy
+- Implement token revocation capability
+
+**Technology:**
+- JWT bearer authentication
+- Cryptographic signing
+- Token expiration management
+- Refresh token rotation
+
+**Design Patterns:**
+- Factory pattern for token generation
+- Strategy pattern for token validation
+- Repository pattern for refresh tokens
+- Observer pattern for authentication events
+
+**Output:**
+- JwtTokenService implementation
+- Token validation configuration
+- Refresh token mechanism
+- Token storage strategy
+- Revocation capability for security incidents
+
+**Reference:** PLANT_BUDDY_PRD.md Section 3.2 mentions token-based authentication for security.
+
+### Task 6.3: Create authentication API endpoints
+**Purpose:** Build the API endpoints needed for user registration, login, account management, and authentication, providing a complete authentication flow for the application.
+
+**Requirements:**
+- Implement user registration endpoint with validation
+- Create login endpoint returning JWT tokens
+- Add refresh token endpoint for token renewal
+- Implement endpoints for password reset/change
+- Add account management capabilities
+
+**Technology:**
+- ASP.NET Core Controllers
+- Model validation
+- JWT token generation
+- Email services for verification
+
+**Design Patterns:**
+- Command pattern for auth operations
+- Strategy pattern for different auth flows
+- Factory pattern for response creation
+- Chain of responsibility for validation
+
+**Output:**
+- AuthController with authentication endpoints
+- Registration validation logic
+- Login and token generation
+- Password reset flow
+- Account management endpoints
+
+**Reference:** PLANT_BUDDY_PRD.md Section 4.7.2 outlines authentication system functionality.
+
+### Task 6.4: Modify existing entities for user ownership
+**Purpose:** Update the core domain entities to support user ownership, ensuring data isolation and privacy by associating plants and related data with specific user accounts.
+
+**Requirements:**
+- Add UserId foreign key to Plant entity
+- Update CareEvent and other related entities
+- Modify repositories to filter by current user
+- Ensure data isolation between users
+- Implement database migration for schema changes
+
+**Technology:**
+- Entity Framework relationships
+- Database migrations
+- Repository pattern modifications
+- Data access filtering
+
+**Design Patterns:**
+- Repository pattern with user filtering
+- Unit of Work pattern for consistent user context
+- Specification pattern for user-specific queries
+- Domain model enhancement
+
+**Output:**
+- Updated entity models with user associations
+- Modified repository implementations
+- Database migration for new relationships
+- Data access logic with user filtering
+- Documentation of ownership model
+
+**Reference:** PLANT_BUDDY_PRD.md Section 5.6.1 demonstrates filtering plants by current user.
+
+### Task 6.5: Implement frontend authentication state management
+**Purpose:** Create a comprehensive client-side authentication system that manages user state across the application, enabling secure access to protected features and personalized content.
+
+**Requirements:**
+- Create React context for authentication state
+- Implement token storage and retrieval
+- Add authenticated API request handling
+- Support login persistence across sessions
+- Implement automatic token refresh
+
+**Technology:**
+- React Context API
+- Local Storage or secure cookies
+- Axios interceptors for API requests
+- Token expiration handling
+
+**Design Patterns:**
+- Context Provider pattern
+- Observer pattern for auth state
+- Proxy pattern for API requests
+- Strategy pattern for storage options
+
+**Output:**
+- AuthContext.tsx for state management
+- AuthProvider.tsx as top-level provider
+- useAuth.ts hook for consuming components
+- API interceptors for authentication
+- Persistent login implementation
+
+**Reference:** PLANT_BUDDY_PRD.md Section 5.1 mentions frontend authentication state management.
+
+### Task 6.6: Build login and registration forms
+**Purpose:** Provide users with intuitive, secure interfaces for creating accounts and authenticating, establishing the entry point to the personalized plant care experience.
+
+**Requirements:**
+- Create login form with validation
+- Implement registration form with password requirements
+- Add "remember me" functionality
+- Create password reset request form
+- Implement form submission and error handling
+
+**Technology:**
+- React form components
+- Validation libraries
+- Secure password input
+- Error handling
+
+**Design Patterns:**
+- Container/Presentational pattern for forms
+- Strategy pattern for validation rules
+- Command pattern for form submission
+- Observer pattern for authentication state
+
+**Output:**
+- LoginForm.tsx component
+- RegisterForm.tsx component
+- PasswordResetForm.tsx component
+- Form validation rules
+- Error display and handling
+
+**Reference:** PLANT_BUDDY_PRD.md Section 6.4 describes the authentication experience requirements.
+
+### Task 6.7: Add protected routes and navigation
+**Purpose:** Implement secure routing that restricts access to authenticated features while providing a seamless navigation experience based on the user's authentication state.
+
+**Requirements:**
+- Create ProtectedRoute component for route guarding
+- Update navigation based on authentication state
+- Implement redirect to login for unauthenticated access
+- Add login state persistence across page reloads
+- Support return to original destination after login
+
+**Technology:**
+- React Router
+- Route protection HOC
+- Navigation components
+- Redirect handling
+
+**Design Patterns:**
+- Higher-Order Component pattern
+- Guard pattern for route protection
+- Observer pattern for auth state changes
+- Command pattern for navigation
+
+**Output:**
+- ProtectedRoute.tsx component
+- AuthAwareNavigation.tsx component
+- Login redirect logic
+- Return URL handling
+- Persistent authentication state
+
+**Reference:** PLANT_BUDDY_PRD.md Section 5.1 mentions protected routes for authenticated content.
+
+### Task 6.8: Implement user profile management
+**Purpose:** Enable users to view and manage their account information, preferences, and settings, giving them control over their personal data and application experience.
+
+**Requirements:**
+- Create user profile page
+- Implement profile editing functionality
+- Add password change capability
+- Create email management (verification, change)
+- Support account deactivation option
+
+**Technology:**
+- React components
+- Form handling
+- API integration
+- Validation
+
+**Design Patterns:**
+- Container/Presentational pattern
+- Command pattern for profile operations
+- Strategy pattern for different profile sections
+- Observer pattern for profile changes
+
+**Output:**
+- UserProfilePage.tsx component
+- ProfileEditForm.tsx component
+- PasswordChangeForm.tsx component
+- EmailManagement.tsx component
+- AccountDeactivation.tsx component
+
+**Reference:** PLANT_BUDDY_PRD.md Section 4.7.3 details user profile management functionality.
+
+## Epic 7: User Experience Enhancement
 **Description:** Enhance the user experience and address feedback
 
-### Task 6.1: Optimize database queries
+### Task 7.1: Optimize database queries
 **Purpose:** Improve application performance and responsiveness by reducing database load, optimizing queries, and implementing smart caching strategies for frequently accessed data.
 
 **Requirements:**
@@ -2374,7 +2625,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 7 (Non-Functional Requirements) mentions performance requirements with page load times under 2 seconds.
 
-### Task 6.2: Implement pagination for large collections
+### Task 7.2: Implement pagination for large collections
 **Purpose:** Enhance application performance and usability when dealing with large plant collections by loading data in manageable chunks, improving load times and reducing resource usage.
 
 **Requirements:**
@@ -2405,7 +2656,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 7 mentions scalability to support collections of 100+ plants.
 
-### Task 6.3: Add caching for frequently accessed data
+### Task 7.3: Add caching for frequently accessed data
 **Purpose:** Reduce database load and improve application responsiveness by intelligently caching frequently accessed data, ensuring a smooth user experience even with large plant collections.
 
 **Requirements:**
@@ -2436,7 +2687,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 7 mentions performance requirements that would benefit from caching.
 
-### Task 6.4: Optimize image loading and display
+### Task 7.4: Optimize image loading and display
 **Purpose:** Improve the performance and user experience of photo features by implementing smart image loading techniques that reduce bandwidth usage and improve perceived speed.
 
 **Requirements:**
@@ -2467,7 +2718,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 7 mentions image optimization as part of performance requirements.
 
-### Task 6.5: Create welcome experience
+### Task 7.5: Create welcome experience
 **Purpose:** Provide new users with a guided introduction to Plant Buddy, helping them understand key features and get started quickly with their plant care management.
 
 **Requirements:**
@@ -2498,7 +2749,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 7 mentions usability for non-technical users, which would benefit from a welcome experience.
 
-### Task 6.6: Add contextual help tooltips
+### Task 7.6: Add contextual help tooltips
 **Purpose:** Enhance user understanding of the application by providing context-sensitive help and explanations throughout the interface, improving usability for users of all experience levels.
 
 **Requirements:**
@@ -2529,7 +2780,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 6.3 (User Onboarding) mentions contextual help tooltips.
 
-### Task 6.7: Implement empty state guidance
+### Task 7.7: Implement empty state guidance
 **Purpose:** Provide helpful guidance and suggested actions when users encounter empty views, turning potentially confusing moments into opportunities for engagement and learning.
 
 **Requirements:**
@@ -2560,7 +2811,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 6.3 mentions empty state guidance as part of user onboarding.
 
-### Task 6.8: Create quick reference help section
+### Task 7.8: Create quick reference help section
 **Purpose:** Offer users a centralized resource for finding answers to common questions and learning about application features, supporting self-service problem-solving and feature discovery.
 
 **Requirements:**
@@ -2591,7 +2842,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 6.3 mentions creating a quick reference help section for finding answers to common questions.
 
-### Task 6.9: Implement basic LINQ query monitoring
+### Task 7.9: Implement basic LINQ query monitoring
 **Purpose:** Create a simple monitoring system to identify and resolve performance issues with LINQ queries, ensuring the application remains responsive as data volume grows.
 
 **Requirements:**
@@ -2618,4 +2869,4 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** PLANT_BUDDY_PRD.md Section 5.6.6 describes basic LINQ performance tips.
 
-Each epic represents a coherent feature set that delivers complete user value, with tasks organized to build functionality incrementally across the full stack. 
+Each epic represents a coherent feature set that delivers complete user value, with tasks organized to build functionality incrementally across the full stack.
