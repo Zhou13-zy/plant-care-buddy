@@ -3,6 +3,7 @@ import { CreatePlantDto } from '../../models/Plant/createPlantDto';
 import { UpdatePlantDto } from '../../models/Plant/updatePlantDto';
 import './PlantForm.css';
 import { PlantHealthStatus } from '../../models/Plant/plantHealthStatus';
+import ImageUpload from '../common/ImageUpload';
 
 interface PlantFormProps<T extends CreatePlantDto | UpdatePlantDto> {
   onSubmit: (data: T) => void;
@@ -27,6 +28,8 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
       ...(isEdit ? { id: 0 } : {})
     } as T
   );
+
+  const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
 
   console.log("initialData", initialData);
 
@@ -129,18 +132,15 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
 
       <div className="form-group">
         <label htmlFor="photo">Photo:</label>
-        <input
-          type="file"
-          id="photo"
-          name="photo"
-          accept="image/*"
-          onChange={(e) => {
-            const file = e.target.files?.[0] || null;
+        <ImageUpload
+          onFileSelect={(file) => {
+            setSelectedPhoto(file);
             setForm((prev: any) => ({
               ...prev,
               photo: file,
             }));
           }}
+          initialUrl={isEdit && initialData && (initialData as any).primaryImagePath ? (initialData as any).primaryImagePath : undefined}
         />
       </div>
 
