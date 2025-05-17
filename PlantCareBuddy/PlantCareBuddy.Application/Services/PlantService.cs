@@ -70,14 +70,14 @@ namespace PlantCareBuddy.Application.Services
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null) return null;
 
-            if (dto.Name != null) plant.Name = dto.Name;
-            if (dto.Species != null) plant.Species = dto.Species;
-            if (dto.AcquisitionDate.HasValue) plant.AcquisitionDate = dto.AcquisitionDate.Value;
-            if (dto.Location != null) plant.Location = dto.Location;
-            if (dto.HealthStatus.HasValue) plant.HealthStatus = dto.HealthStatus.Value;
-            if (dto.NextHealthCheckDate.HasValue) plant.NextHealthCheckDate = dto.NextHealthCheckDate.Value;
-            if (dto.Notes != null) plant.Notes = dto.Notes;
-            if (dto.PrimaryImagePath != null) plant.PrimaryImagePath = dto.PrimaryImagePath;
+            plant.Name = dto.Name;
+            plant.Species = dto.Species;
+            plant.AcquisitionDate = dto.AcquisitionDate;
+            plant.Location = dto.Location;
+            plant.HealthStatus = dto.HealthStatus;
+            plant.NextHealthCheckDate = dto.NextHealthCheckDate;
+            plant.Notes = dto.Notes;
+            plant.PrimaryImagePath = dto.PrimaryImagePath;
 
             await _context.SaveChangesAsync();
 

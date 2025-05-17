@@ -50,7 +50,6 @@ const EditPlantPage: React.FC = () => {
       <PlantForm<UpdatePlantDto>
         onSubmit={handleUpdatePlant} 
         initialData={{
-          id: initialData.id,
           name: initialData.name,
           species: initialData.species,
           acquisitionDate: formatDate(initialData.acquisitionDate),

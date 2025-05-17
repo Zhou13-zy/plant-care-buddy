@@ -10,21 +10,25 @@ namespace PlantCareBuddy.Application.DTOs.Plant
     public class UpdatePlantDto
     {
         [Required]
-        public int Id { get; set; }
-
         [MaxLength(100)]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
+        [Required]
         [MaxLength(100)]
-        public string? Species { get; set; }
+        public string Species { get; set; }
 
-        public DateTime? AcquisitionDate { get; set; }
+        [Required]
+        public DateTime AcquisitionDate { get; set; }
 
+        [Required]
         [MaxLength(200)]
-        public string? Location { get; set; }
+        public string Location { get; set; }
 
-        public PlantHealthStatus? HealthStatus { get; set; }
+        [Required]
+        public PlantHealthStatus HealthStatus { get; set; }
+
         public DateTime? NextHealthCheckDate { get; set; }
+
         [MaxLength(1000)]
         public string? Notes { get; set; }
 
