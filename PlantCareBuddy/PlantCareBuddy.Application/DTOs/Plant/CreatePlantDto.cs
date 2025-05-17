@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using PlantCareBuddy.Domain.Enums;
 
 namespace PlantCareBuddy.Application.DTOs.Plant
@@ -32,5 +33,6 @@ namespace PlantCareBuddy.Application.DTOs.Plant
 
         [MaxLength(500)]
         public string? PrimaryImagePath { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Application.DTOs.Plant;
+using PlantCareBuddy.Infrastructure.Interfaces.Storage;
 using PlantCareBuddy.Domain.Enums;
 
 namespace PlantCareBuddy.API.Controllers
@@ -10,10 +11,12 @@ namespace PlantCareBuddy.API.Controllers
     public class PlantController : ControllerBase
     {
         private readonly IPlantService _plantService;
+        private readonly IPhotoStorageService _photoStorage;
 
-        public PlantController(IPlantService plantService)
+        public PlantController(IPlantService plantService, IPhotoStorageService photoStorage)
         {
             _plantService = plantService;
+            _photoStorage = photoStorage;
         }
 
         /// <summary>
@@ -39,12 +42,12 @@ namespace PlantCareBuddy.API.Controllers
         /// Adds a new plant to the collection.
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult<PlantDto>> CreatePlant([FromBody] CreatePlantDto dto)
+        public async Task<ActionResult<PlantDto>> CreatePlant([FromForm] CreatePlantDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var createdPlant = await _plantService.CreatePlantAsync(dto);
+            var createdPlant = await _plantService.CreatePlantAsync(dto, _photoStorage);
             return CreatedAtAction(nameof(GetPlants), new { id = createdPlant.Id }, createdPlant);
         }
         [HttpPost("batch")]
