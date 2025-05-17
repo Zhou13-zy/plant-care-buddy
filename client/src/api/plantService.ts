@@ -14,8 +14,20 @@ export const getPlantById = async (id: number | string): Promise<Plant> => {
 };
 
 export const addPlant = async (plant: CreatePlantDto) => {
-    const response = await api.post('/plants', plant);
-    return response.data;
+  const formData = new FormData();
+  formData.append('name', plant.name);
+  formData.append('species', plant.species);
+  formData.append('acquisitionDate', plant.acquisitionDate);
+  formData.append('location', plant.location);
+  formData.append('healthStatus', plant.healthStatus.toString());
+  if (plant.nextHealthCheckDate) formData.append('nextHealthCheckDate', plant.nextHealthCheckDate);
+  if (plant.notes) formData.append('notes', plant.notes);
+  if (plant.photo) formData.append('photo', plant.photo);
+
+  const response = await api.post('/plants', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+  return response.data;
 };
 
 export const updatePlant = async (id: number, data: UpdatePlantDto): Promise<Plant> => {

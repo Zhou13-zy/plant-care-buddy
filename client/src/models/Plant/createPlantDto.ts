@@ -8,5 +8,5 @@ export interface CreatePlantDto {
   healthStatus: PlantHealthStatus;
   nextHealthCheckDate?: string;
   notes?: string;
-  primaryImagePath?: string;
+  photo?: File;
 }

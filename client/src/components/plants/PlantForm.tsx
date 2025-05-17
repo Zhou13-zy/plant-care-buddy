@@ -23,7 +23,6 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
       location: '',
       ...(isEdit ? {} : { healthStatus: PlantHealthStatus.Healthy }), // Only include healthStatus for new plants
       notes: '',
-      primaryImagePath: '',
       nextHealthCheckDate: '',
       ...(isEdit ? { id: 0 } : {})
     } as T
@@ -129,13 +128,19 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
       </div>
 
       <div className="form-group">
-        <label htmlFor="primaryImagePath">Primary Image Path:</label>
+        <label htmlFor="photo">Photo:</label>
         <input
-          type="text"
-          id="primaryImagePath"
-          name="primaryImagePath"
-          value={form.primaryImagePath}
-          onChange={handleChange}
+          type="file"
+          id="photo"
+          name="photo"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0] || null;
+            setForm((prev: any) => ({
+              ...prev,
+              photo: file,
+            }));
+          }}
         />
       </div>
 
