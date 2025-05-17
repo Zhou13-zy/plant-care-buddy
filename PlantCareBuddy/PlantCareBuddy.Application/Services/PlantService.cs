@@ -45,6 +45,29 @@ namespace PlantCareBuddy.Application.Services
             _context.Plants.Add(plant);
             await _context.SaveChangesAsync();
 
+            // Create initial health observation
+            var initialObservation = new HealthObservation
+            {
+                PlantId = plant.Id,
+                ObservationDate = dto.AcquisitionDate,
+                HealthStatus = dto.HealthStatus,
+                Notes = $"Initial health assessment upon acquiring {dto.Name}.",
+                ImagePath = dto.PrimaryImagePath
+            };
+            _context.HealthObservations.Add(initialObservation);
+
+            // Create initial care event
+            var wateringEvent = new CareEvent
+            {
+                PlantId = plant.Id,
+                EventType = CareEventType.Watering,
+                EventDate = dto.AcquisitionDate,
+                Notes = "Initial watering after acquisition."
+            };
+            _context.CareEvents.Add(wateringEvent);
+
+            await _context.SaveChangesAsync();
+
             return MapToDto(plant);
         }
         public async Task<IEnumerable<PlantDto>> CreatePlantsAsync(List<CreatePlantDto> dtos)
@@ -70,14 +93,13 @@ namespace PlantCareBuddy.Application.Services
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null) return null;
 
-            if (dto.Name != null) plant.Name = dto.Name;
-            if (dto.Species != null) plant.Species = dto.Species;
-            if (dto.AcquisitionDate.HasValue) plant.AcquisitionDate = dto.AcquisitionDate.Value;
-            if (dto.Location != null) plant.Location = dto.Location;
-            if (dto.HealthStatus.HasValue) plant.HealthStatus = dto.HealthStatus.Value;
-            if (dto.NextHealthCheckDate.HasValue) plant.NextHealthCheckDate = dto.NextHealthCheckDate.Value;
-            if (dto.Notes != null) plant.Notes = dto.Notes;
-            if (dto.PrimaryImagePath != null) plant.PrimaryImagePath = dto.PrimaryImagePath;
+            plant.Name = dto.Name;
+            plant.Species = dto.Species;
+            plant.AcquisitionDate = dto.AcquisitionDate;
+            plant.Location = dto.Location;
+            plant.NextHealthCheckDate = dto.NextHealthCheckDate;
+            plant.Notes = dto.Notes;
+            plant.PrimaryImagePath = dto.PrimaryImagePath;
 
             await _context.SaveChangesAsync();
 

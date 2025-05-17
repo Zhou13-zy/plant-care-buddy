@@ -21,7 +21,7 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
       species: '',
       acquisitionDate: '',
       location: '',
-      healthStatus: PlantHealthStatus.Healthy,
+      ...(isEdit ? {} : { healthStatus: PlantHealthStatus.Healthy }), // Only include healthStatus for new plants
       notes: '',
       primaryImagePath: '',
       nextHealthCheckDate: '',
@@ -103,18 +103,20 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="healthStatus">Health Status:</label>
-        <select
-          id="healthStatus"
-          name="healthStatus"
-          value={form.healthStatus}
-          onChange={handleChange}
-          required
-        >
-          {healthStatusOptions}
-        </select>
-      </div>
+      {!isEdit && (
+        <div className="form-group">
+          <label htmlFor="healthStatus">Health Status:</label>
+          <select
+            id="healthStatus"
+            name="healthStatus"
+            value={(form as any).healthStatus}
+            onChange={handleChange}
+            required
+          >
+            {healthStatusOptions}
+          </select>
+        </div>
+      )}
 
       <div className="form-group">
         <label htmlFor="notes">Notes:</label>
