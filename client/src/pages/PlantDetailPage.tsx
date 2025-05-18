@@ -15,8 +15,6 @@ import HealthStatusIndicator from '../components/common/HealthStatusIndicator';
 import ImageDisplay from '../components/common/ImageDisplay';
 import './PlantDetailPage.css';
 
-const API_BASE = "https://localhost:7226"; // Or use an environment variable
-
 const PlantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [plant, setPlant] = useState<Plant | null>(null);

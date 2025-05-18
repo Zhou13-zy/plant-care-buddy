@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PlantHealthStatus } from '../../models/Plant/plantHealthStatus';
 import { CreateHealthObservationDto } from '../../models/HealthObservation/createHealthObservationDto';
@@ -8,61 +8,44 @@ import {
   getHealthObservation, 
   updateHealthObservation 
 } from '../../api/healthObservationService';
+import ImageUpload from '../common/ImageUpload';
 import './HealthObservationForm.css';
+import { HealthObservation } from '../../models/HealthObservation/healthObservation';
+import { formatDate } from '../../utils/dateUtils';
 
 interface HealthObservationFormProps {
   plantId?: number; // Optional: passed when creating an observation for a specific plant
   observationId?: number; // Optional: passed when editing an existing observation
   onSuccess?: () => void; // Optional callback after successful submission
+  initialData?: HealthObservation;  // Add this
 }
 
 const HealthObservationForm: React.FC<HealthObservationFormProps> = ({ 
   plantId, 
   observationId, 
-  onSuccess 
+  onSuccess,
+  initialData 
 }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
   const [formData, setFormData] = useState<{
     plantId: number;
     observationDate: string;
     healthStatus: PlantHealthStatus;
     notes: string;
-    imagePath: string;
+    imagePath?: string;
   }>({
-    plantId: plantId || 0,
-    observationDate: new Date().toISOString().split('T')[0], // Default to today
-    healthStatus: PlantHealthStatus.Healthy,
-    notes: '',
-    imagePath: ''
+    plantId: initialData?.plantId || plantId || 0,
+    observationDate: initialData ? formatDate(initialData.observationDate) : new Date().toISOString().split('T')[0],
+    healthStatus: initialData?.healthStatus || PlantHealthStatus.Healthy,
+    notes: initialData?.notes || '',
+    imagePath: initialData?.imagePath || ''
   });
 
   // Determine if we're in edit mode
   const isEditMode = !!observationId;
-
-  // Load health observation data if in edit mode
-  useEffect(() => {
-    if (isEditMode && observationId) {
-      setIsLoading(true);
-      getHealthObservation(observationId)
-        .then(observation => {
-          setFormData({
-            plantId: observation.plantId,
-            observationDate: new Date(observation.observationDate).toISOString().split('T')[0],
-            healthStatus: observation.healthStatus,
-            notes: observation.notes || '',
-            imagePath: observation.imagePath || ''
-          });
-          setIsLoading(false);
-        })
-        .catch(err => {
-          setError('Error loading health observation data. Please try again.');
-          setIsLoading(false);
-          console.error('Failed to load health observation:', err);
-        });
-    }
-  }, [observationId, isEditMode]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -83,22 +66,20 @@ const HealthObservationForm: React.FC<HealthObservationFormProps> = ({
 
     try {
       if (isEditMode && observationId) {
-        // Update existing health observation
         const updateDto: UpdateHealthObservationDto = {
           observationDate: formData.observationDate,
           healthStatus: formData.healthStatus,
           notes: formData.notes,
-          imagePath: formData.imagePath || undefined
+          photo: selectedPhoto || undefined
         };
         await updateHealthObservation(observationId, updateDto);
       } else {
-        // Create new health observation
         const createDto: CreateHealthObservationDto = {
           plantId: formData.plantId,
           observationDate: formData.observationDate,
           healthStatus: formData.healthStatus,
           notes: formData.notes,
-          imagePath: formData.imagePath || undefined
+          photo: selectedPhoto || undefined
         };
         await createHealthObservation(createDto);
       }
@@ -107,7 +88,6 @@ const HealthObservationForm: React.FC<HealthObservationFormProps> = ({
       if (onSuccess) {
         onSuccess();
       } else {
-        // Navigate back or to appropriate page
         navigate(-1);
       }
     } catch (err) {
@@ -188,13 +168,12 @@ const HealthObservationForm: React.FC<HealthObservationFormProps> = ({
         </div>
 
         <div className="form-group">
-          <label htmlFor="imagePath">Image Path:</label>
-          <input
-            type="text"
-            id="imagePath"
-            name="imagePath"
-            value={formData.imagePath}
-            onChange={handleChange}
+          <label htmlFor="photo">Photo:</label>
+          <ImageUpload
+            onFileSelect={(file) => {
+              setSelectedPhoto(file);
+            }}
+            initialUrl={isEditMode ? formData.imagePath : undefined}
           />
         </div>
 

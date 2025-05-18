@@ -15,7 +15,6 @@ namespace PlantCareBuddy.Application.DTOs.HealthObservation
 
         [Required]
         public string Notes { get; set; }
-        [MaxLength(500)]
         public IFormFile? Photo { get; set; }
     }
 }

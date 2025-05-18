@@ -5,6 +5,7 @@ import { deletePlant } from '../../api/healthObservationService';
 import { formatDate } from '../../utils/dateUtils';
 import { getHealthStatusName, getHealthStatusClass } from '../../utils/healthStatusUtils';
 import './HealthObservationList.css';
+import ImageDisplay from '../common/ImageDisplay';
 
 interface HealthObservationListProps {
   observations: HealthObservation[];
@@ -72,7 +73,10 @@ const HealthObservationList: React.FC<HealthObservationListProps> = ({
                 <p className="observation-notes">{observation.notes}</p>
                 {observation.imagePath && (
                   <div className="observation-image">
-                    <img src={observation.imagePath} alt="Health observation" />
+                    <ImageDisplay 
+                      imagePath={observation.imagePath} 
+                      alt="Health observation" 
+                    />
                   </div>
                 )}
               </div>
