@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlantCareBuddy.Application.DTOs.CareEvent;
 using PlantCareBuddy.Application.Interfaces;
+using PlantCareBuddy.Infrastructure.Interfaces.Storage;
 
 namespace PlantCareBuddy.API.Controllers
 {
@@ -9,10 +10,12 @@ namespace PlantCareBuddy.API.Controllers
     public class CareEventController : ControllerBase
     {
         private readonly ICareEventService _careEventService;
+        private readonly IPhotoStorageService _photoStorage;
 
-        public CareEventController(ICareEventService careEventService)
+        public CareEventController(ICareEventService careEventService, IPhotoStorageService photoStorage)
         {
             _careEventService = careEventService;
+            _photoStorage = photoStorage;
         }
 
         /// <summary>
@@ -51,14 +54,14 @@ namespace PlantCareBuddy.API.Controllers
         /// Creates a new care event.
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult<CareEventDto>> CreateCareEvent([FromBody] CreateCareEventDto dto)
+        public async Task<ActionResult<CareEventDto>> CreateCareEvent([FromForm] CreateCareEventDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                var createdCareEvent = await _careEventService.CreateCareEventAsync(dto);
+                var createdCareEvent = await _careEventService.CreateCareEventAsync(dto, _photoStorage);
                 return CreatedAtAction(nameof(GetCareEvent), new { id = createdCareEvent.Id }, createdCareEvent);
             }
             catch (ArgumentException ex)
@@ -70,12 +73,12 @@ namespace PlantCareBuddy.API.Controllers
         /// Updates an existing care event.
         /// </summary>
         [HttpPut("{id}")]
-        public async Task<ActionResult<CareEventDto>> UpdateCareEvent(int id, [FromBody] UpdateCareEventDto dto)
+        public async Task<ActionResult<CareEventDto>> UpdateCareEvent(int id, [FromForm] UpdateCareEventDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var updatedCareEvent = await _careEventService.UpdateCareEventAsync(id, dto);
+            var updatedCareEvent = await _careEventService.UpdateCareEventAsync(id, dto, _photoStorage);
             if (updatedCareEvent == null)
                 return NotFound();
 

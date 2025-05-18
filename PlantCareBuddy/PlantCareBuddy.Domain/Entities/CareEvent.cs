@@ -16,6 +16,7 @@ namespace PlantCareBuddy.Domain.Entities
         public DateTime EventDate { get; set; }
         public string? Notes { get; set; }
 
-        public string? ImagePath { get; set; }
+        public string? BeforeImagePath { get; set; }
+        public string? AfterImagePath { get; set; }
     }
 }
