@@ -59,7 +59,10 @@ namespace PlantCareBuddy.Infrastructure.Persistence
                 entity.Property(e => e.Notes)
                     .HasMaxLength(1000);
 
-                entity.Property(e => e.ImagePath)
+                entity.Property(e => e.BeforeImagePath)
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.AfterImagePath)
                     .HasMaxLength(500);
 
                 entity.HasOne(e => e.Plant)

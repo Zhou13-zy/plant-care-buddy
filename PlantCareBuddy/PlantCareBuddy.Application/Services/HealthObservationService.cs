@@ -3,16 +3,20 @@ using PlantCareBuddy.Application.DTOs.HealthObservation;
 using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Domain.Entities;
 using PlantCareBuddy.Infrastructure.Persistence;
+using PlantCareBuddy.Infrastructure.Interfaces.Storage;
+using static System.String;
 
 namespace PlantCareBuddy.Application.Services
 {
     public class HealthObservationService : IHealthObservationService
     {
         private readonly PlantCareBuddyContext _context;
+        private readonly IPhotoStorageService _photoStorage;
 
-        public HealthObservationService(PlantCareBuddyContext context)
+        public HealthObservationService(PlantCareBuddyContext context, IPhotoStorageService photoStorage)
         {
             _context = context;
+            _photoStorage = photoStorage;
         }
 
         public async Task<IEnumerable<HealthObservationDto>> GetAllHealthObservationsAsync()
@@ -48,12 +52,16 @@ namespace PlantCareBuddy.Application.Services
             return MapToDto(observation);
         }
 
-        public async Task<HealthObservationDto> CreateHealthObservationAsync(CreateHealthObservationDto dto)
+        public async Task<HealthObservationDto> CreateHealthObservationAsync(CreateHealthObservationDto dto, IPhotoStorageService photoStorage)
         {
             // Verify that the plant exists
             var plant = await _context.Plants.FindAsync(dto.PlantId);
             if (plant == null)
                 throw new ArgumentException($"Plant with ID {dto.PlantId} not found");
+
+            string? imagePath = null;
+            if (dto.Photo != null)
+                imagePath = await photoStorage.StorePhotoAsync(dto.Photo, "health-observations");
 
             var observation = new HealthObservation
             {
@@ -61,7 +69,7 @@ namespace PlantCareBuddy.Application.Services
                 ObservationDate = dto.ObservationDate,
                 HealthStatus = dto.HealthStatus,
                 Notes = dto.Notes,
-                ImagePath = dto.ImagePath
+                ImagePath = imagePath
             };
 
             _context.HealthObservations.Add(observation);
@@ -87,7 +95,7 @@ namespace PlantCareBuddy.Application.Services
             return MapToDto(observation);
         }
 
-        public async Task<HealthObservationDto?> UpdateHealthObservationAsync(int id, UpdateHealthObservationDto dto)
+        public async Task<HealthObservationDto?> UpdateHealthObservationAsync(int id, UpdateHealthObservationDto dto, IPhotoStorageService photoStorage)
         {
             var observation = await _context.HealthObservations
                 .Include(ho => ho.Plant)
@@ -99,7 +107,18 @@ namespace PlantCareBuddy.Application.Services
             observation.HealthStatus = dto.HealthStatus;
             observation.ObservationDate = dto.ObservationDate;
             observation.Notes = dto.Notes;
-            observation.ImagePath = dto.ImagePath;
+
+            if (dto.Photo != null)
+            {
+                // Delete existing photo if there is one
+                if (!IsNullOrEmpty(observation.ImagePath))
+                    await photoStorage.DeletePhotoAsync(observation.ImagePath);
+
+                // Set new photo path or null
+                observation.ImagePath = dto.Photo != null
+                    ? await photoStorage.StorePhotoAsync(dto.Photo, "health-observations")
+                    : null;
+            }
 
             await _context.SaveChangesAsync();
 

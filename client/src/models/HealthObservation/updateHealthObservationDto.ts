@@ -4,5 +4,5 @@ export interface UpdateHealthObservationDto {
   observationDate: string;
   healthStatus: PlantHealthStatus;
   notes: string;
-  imagePath?: string;
+  photo?: File;
 }

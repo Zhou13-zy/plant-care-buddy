@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using PlantCareBuddy.Domain.Enums;
 
 namespace PlantCareBuddy.Application.DTOs.HealthObservation
@@ -13,6 +14,6 @@ namespace PlantCareBuddy.Application.DTOs.HealthObservation
         public PlantHealthStatus HealthStatus { get; set; }
         [Required]
         public string Notes { get; set; }
-        public string? ImagePath { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }

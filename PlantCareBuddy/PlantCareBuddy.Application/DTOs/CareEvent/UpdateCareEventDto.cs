@@ -1,4 +1,5 @@
-﻿using PlantCareBuddy.Domain.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using PlantCareBuddy.Domain.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +14,7 @@ namespace PlantCareBuddy.Application.DTOs.CareEvent
         public DateTime EventDate { get; set; }
         [MaxLength(500)]
         public string? Notes { get; set; }
-        [MaxLength(500)]
-        public string? ImagePath { get; set; }
+        public IFormFile? BeforePhoto { get; set; }
+        public IFormFile? AfterPhoto { get; set; }
     }
 }

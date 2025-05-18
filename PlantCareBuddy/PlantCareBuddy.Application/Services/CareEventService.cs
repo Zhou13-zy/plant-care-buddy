@@ -3,16 +3,20 @@ using PlantCareBuddy.Application.DTOs.CareEvent;
 using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Domain.Entities;
 using PlantCareBuddy.Infrastructure.Persistence;
+using PlantCareBuddy.Infrastructure.Interfaces.Storage;
+using static System.String;
 
 namespace PlantCareBuddy.Application.Services
 {
     public class CareEventService : ICareEventService
     {
         private readonly PlantCareBuddyContext _context;
+        private readonly IPhotoStorageService _photoStorage;
 
-        public CareEventService(PlantCareBuddyContext context)
+        public CareEventService(PlantCareBuddyContext context, IPhotoStorageService photoStorage)
         {
             _context = context;
+            _photoStorage = photoStorage;
         }
 
         public async Task<IEnumerable<CareEventDto>> GetAllCareEventsAsync()
@@ -48,12 +52,23 @@ namespace PlantCareBuddy.Application.Services
             return MapToDto(careEvent);
         }
 
-        public async Task<CareEventDto> CreateCareEventAsync(CreateCareEventDto dto)
+        public async Task<CareEventDto> CreateCareEventAsync(CreateCareEventDto dto, IPhotoStorageService photoStorage)
         {
             // Verify that the plant exists
             var plant = await _context.Plants.FindAsync(dto.PlantId);
             if (plant == null)
                 throw new ArgumentException($"Plant with ID {dto.PlantId} not found");
+
+            string? beforeImagePath = null;
+            string? afterImagePath = null;
+
+            // Process before photo
+            if (dto.BeforePhoto != null)
+                beforeImagePath = await photoStorage.StorePhotoAsync(dto.BeforePhoto, "care-events");
+
+            // Process after photo
+            if (dto.AfterPhoto != null)
+                afterImagePath = await photoStorage.StorePhotoAsync(dto.AfterPhoto, "care-events");
 
             var careEvent = new CareEvent
             {
@@ -61,7 +76,8 @@ namespace PlantCareBuddy.Application.Services
                 EventType = dto.EventType,
                 EventDate = dto.EventDate,
                 Notes = dto.Notes,
-                ImagePath = dto.ImagePath
+                BeforeImagePath = beforeImagePath,
+                AfterImagePath = afterImagePath
             };
 
             _context.CareEvents.Add(careEvent);
@@ -72,7 +88,7 @@ namespace PlantCareBuddy.Application.Services
 
             return MapToDto(careEvent);
         }
-        public async Task<CareEventDto?> UpdateCareEventAsync(int id, UpdateCareEventDto dto)
+        public async Task<CareEventDto?> UpdateCareEventAsync(int id, UpdateCareEventDto dto, IPhotoStorageService photoStorage)
         {
             var careEvent = await _context.CareEvents
                 .Include(ce => ce.Plant)
@@ -84,7 +100,32 @@ namespace PlantCareBuddy.Application.Services
             careEvent.EventType = dto.EventType;
             careEvent.EventDate = dto.EventDate;
             careEvent.Notes = dto.Notes;
-            careEvent.ImagePath = dto.ImagePath;
+
+            // Handle Before Photo
+            if (dto.BeforePhoto != null)
+            {
+                // Delete existing photo if there is one
+                if (!IsNullOrEmpty(careEvent.BeforeImagePath))
+                    await photoStorage.DeletePhotoAsync(careEvent.BeforeImagePath);
+
+                // Set new photo path or null
+                careEvent.BeforeImagePath = dto.BeforePhoto != null
+                    ? await photoStorage.StorePhotoAsync(dto.BeforePhoto, "care-events")
+                    : null;
+            }
+
+            // Handle After Photo
+            if (dto.AfterPhoto != null)
+            {
+                // Delete existing photo if there is one
+                if (!IsNullOrEmpty(careEvent.AfterImagePath))
+                    await photoStorage.DeletePhotoAsync(careEvent.AfterImagePath);
+
+                // Set new photo path or null
+                careEvent.AfterImagePath = dto.AfterPhoto != null
+                    ? await photoStorage.StorePhotoAsync(dto.AfterPhoto, "care-events")
+                    : null;
+            }
 
             await _context.SaveChangesAsync();
 
@@ -111,7 +152,8 @@ namespace PlantCareBuddy.Application.Services
                 EventTypeName = careEvent.EventType.ToString(),
                 EventDate = careEvent.EventDate,
                 Notes = careEvent.Notes,
-                ImagePath = careEvent.ImagePath
+                BeforeImagePath = careEvent.BeforeImagePath,
+                AfterImagePath = careEvent.AfterImagePath
             };
         }
     }

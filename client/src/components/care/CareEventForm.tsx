@@ -5,6 +5,7 @@ import { CreateCareEventDto } from '../../models/CareEvent/createCareEventDto';
 import { UpdateCareEventDto } from '../../models/CareEvent/updateCareEventDto';
 import { createCareEvent, getCareEventById, updateCareEvent } from '../../api/careEventService';
 import { getCareEventTypeOptions } from '../../utils/careEventUtils';
+import ImageUpload from '../common/ImageUpload';
 import './CareEventForm.css';
 
 interface CareEventFormProps {
@@ -17,18 +18,22 @@ const CareEventForm: React.FC<CareEventFormProps> = ({ plantId, careEventId, onS
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedBeforePhoto, setSelectedBeforePhoto] = useState<File | null>(null);
+  const [selectedAfterPhoto, setSelectedAfterPhoto] = useState<File | null>(null);
   const [formData, setFormData] = useState<{
     plantId: number;
     eventType: CareEventType;
     eventDate: string;
     notes: string;
-    imagePath: string;
+    beforeImagePath: string;
+    afterImagePath: string;
   }>({
     plantId: plantId || 0,
     eventType: CareEventType.Watering,
     eventDate: new Date().toISOString().split('T')[0], // Default to today
     notes: '',
-    imagePath: ''
+    beforeImagePath: '',
+    afterImagePath: ''
   });
 
   // Determine if we're in edit mode
@@ -45,7 +50,8 @@ const CareEventForm: React.FC<CareEventFormProps> = ({ plantId, careEventId, onS
             eventType: careEvent.eventType,
             eventDate: new Date(careEvent.eventDate).toISOString().split('T')[0],
             notes: careEvent.notes || '',
-            imagePath: careEvent.imagePath || ''
+            beforeImagePath: careEvent.beforeImagePath || '',
+            afterImagePath: careEvent.afterImagePath || ''
           });
           setIsLoading(false);
         })
@@ -72,22 +78,22 @@ const CareEventForm: React.FC<CareEventFormProps> = ({ plantId, careEventId, onS
 
     try {
       if (isEditMode && careEventId) {
-        // Update existing care event
         const updateDto: UpdateCareEventDto = {
           eventType: formData.eventType,
           eventDate: formData.eventDate,
-          notes: formData.notes || undefined,
-          imagePath: formData.imagePath || undefined
+          notes: formData.notes,
+          beforePhoto: selectedBeforePhoto || undefined,
+          afterPhoto: selectedAfterPhoto || undefined,
         };
         await updateCareEvent(careEventId, updateDto);
       } else {
-        // Create new care event
         const createDto: CreateCareEventDto = {
           plantId: formData.plantId,
           eventType: formData.eventType,
           eventDate: formData.eventDate,
-          notes: formData.notes || undefined,
-          imagePath: formData.imagePath || undefined
+          notes: formData.notes,
+          beforePhoto: selectedBeforePhoto || undefined,
+          afterPhoto: selectedAfterPhoto || undefined
         };
         await createCareEvent(createDto);
       }
@@ -96,7 +102,6 @@ const CareEventForm: React.FC<CareEventFormProps> = ({ plantId, careEventId, onS
       if (onSuccess) {
         onSuccess();
       } else {
-        // Navigate back or to appropriate page
         navigate(-1);
       }
     } catch (err) {
@@ -174,13 +179,18 @@ const CareEventForm: React.FC<CareEventFormProps> = ({ plantId, careEventId, onS
         </div>
 
         <div className="form-group">
-          <label htmlFor="imagePath">Image Path:</label>
-          <input
-            type="text"
-            id="imagePath"
-            name="imagePath"
-            value={formData.imagePath}
-            onChange={handleChange}
+          <label htmlFor="beforePhoto">Before Photo:</label>
+          <ImageUpload
+            onFileSelect={(file) => setSelectedBeforePhoto(file)}
+            initialUrl={isEditMode ? formData.beforeImagePath : undefined}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="afterPhoto">After Photo:</label>
+          <ImageUpload
+            onFileSelect={(file) => setSelectedAfterPhoto(file)}
+            initialUrl={isEditMode ? formData.afterImagePath : undefined}
           />
         </div>
 

@@ -5,5 +5,5 @@ export interface CreateHealthObservationDto {
   observationDate: string;
   healthStatus: PlantHealthStatus;
   notes: string;
-  imagePath?: string;
+  photo?: File;
 }

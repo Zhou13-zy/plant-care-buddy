@@ -11,6 +11,7 @@ namespace PlantCareBuddy.Domain.Entities
         public string Notes { get; set; }
         public string? ImagePath { get; set; }
 
+
         public virtual Plant Plant { get; set; }
     }
 }

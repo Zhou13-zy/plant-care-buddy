@@ -60,12 +60,12 @@ namespace PlantCareBuddy.API.Controllers
             return Ok(createdPlants);
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<PlantDto>> UpdatePlant(int id, [FromBody] UpdatePlantDto dto)
+        public async Task<ActionResult<PlantDto>> UpdatePlant(int id, [FromForm] UpdatePlantDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var updatedPlant = await _plantService.UpdatePlantAsync(id, dto);
+            var updatedPlant = await _plantService.UpdatePlantAsync(id, dto, _photoStorage);
             if (updatedPlant == null)
                 return NotFound();
 

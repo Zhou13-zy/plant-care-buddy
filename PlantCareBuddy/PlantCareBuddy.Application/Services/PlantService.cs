@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using PlantCareBuddy.Domain.Enums;
 using PlantCareBuddy.Infrastructure.Extensions;
 using PlantCareBuddy.Infrastructure.Interfaces.Storage;
+using static System.String;
 
 namespace PlantCareBuddy.Application.Services
 {
@@ -33,8 +34,10 @@ namespace PlantCareBuddy.Application.Services
         public async Task<PlantDto> CreatePlantAsync(CreatePlantDto dto, IPhotoStorageService photoStorage)
         {
             string? imagePath = null;
+            string? imagePathHO = null;
             if (dto.Photo != null)
                 imagePath = await photoStorage.StorePhotoAsync(dto.Photo, "plants");
+                imagePathHO = await photoStorage.StorePhotoAsync(dto.Photo, "health-observations");
 
             var plant = new Plant
             {
@@ -57,7 +60,7 @@ namespace PlantCareBuddy.Application.Services
                 ObservationDate = dto.AcquisitionDate,
                 HealthStatus = dto.HealthStatus,
                 Notes = $"Initial health assessment upon acquiring {dto.Name}.",
-                ImagePath = dto.PrimaryImagePath
+                ImagePath = imagePathHO
             };
             _context.HealthObservations.Add(initialObservation);
 
@@ -93,7 +96,7 @@ namespace PlantCareBuddy.Application.Services
 
             return plants.Select(MapToDto);
         }
-        public async Task<PlantDto?> UpdatePlantAsync(int id, UpdatePlantDto dto)
+        public async Task<PlantDto?> UpdatePlantAsync(int id, UpdatePlantDto dto, IPhotoStorageService photoStorage)
         {
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null) return null;
@@ -104,7 +107,18 @@ namespace PlantCareBuddy.Application.Services
             plant.Location = dto.Location;
             plant.NextHealthCheckDate = dto.NextHealthCheckDate;
             plant.Notes = dto.Notes;
-            plant.PrimaryImagePath = dto.PrimaryImagePath;
+
+            if (dto.Photo != null)
+            {
+                // Delete existing photo if there is one
+                if (!IsNullOrEmpty(plant.PrimaryImagePath))
+                    await photoStorage.DeletePhotoAsync(plant.PrimaryImagePath);
+
+                // Set new photo path or null
+                plant.PrimaryImagePath = dto.Photo != null
+                    ? await photoStorage.StorePhotoAsync(dto.Photo, "plants")
+                    : null;
+            }
 
             await _context.SaveChangesAsync();
 

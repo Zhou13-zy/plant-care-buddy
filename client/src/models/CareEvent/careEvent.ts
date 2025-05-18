@@ -8,5 +8,6 @@ export interface CareEvent {
   eventTypeName: string;
   eventDate: string;
   notes?: string;
-  imagePath?: string;
+  beforeImagePath?: string;
+  afterImagePath?: string;
 }

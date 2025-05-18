@@ -20,12 +20,33 @@ export const getHealthObservation = async (id: number): Promise<HealthObservatio
 };
 
 export const createHealthObservation = async (healthObservation: CreateHealthObservationDto): Promise<HealthObservation> => {
-  const response = await api.post<HealthObservation>('/health-observations', healthObservation);
+  const formData = new FormData();
+  formData.append('plantId', healthObservation.plantId.toString());
+  formData.append('observationDate', healthObservation.observationDate);
+  formData.append('healthStatus', healthObservation.healthStatus.toString());
+  formData.append('notes', healthObservation.notes);
+  if (healthObservation.photo) {
+    formData.append('photo', healthObservation.photo);
+  }
+
+  const response = await api.post<HealthObservation>('/health-observations', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
   return response.data;
 };
 
 export const updateHealthObservation = async (id: number, healthObservation: UpdateHealthObservationDto): Promise<HealthObservation> => {
-  const response = await api.put<HealthObservation>(`/health-observations/${id}`, healthObservation);
+  const formData = new FormData();
+  formData.append('observationDate', healthObservation.observationDate);
+  formData.append('healthStatus', healthObservation.healthStatus.toString());
+  formData.append('notes', healthObservation.notes);
+  if (healthObservation.photo) {
+    formData.append('photo', healthObservation.photo);
+  }
+
+  const response = await api.put<HealthObservation>(`/health-observations/${id}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
   return response.data;
 };
 

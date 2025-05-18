@@ -31,7 +31,18 @@ export const addPlant = async (plant: CreatePlantDto) => {
 };
 
 export const updatePlant = async (id: number, data: UpdatePlantDto): Promise<Plant> => {
-  const response = await api.put<Plant>(`/plants/${id}`, data);
+  const formData = new FormData();
+  formData.append('name', data.name);
+  formData.append('species', data.species);
+  formData.append('acquisitionDate', data.acquisitionDate);
+  formData.append('location', data.location);
+  if (data.nextHealthCheckDate) formData.append('nextHealthCheckDate', data.nextHealthCheckDate);
+  if (data.notes) formData.append('notes', data.notes);
+  if (data.photo) formData.append('photo', data.photo);
+
+  const response = await api.put<Plant>(`/plants/${id}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
   return response.data;
 };
 

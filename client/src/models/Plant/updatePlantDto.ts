@@ -8,4 +8,5 @@
     location: string;
     nextHealthCheckDate?: string;
     notes?: string;
+    photo?: File;
   }
