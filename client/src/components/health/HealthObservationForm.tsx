@@ -5,7 +5,6 @@ import { CreateHealthObservationDto } from '../../models/HealthObservation/creat
 import { UpdateHealthObservationDto } from '../../models/HealthObservation/updateHealthObservationDto';
 import { 
   createHealthObservation, 
-  getHealthObservation, 
   updateHealthObservation 
 } from '../../api/healthObservationService';
 import ImageUpload from '../common/ImageUpload';

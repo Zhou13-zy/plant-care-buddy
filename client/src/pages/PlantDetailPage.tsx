@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Plant } from '../models/Plant/plant';
 import { CareEvent } from '../models/CareEvent/careEvent';
@@ -6,7 +6,6 @@ import { HealthObservation } from '../models/HealthObservation/healthObservation
 import { deletePlant, getPlantById } from '../api/plantService';
 import { getCareEventsByPlant } from '../api/careEventService';
 import { getHealthObservationsByPlantId } from '../api/healthObservationService';
-import { getHealthStatusName, getHealthStatusClass } from '../utils/healthStatusUtils';
 import CareEventList from '../components/care/CareEventList';
 import CareEventForm from '../components/care/CareEventForm';
 import Modal from '../components/common/Modal';
@@ -25,7 +24,7 @@ const PlantDetailPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const fetchPlantData = async () => {
+  const fetchPlantData = useCallback(async () => {
     if (!id) return;
     
     try {
@@ -35,9 +34,9 @@ const PlantDetailPage: React.FC = () => {
       console.error('Error fetching plant:', error);
       setPlant(null);
     }
-  };
+  }, [id]);
 
-  const fetchCareEvents = async () => {
+  const fetchCareEvents = useCallback(async () => {
     if (!id) return;
     
     try {
@@ -47,9 +46,9 @@ const PlantDetailPage: React.FC = () => {
       console.error('Error fetching care events:', error);
       setCareEvents([]);
     }
-  };
+  }, [id]);
 
-  const fetchHealthObservations = async () => {
+  const fetchHealthObservations = useCallback(async () => {
     if (!id) return;
     
     try {
@@ -61,7 +60,7 @@ const PlantDetailPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +71,7 @@ const PlantDetailPage: React.FC = () => {
     };
     
     fetchData();
-  }, [id]);
+  }, [id, fetchPlantData, fetchCareEvents, fetchHealthObservations]);
 
   const handleDelete = async () => {
     if (!plant) return;
