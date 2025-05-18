@@ -33,8 +33,10 @@ namespace PlantCareBuddy.Application.Services
         public async Task<PlantDto> CreatePlantAsync(CreatePlantDto dto, IPhotoStorageService photoStorage)
         {
             string? imagePath = null;
+            string? imagePathHO = null;
             if (dto.Photo != null)
                 imagePath = await photoStorage.StorePhotoAsync(dto.Photo, "plants");
+                imagePathHO = await photoStorage.StorePhotoAsync(dto.Photo, "health-observations");
 
             var plant = new Plant
             {
@@ -57,7 +59,7 @@ namespace PlantCareBuddy.Application.Services
                 ObservationDate = dto.AcquisitionDate,
                 HealthStatus = dto.HealthStatus,
                 Notes = $"Initial health assessment upon acquiring {dto.Name}.",
-                ImagePath = dto.PrimaryImagePath
+                ImagePath = imagePathHO
             };
             _context.HealthObservations.Add(initialObservation);
 
