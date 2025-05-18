@@ -5,5 +5,6 @@ export interface CreateCareEventDto {
   eventType: CareEventType;
   eventDate: string;
   notes?: string;
-  imagePath?: string;
+  beforePhoto?: File;
+  afterPhoto?: File;
 }

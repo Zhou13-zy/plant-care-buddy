@@ -19,12 +19,31 @@ export const getCareEventById = async (id: number): Promise<CareEvent> => {
 };
 
 export const createCareEvent = async (careEvent: CreateCareEventDto): Promise<CareEvent> => {
-  const response = await api.post<CareEvent>('/care-events', careEvent);
+  const formData = new FormData();
+  formData.append('plantId', careEvent.plantId.toString());
+  formData.append('eventType', careEvent.eventType.toString());
+  formData.append('eventDate', careEvent.eventDate);
+  if (careEvent.notes) formData.append('notes', careEvent.notes);
+  if (careEvent.beforePhoto) formData.append('beforePhoto', careEvent.beforePhoto);
+  if (careEvent.afterPhoto) formData.append('afterPhoto', careEvent.afterPhoto);
+
+  const response = await api.post<CareEvent>('/care-events', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
   return response.data;
 };
 
 export const updateCareEvent = async (id: number, careEvent: UpdateCareEventDto): Promise<CareEvent> => {
-  const response = await api.put<CareEvent>(`/care-events/${id}`, careEvent);
+  const formData = new FormData();
+  formData.append('eventType', careEvent.eventType.toString());
+  formData.append('eventDate', careEvent.eventDate);
+  if (careEvent.notes) formData.append('notes', careEvent.notes);
+  if (careEvent.beforePhoto) formData.append('beforePhoto', careEvent.beforePhoto);
+  if (careEvent.afterPhoto) formData.append('afterPhoto', careEvent.afterPhoto);
+
+  const response = await api.put<CareEvent>(`/care-events/${id}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
   return response.data;
 };
 

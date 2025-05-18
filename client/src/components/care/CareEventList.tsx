@@ -4,6 +4,7 @@ import { CareEvent } from '../../models/CareEvent/careEvent';
 import { CareEventType } from '../../models/CareEvent/careEventType';
 import { deleteCareEvent } from '../../api/careEventService';
 import { getCareEventTypeName, getCareEventTypeClass } from '../../utils/careEventUtils';
+import ImageDisplay from '../common/ImageDisplay';
 import './CareEventList.css';
 
 interface CareEventListProps {
@@ -118,11 +119,47 @@ const CareEventList: React.FC<CareEventListProps> = ({
               <div className="event-details">
                 <div className="event-date">{formatDate(event.eventDate)}</div>
                 {event.notes && <div className="event-notes">{event.notes}</div>}
-                {event.imagePath && (
-                  <div className="event-image">
-                    <img src={event.imagePath} alt={`${event.eventTypeName}`} />
-                  </div>
-                )}
+                
+                <div className="event-photos" style={{ 
+                  display: 'flex', 
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start', 
+                  alignItems: 'flex-start',
+                  gap: '20px',
+                  marginTop: '10px'
+                }}>
+                  {event.beforeImagePath && (
+                    <div className="event-photo">
+                      <h4>Before:</h4>
+                      <ImageDisplay 
+                        imagePath={event.beforeImagePath} 
+                        alt={`Before ${event.eventTypeName}`}
+                        style={{ 
+                          width: '150px', 
+                          height: '120px', 
+                          objectFit: 'cover',
+                          borderRadius: '4px'
+                        }}
+                      />
+                    </div>
+                  )}
+                  
+                  {event.afterImagePath && (
+                    <div className="event-photo">
+                      <h4>After:</h4>
+                      <ImageDisplay 
+                        imagePath={event.afterImagePath} 
+                        alt={`After ${event.eventTypeName}`}
+                        style={{ 
+                          width: '150px', 
+                          height: '120px', 
+                          objectFit: 'cover',
+                          borderRadius: '4px'
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="event-actions">
                 <button 
