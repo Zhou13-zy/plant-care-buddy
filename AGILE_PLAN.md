@@ -1469,7 +1469,42 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 3.3 mentions visual indicators for plants requiring attention.
 
-### Task 3.9: Set up SignalR hub for plant events
+### Task 3.9: Implement care strategy system
+**Purpose:** Create an intelligent system that adapts care recommendations based on plant type, environmental conditions, and lifecycle stages, providing personalized care guidance that improves plant health outcomes.
+
+**Requirements:**
+- Design care strategy interfaces and base abstractions
+- Implement specialized strategies for different plant types (succulents, tropicals, etc.)
+- Create seasonal adjustment strategies
+- Add recovery/treatment strategies for health issues
+- Build lifecycle-aware care recommendations
+- Implement strategy selection algorithm based on plant attributes
+- Support user override of automatic strategy selection
+
+**Technology:**
+- C# interfaces and class hierarchy
+- Strategy pattern implementation
+- Dependency injection for strategy resolution
+- Configuration system for strategy parameters
+
+**Design Patterns:**
+- Strategy pattern as the core architectural element
+- Factory pattern for strategy creation
+- Composite pattern for combining strategies
+- Chain of Responsibility for strategy selection
+- Template Method for common strategy behaviors
+
+**Output:**
+- ICareTreatmentStrategy interface
+- Concrete strategy implementations for different plant types and conditions
+- CareStrategyService for strategy resolution and application
+- Strategy selection algorithm
+- Integration with plant care recommendations
+- UI for displaying active strategies and allowing overrides
+
+**Reference:** PRD Section 4.2.4 details the Care Strategy System functionality.
+
+### Task 3.10: Set up SignalR hub for plant events
 **Purpose:** Establish the server-side infrastructure for real-time updates, enabling instant notification of plant changes across the application.
 
 **Requirements:**
@@ -1498,7 +1533,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 8.1 mentions SignalR as part of the architecture.
 
-### Task 3.10: Implement client-side SignalR connection
+### Task 3.11: Implement client-side SignalR connection
 **Purpose:** Create the frontend counterpart to the SignalR hub, allowing the UI to receive and respond to real-time updates from the server.
 
 **Requirements:**
@@ -1527,7 +1562,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 14.2.5 implies the need for real-time updates in the UI.
 
-### Task 3.11: Add real-time updates for plant changes
+### Task 3.12: Add real-time updates for plant changes
 **Purpose:** Enhance the user experience by reflecting plant changes instantly across the application, ensuring users always see the most current plant information without manual refresh.
 
 **Requirements:**
@@ -1557,7 +1592,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 8.2 mentions real-time updates via SignalR to dashboard.
 
-### Task 3.12: Add real-time updates for care events
+### Task 3.13: Add real-time updates for care events
 **Purpose:** Provide immediate feedback when care events are recorded, creating a more responsive application experience and ensuring all users see the latest care activities.
 
 **Requirements:**
@@ -2225,18 +2260,22 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Implement frequency calculation algorithms
 - Support seasonal adjustments
 - Handle special care requirements
+- Integrate with care strategies to personalize recommendations
+- Support different care intensity levels
 
 **Technology:**
 - C# services
 - Algorithm design
 - Date calculation
 - Configuration system
+- Strategy pattern integration
 
 **Design Patterns:**
 - Strategy pattern for different reminder types
 - Factory pattern for reminder creation
 - Template method for generation steps
 - Chain of Responsibility for adjustments
+- Composite pattern for combining strategy recommendations
 
 **Output:**
 - ReminderGenerationService implementation
@@ -2244,6 +2283,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Seasonal adjustment logic
 - Special case handling
 - Configuration options
+- Strategy-based recommendation engine
+- Care intensity level support
 
 **Reference:** README.md Section 9.3 describes smart care reminders based on plant-specific requirements.
 
@@ -2339,6 +2380,42 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Occurrence calculation methods
 
 **Reference:** README.md Section 9.7 (Seasonal Adjustments) implies the need for recurring patterns that adjust with seasons.
+
+### Task 5.17: Integrate care strategies with reminder system
+**Purpose:** Connect the care strategy system with the reminder generation process, creating personalized, adaptive care schedules that reflect plant-specific needs, environmental conditions, and lifecycle stages.
+
+**Requirements:**
+- Create service to bridge care strategies and reminder generation
+- Implement strategy-based reminder templates
+- Support overriding strategy recommendations
+- Add UI to show which strategy is influencing reminders
+- Create adjustable care intensity levels (minimal, balanced, optimal)
+- Implement absence planning for vacation periods
+- Support special case handling (propagation, dormancy, etc.)
+
+**Technology:**
+- C# services
+- Strategy pattern integration
+- Template system for reminder generation
+- Configuration for care intensity
+
+**Design Patterns:**
+- Strategy pattern for care approaches
+- Adapter pattern to connect strategies with reminders
+- Builder pattern for reminder configuration
+- Template method for standard reminder sequences
+- Command pattern for user overrides
+
+**Output:**
+- StrategyBasedReminderService implementation
+- Strategy-to-reminder mapping configuration
+- Care intensity level definitions
+- Absence planning feature
+- Special case workflow definitions
+- UI components for strategy visibility
+- Override controls in reminder interface
+
+**Reference:** PRD Section 4.5.2 describes strategy-based reminder generation and care intensity options.
 
 ## Epic 6: User Authentication and Management
 **Description:** Implement secure user authentication, account management, and data ownership

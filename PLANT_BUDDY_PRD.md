@@ -39,6 +39,9 @@
 - **Observations**: Document specific issues, growth patterns, or changes
 - **Treatment Tracking**: Record pest/disease treatments and their effectiveness
 - **Health History**: View the progression of plant health over time
+- **Adaptive Care Protocols**: Automatically adjust care recommendations based on plant type, health status, and environmental factors
+- **Recovery Programs**: Pre-defined treatment plans for common plant issues with step-by-step guidance
+- **Health Trend Analysis**: Pattern recognition to identify recurring issues and suggest preventative strategies
 
 ### 2.4 Visual Growth Tracking
 - **Photo Upload**: Add dated photos to document plant development
@@ -154,6 +157,15 @@
 - Visual indicators for different event types
 - Statistics on care frequency
 
+#### 4.2.4 Care Strategy System
+**Functionality:**
+- Intelligent care recommendation system with specialized approaches for different plant types
+- Seasonal care adjustments that automatically modify recommendations based on time of year
+- Environmental adaptation that considers user's local conditions (humidity, light exposure)
+- Plant life-cycle aware recommendations that evolve as plants mature or enter different growth phases
+- Special condition handling for propagation, blooming periods, and dormancy
+- Customizable care intensity levels (minimal, balanced, optimal) to match user availability
+
 ### 4.3 Health Tracking Module
 
 #### 4.3.1 Health Status Updates
@@ -216,6 +228,10 @@
 - Automatic generation based on care requirements
 - Recurrence pattern selection
 - Custom and plant-specific frequencies
+- Strategy-based recommendation engine that tailors care schedules to plant specifics
+- Care intensity options (minimal, balanced, optimal) to match user availability
+- Absence planning with adjusted care schedules for vacation periods
+- Specialized propagation schedules when growing new plants
 
 #### 4.5.3 Calendar View
 **Functionality:**
@@ -390,8 +406,8 @@
 
 - **Strategy Pattern**
   - *Purpose*: Define a family of interchangeable algorithms
-  - *Application*: Different reminder generation strategies, plant care calculations
-  - *Benefits*: Runtime algorithm selection, encapsulated algorithm implementation
+  - *Application*: Different care strategies for plant types (succulents, tropicals, etc.), health conditions (recovery, maintenance, growth), and environmental factors; reminder generation strategies, plant care calculations
+  - *Benefits*: Personalized care recommendations, adaptable to changing conditions, extensible system, runtime algorithm selection, encapsulated algorithm implementation
 
 - **Command Pattern**
   - *Purpose*: Encapsulate a request as an object
