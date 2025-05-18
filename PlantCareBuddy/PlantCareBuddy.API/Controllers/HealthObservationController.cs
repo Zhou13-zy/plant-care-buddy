@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlantCareBuddy.Application.DTOs.HealthObservation;
 using PlantCareBuddy.Application.Interfaces;
+using PlantCareBuddy.Infrastructure.Interfaces.Storage;
 
 namespace PlantCareBuddy.API.Controllers
 {
@@ -9,10 +10,12 @@ namespace PlantCareBuddy.API.Controllers
     public class HealthObservationController : ControllerBase
     {
         private readonly IHealthObservationService _healthObservationService;
+        private readonly IPhotoStorageService _photoStorage;
 
-        public HealthObservationController(IHealthObservationService healthObservationService)
+        public HealthObservationController(IHealthObservationService healthObservationService, IPhotoStorageService photoStorage)
         {
             _healthObservationService = healthObservationService;
+            _photoStorage = photoStorage;
         }
 
         [HttpGet]
@@ -40,11 +43,11 @@ namespace PlantCareBuddy.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<HealthObservationDto>> Create(CreateHealthObservationDto dto)
+        public async Task<ActionResult<HealthObservationDto>> Create([FromForm] CreateHealthObservationDto createDto)
         {
             try
             {
-                var observation = await _healthObservationService.CreateHealthObservationAsync(dto);
+                var observation = await _healthObservationService.CreateHealthObservationAsync(createDto, _photoStorage);
                 return CreatedAtAction(nameof(GetById), new { id = observation.Id }, observation);
             }
             catch (ArgumentException ex)
@@ -54,13 +57,20 @@ namespace PlantCareBuddy.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<HealthObservationDto>> Update(int id, UpdateHealthObservationDto dto)
+        public async Task<ActionResult<HealthObservationDto>> Update(int id, [FromForm] UpdateHealthObservationDto updateDto)
         {
-            var observation = await _healthObservationService.UpdateHealthObservationAsync(id, dto);
-            if (observation == null)
-                return NotFound();
+            try
+            {
+                var observation = await _healthObservationService.UpdateHealthObservationAsync(id, updateDto, _photoStorage);
+                if (observation == null)
+                    return NotFound();
 
-            return Ok(observation);
+                return Ok(observation);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
