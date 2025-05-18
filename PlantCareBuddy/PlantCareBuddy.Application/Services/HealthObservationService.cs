@@ -4,6 +4,7 @@ using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Domain.Entities;
 using PlantCareBuddy.Infrastructure.Persistence;
 using PlantCareBuddy.Infrastructure.Interfaces.Storage;
+using static System.String;
 
 namespace PlantCareBuddy.Application.Services
 {
@@ -103,14 +104,21 @@ namespace PlantCareBuddy.Application.Services
             if (observation == null)
                 return null;
 
-            string? imagePath = null;
-            if (dto.Photo != null)
-                imagePath = await photoStorage.StorePhotoAsync(dto.Photo, "health-observations");
-
             observation.HealthStatus = dto.HealthStatus;
             observation.ObservationDate = dto.ObservationDate;
             observation.Notes = dto.Notes;
-            observation.ImagePath = imagePath;
+
+            if (dto.Photo != null)
+            {
+                // Delete existing photo if there is one
+                if (!IsNullOrEmpty(observation.ImagePath))
+                    await photoStorage.DeletePhotoAsync(observation.ImagePath);
+
+                // Set new photo path or null
+                observation.ImagePath = dto.Photo != null
+                    ? await photoStorage.StorePhotoAsync(dto.Photo, "health-observations")
+                    : null;
+            }
 
             await _context.SaveChangesAsync();
 

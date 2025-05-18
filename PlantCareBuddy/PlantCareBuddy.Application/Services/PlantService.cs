@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using PlantCareBuddy.Domain.Enums;
 using PlantCareBuddy.Infrastructure.Extensions;
 using PlantCareBuddy.Infrastructure.Interfaces.Storage;
+using static System.String;
 
 namespace PlantCareBuddy.Application.Services
 {
@@ -100,17 +101,24 @@ namespace PlantCareBuddy.Application.Services
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null) return null;
 
-            string? imagePath = null;
-            if (dto.Photo != null)
-                imagePath = await photoStorage.StorePhotoAsync(dto.Photo, "plants");
-
             plant.Name = dto.Name;
             plant.Species = dto.Species;
             plant.AcquisitionDate = dto.AcquisitionDate;
             plant.Location = dto.Location;
             plant.NextHealthCheckDate = dto.NextHealthCheckDate;
             plant.Notes = dto.Notes;
-            plant.PrimaryImagePath = imagePath;
+
+            if (dto.Photo != null)
+            {
+                // Delete existing photo if there is one
+                if (!IsNullOrEmpty(plant.PrimaryImagePath))
+                    await photoStorage.DeletePhotoAsync(plant.PrimaryImagePath);
+
+                // Set new photo path or null
+                plant.PrimaryImagePath = dto.Photo != null
+                    ? await photoStorage.StorePhotoAsync(dto.Photo, "plants")
+                    : null;
+            }
 
             await _context.SaveChangesAsync();
 
