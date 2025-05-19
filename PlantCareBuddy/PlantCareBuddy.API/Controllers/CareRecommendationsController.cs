@@ -6,7 +6,7 @@ using PlantCareBuddy.Domain.Entities;
 namespace PlantCareBuddy.API.Controllers
 {
     [ApiController]
-    [Route("api/plants/{plantId}/recommendations")]
+    [Route("api/plants/{plantId}/care-recommendations")]
     public class PlantRecommendationsController : ControllerBase
     {
         private readonly ICareStrategyService _careStrategyService;
