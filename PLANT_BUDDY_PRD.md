@@ -165,6 +165,14 @@
 - Plant life-cycle aware recommendations that evolve as plants mature or enter different growth phases
 - Special condition handling for propagation, blooming periods, and dormancy
 - Customizable care intensity levels (minimal, balanced, optimal) to match user availability
+- Growth timeline integration showing strategy changes alongside plant development photos
+- Strategy effectiveness visualization with correlation to plant health outcomes
+- Strategy-based reminder generation with care intensity profiles
+- Adaptive strategy optimization based on observed results and feedback
+- Community strategy sharing with ratings and success metrics
+- Strategy insights dashboard for analyzing care approach effectiveness
+- Strategy A/B testing capabilities for comparing different care methods
+- Absence planning for vacation periods with adjusted care schedules
 
 ### 4.3 Health Tracking Module
 
@@ -192,6 +200,10 @@
 - Capture Date
 - Caption
 - Is Primary (boolean)
+- Active Strategy (strategy applied at time of photo)
+- Strategy Parameters (values for key strategy parameters at capture time)
+- Health Status (at time of capture)
+- Growth Metrics (optional measurements for quantitative tracking)
 
 #### 4.4.2 Photo Upload
 **Functionality:**
@@ -209,6 +221,12 @@
 - Date filtering
 - Zooming and navigation controls
 - Before/after comparison view
+- Strategy overlay showing care approaches during different growth periods
+- Strategy change indicators at transition points
+- Growth rate correlation with strategy changes
+- Care event markers aligned with timeline
+- Strategy effectiveness indicators based on visible growth progress
+- Side-by-side comparison of plants under different strategies
 
 ### 4.5 Care Planning Module
 
@@ -232,6 +250,13 @@
 - Care intensity options (minimal, balanced, optimal) to match user availability
 - Absence planning with adjusted care schedules for vacation periods
 - Specialized propagation schedules when growing new plants
+- Strategy-specific reminder templates with context-aware instructions
+- Adaptive scheduling based on plant response to previous care
+- Strategy override capabilities for user customization
+- Season-aware scheduling with automatic adjustments
+- Environmental condition triggers (temperature, humidity) for special care reminders
+- Strategy compliance tracking with feedback loop
+- Recovery protocols for plants showing health issues
 
 #### 4.5.3 Calendar View
 **Functionality:**
@@ -780,6 +805,18 @@ By following these basic LINQ practices, Plant Buddy will maintain good performa
 - API response times
 - Error rates
 - Data consistency
+
+### 8.4 Strategy System Effectiveness
+- Strategy adoption rate by users
+- Strategy compliance percentage
+- Plant health improvement correlated with strategy adherence
+- Strategy modification frequency
+- Community strategy sharing and adoption metrics
+- Strategy comparison outcomes for similar plants
+- Reminder completion rates for strategy-generated tasks
+- User ratings of strategy effectiveness
+- Strategy insights dashboard engagement
+- Adaptations triggered by the strategy learning system
 
 ## 9. Appendix
 

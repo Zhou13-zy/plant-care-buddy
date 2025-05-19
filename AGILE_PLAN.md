@@ -1752,8 +1752,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 3.1 mentions uploading a primary photo for each plant.
 
-### Task 4.5: Create GrowthPhoto entity and relationship to Plant
-**Purpose:** Build the data model for tracking plant growth through multiple photos over time, establishing the foundation for the visual timeline feature that helps users document their plants' development.
+### Task 4.5: Create GrowthPhoto entity and relationship to Plant with strategy tracking
+**Purpose:** Build the data model for tracking plant growth through multiple photos over time, establishing the foundation for the visual timeline feature that helps users document their plants' development with correlation to care strategies.
 
 **Requirements:**
 - Design GrowthPhoto entity with necessary properties
@@ -1761,6 +1761,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Add metadata fields (date, caption, tags)
 - Support ordering by date
 - Add validation rules
+- Add strategy tracking to associate photos with active care strategies
+- Store strategy parameters alongside growth records for later analysis
 
 **Technology:**
 - C# Entity classes
@@ -1779,6 +1781,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Relationship configuration in DbContext
 - Database migration for new table
 - Repository methods for photo management
+- Strategy tracking fields and relationships
 
 **Reference:** README.md Section 6 includes GrowthPhotos in the database schema.
 
@@ -1813,8 +1816,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 3.4 outlines the growth timeline feature including photo uploads with dates.
 
-### Task 4.7: Build TimelineView component
-**Purpose:** Provide users with a visually engaging, chronological view of their plant's development over time, allowing them to see progress and compare growth stages.
+### Task 4.7: Build TimelineView component with strategy overlay
+**Purpose:** Provide users with a visually engaging, chronological view of their plant's development over time, allowing them to see progress and compare growth stages while correlating with care strategies applied.
 
 **Requirements:**
 - Create component for chronological photo display
@@ -1822,18 +1825,24 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Add caption display and editing
 - Support zooming and navigation
 - Create comparison view for before/after
+- Display strategy changes alongside growth photos
+- Visualize care intervals during different growth periods
+- Add care strategy effectiveness indicators based on growth progress
+- Enable comparison between different strategies and their results
 
 **Technology:**
 - React components
 - Timeline visualization libraries
 - Date handling
 - Image comparison tools
+- Strategy visualization components
 
 **Design Patterns:**
 - Composite pattern for timeline structure
 - Strategy pattern for different views
 - Observer pattern for updates
 - Command pattern for timeline actions
+- Decorator pattern for strategy overlays
 
 **Output:**
 - TimelineView.tsx component
@@ -1841,6 +1850,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Caption editing interface
 - Navigation controls
 - Before/after comparison view
+- Strategy visualization overlay
+- Growth-to-strategy correlation indicators
 
 **Reference:** README.md Section 3.4 mentions viewing a chronological gallery for each plant.
 
@@ -1940,8 +1951,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 9.6 describes the dashboard that prioritizes information for users.
 
-### Task 5.3: Add "needs attention" section
-**Purpose:** Help users quickly identify and prioritize plants that require care or intervention, drawing attention to plants with health issues or overdue care tasks.
+### Task 5.3: Add strategy-aware "needs attention" section
+**Purpose:** Help users quickly identify and prioritize plants that require care or intervention, drawing attention to plants with health issues or overdue care tasks, using strategy-based prioritization.
 
 **Requirements:**
 - Create component for plants needing attention
@@ -1949,18 +1960,24 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Implement priority sorting
 - Add quick action buttons
 - Create visual indicators for urgency
+- Prioritize plants based on strategy-specific care requirements
+- Add strategy deviation alerts when care doesn't follow recommendations
+- Visualize care compliance with strategy recommendations
+- Highlight strategy-specific recovery actions for struggling plants
 
 **Technology:**
 - React components
 - Grouping and sorting logic
 - Visual status indicators
 - Action buttons
+- Strategy integration with care alerts
 
 **Design Patterns:**
 - Composite pattern for section structure
 - Strategy pattern for different status groups
 - Command pattern for quick actions
 - Observer pattern for status updates
+- Chain of Responsibility for alert prioritization
 
 **Output:**
 - NeedsAttentionSection.tsx component
@@ -1968,6 +1985,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Priority indicators
 - Quick action buttons
 - Integration with dashboard
+- Strategy-based care alerts and recommendations
+- Compliance visualization components
 
 **Reference:** README.md Section 9.6 mentions plants requiring immediate attention as part of the dashboard.
 
@@ -2002,8 +2021,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 9.6 mentions recently added plants as part of the dashboard.
 
-### Task 5.5: Create Reminder entity with relationship to Plant
-**Purpose:** Establish the data model for plant care reminders, enabling the scheduling and tracking of recurring maintenance tasks customized for each plant's needs.
+### Task 5.5: Create strategy-aware Reminder entity with relationship to Plant
+**Purpose:** Establish the data model for plant care reminders that leverages care strategies, enabling the scheduling and tracking of recurring maintenance tasks customized for each plant's specific needs.
 
 **Requirements:**
 - Design Reminder entity with all necessary properties
@@ -2011,25 +2030,32 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Establish relationship to Plant entity
 - Add scheduling and recurrence properties
 - Implement completion tracking
+- Add strategy context to connect reminders with care strategies
+- Store strategy parameters with reminders for context
+- Support strategy override for reminder customization
+- Track strategy compliance for each reminder
 
 **Technology:**
 - C# Entity classes
 - EF Core relationships
 - Date/time handling
 - Recurrence patterns
+- Strategy integration
 
 **Design Patterns:**
 - Rich Domain Model
 - Entity-Relationship pattern
 - Value Objects for complex properties (recurrence)
 - State pattern for reminder status
+- Strategy pattern for care recommendations
 
 **Output:**
-- Reminder.cs entity in Domain layer
+- Reminder.cs entity in Domain layer with strategy fields
 - ReminderType.cs enum
 - Relationship configuration in DbContext
 - Database migration for new table
 - Repository methods for reminders
+- Strategy integration in reminder creation workflow
 
 **Reference:** README.md Section 6 includes CareReminders in the database schema with relationships to Plants.
 
@@ -2157,8 +2183,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 9.3 implies the need for calendar view data for care tasks.
 
-### Task 5.10: Build CalendarView component
-**Purpose:** Give users a familiar calendar interface to visualize upcoming care tasks, helping them plan and manage plant care activities within their schedule.
+### Task 5.10: Build strategy-integrated CalendarView component
+**Purpose:** Give users a familiar calendar interface to visualize upcoming care tasks with strategy context, helping them plan and manage plant care activities within their schedule while seeing strategy-based recommendations.
 
 **Requirements:**
 - Create calendar component for care tasks
@@ -2166,18 +2192,25 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Add event visualization on calendar
 - Support navigation between time periods
 - Enable clicking events for details
+- Color-code events based on strategies
+- Add strategy recommendation indicators on calendar
+- Show strategy compliance metrics in calendar header
+- Visualize strategy adjustments over time
+- Display care intensity levels on calendar events
 
 **Technology:**
 - React calendar components
 - Date manipulation libraries
 - Event visualization
 - Responsive design
+- Strategy visualization components
 
 **Design Patterns:**
 - Strategy pattern for different views
 - Composite pattern for calendar structure
 - Observer pattern for date selection
 - Factory pattern for event rendering
+- Decorator pattern for strategy indicators
 
 **Output:**
 - CalendarView.tsx component
@@ -2185,6 +2218,9 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Event visualization on dates
 - Navigation controls
 - Event detail interaction
+- Strategy color-coding system
+- Compliance metrics visualization
+- Strategy change indicators
 
 **Reference:** README.md Section 5.2 implies the need for a care calendar as part of the care planning feature.
 
@@ -2251,17 +2287,18 @@ namespace PlantBuddy.Infrastructure.Extensions
 
 **Reference:** README.md Section 9.3 mentions visual indicators for different care activities.
 
-### Task 5.13: Implement reminder generation service
-**Purpose:** Build an intelligent system that automatically suggests appropriate care schedules based on plant species, conditions, and seasonal factors, reducing the manual work of reminder creation.
+### Task 5.13: Implement strategy-based reminder generation service
+**Purpose:** Build an intelligent system that automatically generates and adapts care schedules using the care strategy system, creating personalized reminders based on plant species, conditions, and seasonal factors with full strategy integration.
 
 **Requirements:**
-- Create service for automatic reminder generation
-- Base reminders on plant care requirements
-- Implement frequency calculation algorithms
-- Support seasonal adjustments
-- Handle special care requirements
-- Integrate with care strategies to personalize recommendations
-- Support different care intensity levels
+- Create service for automatic reminder generation using CareStrategyService
+- Base reminders on plant-specific care strategies
+- Implement strategy-specific frequency calculation algorithms
+- Support seasonal adjustments from strategies in reminders
+- Handle special care requirements through specialized strategies
+- Support multiple care intensity profiles per strategy (minimal, balanced, optimal)
+- Add absence planning that adjusts strategies during vacation periods
+- Create feedback loop for strategy effectiveness based on plant outcomes
 
 **Technology:**
 - C# services
@@ -2269,6 +2306,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Date calculation
 - Configuration system
 - Strategy pattern integration
+- Adaptive learning (optional)
 
 **Design Patterns:**
 - Strategy pattern for different reminder types
@@ -2276,15 +2314,16 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Template method for generation steps
 - Chain of Responsibility for adjustments
 - Composite pattern for combining strategy recommendations
+- Observer pattern for strategy effectiveness feedback
 
 **Output:**
-- ReminderGenerationService implementation
-- Algorithms for frequency calculation
-- Seasonal adjustment logic
+- StrategyBasedReminderService implementation
+- Strategy-to-reminder mapping configuration
+- Seasonal adjustment integration
 - Special case handling
-- Configuration options
-- Strategy-based recommendation engine
-- Care intensity level support
+- Configuration options for care intensity levels
+- Absence planning feature
+- Strategy effectiveness monitoring
 
 **Reference:** README.md Section 9.3 describes smart care reminders based on plant-specific requirements.
 
@@ -2945,5 +2984,119 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Simple dashboard for query performance metrics
 
 **Reference:** PLANT_BUDDY_PRD.md Section 5.6.6 describes basic LINQ performance tips.
+
+### Task 7.10: Create Strategy Insights Dashboard
+**Purpose:** Provide users with a data-driven view of strategy effectiveness, helping them understand which care approaches work best for their plants through visualizations and comparative analytics.
+
+**Requirements:**
+- Design and implement a strategy analytics dashboard
+- Create visualizations showing strategy effectiveness over time
+- Build comparative views of different strategies and their outcomes
+- Develop metrics for strategy compliance and success rates
+- Implement filtering by plant type, location, and time period
+- Add strategy recommendation engine based on historical success
+- Visualize correlation between strategy adherence and plant health
+
+**Technology:**
+- React data visualization libraries (Chart.js, D3.js, etc.)
+- Data aggregation services
+- Analytics algorithms
+- Responsive dashboard components
+
+**Design Patterns:**
+- Strategy pattern for analysis methods
+- Factory pattern for visualization components
+- Observer pattern for data updates
+- Facade pattern for analytics service
+- Composite pattern for dashboard structure
+
+**Output:**
+- StrategyInsightsDashboard.tsx component
+- Strategy effectiveness visualizations
+- Comparative analysis tools
+- Success metrics calculation
+- Analytics service implementation
+- Recommendation engine integration
+- Documentation of metrics and analysis methods
+
+**Reference:** PLANT_BUDDY_PRD.md Section 4.2.4 mentions the care strategy system needing feedback on effectiveness.
+
+### Task 7.11: Implement Adaptive Strategy System
+**Purpose:** Create a self-improving care system that learns from plant outcomes and user actions to automatically adjust care strategies over time, providing increasingly personalized and effective care recommendations.
+
+**Requirements:**
+- Design an adaptive layer for the care strategy system
+- Implement strategy adjustments based on observed growth results
+- Create machine learning suggestions for strategy optimization
+- Support A/B testing of different care approaches 
+- Track strategy performance metrics over time
+- Build feedback loops from plant health to strategy parameters
+- Implement seasonal drift detection and compensation
+- Add user preference learning capabilities
+
+**Technology:**
+- Machine learning algorithms (optional)
+- Adaptive algorithm implementation
+- A/B testing framework
+- Statistical analysis
+- Feedback processing
+
+**Design Patterns:**
+- Strategy pattern with dynamic parameter adjustment
+- Observer pattern for outcome monitoring
+- Adapter pattern for legacy strategy integration
+- Command pattern with tracking for action analysis
+- Decorator pattern for strategy enhancement
+
+**Output:**
+- AdaptiveStrategyService implementation
+- Learning algorithm integration
+- A/B testing framework
+- Strategy parameter optimization service
+- Feedback collection mechanisms
+- Strategy effectiveness tracking
+- Documentation of adaptation methodology
+
+**Reference:** PLANT_BUDDY_PRD.md Section 4.2.4 mentions adaptive care protocols that adjust based on plant response.
+
+### Task 7.12: Develop Community Strategy Sharing
+**Purpose:** Enable users to benefit from the collective knowledge of the community by sharing successful care strategies, creating a collaborative ecosystem of plant care expertise that improves outcomes for all users.
+
+**Requirements:**
+- Design interfaces for strategy sharing and import
+- Create a rating and review system for community strategies
+- Implement strategy export and serialization
+- Add discovery mechanisms for finding relevant strategies
+- Build validation and safety checks for imported strategies
+- Develop success metrics for shared strategies
+- Add attribution and author profiles for shared content
+- Implement moderation tools for community content
+
+**Technology:**
+- Strategy serialization format
+- Community data models
+- Rating and reputation system
+- Content moderation tools
+- Version control for strategies
+
+**Design Patterns:**
+- Strategy pattern with serialization
+- Factory pattern for strategy import
+- Proxy pattern for strategy validation
+- Command pattern for strategy application
+- Observer pattern for rating updates
+- Memento pattern for strategy versioning
+
+**Output:**
+- StrategyExportService implementation
+- StrategyImportService with validation
+- CommunityStrategyRepository
+- StrategyMarketplace component
+- Rating and review components
+- Strategy discovery interfaces
+- Moderation tools and policies
+- Documentation of sharing mechanisms
+
+**Reference:** PLANT_BUDDY_PRD.md Section 4.2.4 implies the need for sharing successful approaches between users.
 
 Each epic represents a coherent feature set that delivers complete user value, with tasks organized to build functionality incrementally across the full stack.
