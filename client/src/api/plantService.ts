@@ -67,5 +67,3 @@ export const searchPlants = async (filters: {
   const response = await api.get<Plant[]>(`/plants/search?${params.toString()}`);
   return response.data;
 };
-
-// add more methods here later (updatePlant, deletePlant, etc.)
