@@ -13,6 +13,7 @@ import HealthObservationList from '../components/health/HealthObservationList';
 import HealthStatusIndicator from '../components/common/HealthStatusIndicator';
 import ImageDisplay from '../components/common/ImageDisplay';
 import './PlantDetailPage.css';
+import { getPlantTypeName } from '../utils/plantTypeUtils';
 
 const PlantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -117,6 +118,7 @@ const PlantDetailPage: React.FC = () => {
           </div>
         )}
         <p><strong>Species:</strong> {plant.species}</p>
+        <p><strong>Plant Type:</strong> {getPlantTypeName(plant.plantType)}</p>
         <p><strong>Location:</strong> {plant.location}</p>
         <p><strong>Acquisition Date:</strong> {plant.acquisitionDate}</p>
         <p>

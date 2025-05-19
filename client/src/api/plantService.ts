@@ -17,6 +17,7 @@ export const addPlant = async (plant: CreatePlantDto) => {
   const formData = new FormData();
   formData.append('name', plant.name);
   formData.append('species', plant.species);
+  formData.append('plantType', plant.plantType.toString());
   formData.append('acquisitionDate', plant.acquisitionDate);
   formData.append('location', plant.location);
   formData.append('healthStatus', plant.healthStatus.toString());
@@ -34,6 +35,7 @@ export const updatePlant = async (id: number, data: UpdatePlantDto): Promise<Pla
   const formData = new FormData();
   formData.append('name', data.name);
   formData.append('species', data.species);
+  formData.append('plantType', data.plantType.toString());
   formData.append('acquisitionDate', data.acquisitionDate);
   formData.append('location', data.location);
   if (data.nextHealthCheckDate) formData.append('nextHealthCheckDate', data.nextHealthCheckDate);

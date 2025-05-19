@@ -1,9 +1,11 @@
 import { PlantHealthStatus } from './plantHealthStatus';
+import { PlantType } from './plantType';
 
 export interface Plant {
     id: number;
     name: string;
     species: string;
+    plantType: PlantType;
     acquisitionDate: string;
     location: string;
     healthStatus: PlantHealthStatus;

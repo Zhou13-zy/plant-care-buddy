@@ -19,6 +19,9 @@ namespace PlantCareBuddy.Application.DTOs.Plant
         public string Species { get; set; }
 
         [Required]
+        public PlantType PlantType { get; set; }
+
+        [Required]
         public DateTime AcquisitionDate { get; set; }
 
         [MaxLength(200)]

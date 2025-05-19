@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using PlantCareBuddy.Domain.Enums;
 
 namespace PlantCareBuddy.Application.DTOs.Plant
 {
@@ -16,6 +17,9 @@ namespace PlantCareBuddy.Application.DTOs.Plant
         [Required]
         [MaxLength(100)]
         public string Species { get; set; }
+
+        [Required]
+        public PlantType PlantType { get; set; }
 
         [Required]
         public DateTime AcquisitionDate { get; set; }
