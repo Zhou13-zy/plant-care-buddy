@@ -4,12 +4,9 @@ using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Application.Services;
 using PlantCareBuddy.Infrastructure.Persistence;
 using PlantCareBuddy.Infrastructure.Extensions;
-using PlantCareBuddy.Domain.Strategies;
 using PlantCareBuddy.Application.Strategies;
 using PlantCareBuddy.Domain.Interfaces;
 using PlantCareBuddy.Infrastructure.Services;
-using PlantCareBuddy.Application.Interfaces;
-using PlantCareBuddy.Application.Services;
 using PlantCareBuddy.Domain.Strategies.Interfacces;
 
 var builder = WebApplication.CreateBuilder(args);
