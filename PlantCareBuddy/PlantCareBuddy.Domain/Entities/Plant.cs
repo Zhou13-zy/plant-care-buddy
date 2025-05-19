@@ -11,6 +11,7 @@ namespace PlantCareBuddy.Domain.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Species { get; set; }
+        public PlantType PlantType { get; set; } = PlantType.Default;
         public DateTime AcquisitionDate { get; set; }
         public string Location { get; set; }
         public PlantHealthStatus HealthStatus { get; set; }

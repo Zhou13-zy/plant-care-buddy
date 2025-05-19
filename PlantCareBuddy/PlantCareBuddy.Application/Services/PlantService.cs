@@ -43,6 +43,7 @@ namespace PlantCareBuddy.Application.Services
             {
                 Name = dto.Name,
                 Species = dto.Species,
+                PlantType = dto.PlantType,
                 AcquisitionDate = dto.AcquisitionDate,
                 Location = dto.Location,
                 HealthStatus = dto.HealthStatus,
@@ -84,6 +85,7 @@ namespace PlantCareBuddy.Application.Services
             {
                 Name = dto.Name,
                 Species = dto.Species,
+                PlantType = dto.PlantType,
                 AcquisitionDate = dto.AcquisitionDate,
                 Location = dto.Location,
                 HealthStatus = dto.HealthStatus,
@@ -103,6 +105,7 @@ namespace PlantCareBuddy.Application.Services
 
             plant.Name = dto.Name;
             plant.Species = dto.Species;
+            plant.PlantType = dto.PlantType;
             plant.AcquisitionDate = dto.AcquisitionDate;
             plant.Location = dto.Location;
             plant.NextHealthCheckDate = dto.NextHealthCheckDate;
@@ -153,6 +156,7 @@ namespace PlantCareBuddy.Application.Services
                 Id = plant.Id,
                 Name = plant.Name,
                 Species = plant.Species,
+                PlantType = plant.PlantType,
                 Location = plant.Location,
                 AcquisitionDate = plant.AcquisitionDate,
                 HealthStatus = plant.HealthStatus,

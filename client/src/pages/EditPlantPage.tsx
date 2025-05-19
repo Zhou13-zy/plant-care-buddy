@@ -52,6 +52,7 @@ const EditPlantPage: React.FC = () => {
         initialData={{
           name: initialData.name,
           species: initialData.species,
+          plantType: initialData.plantType,
           acquisitionDate: formatDate(initialData.acquisitionDate),
           location: initialData.location,
           notes: initialData.notes || '',

@@ -4,6 +4,10 @@ using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Application.Services;
 using PlantCareBuddy.Infrastructure.Persistence;
 using PlantCareBuddy.Infrastructure.Extensions;
+using PlantCareBuddy.Application.Strategies;
+using PlantCareBuddy.Domain.Interfaces;
+using PlantCareBuddy.Infrastructure.Services;
+using PlantCareBuddy.Domain.Strategies.Interfacces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +37,18 @@ builder.Services.AddScoped<ICareEventService, CareEventService>();
 builder.Services.AddScoped<IHealthObservationService, HealthObservationService>();
 
 builder.Services.AddPhotoStorage(builder.Configuration);
+
+builder.Services.AddScoped<IPlantService, PlantService>();
+builder.Services.AddScoped<ICareEventService, CareEventService>();
+builder.Services.AddScoped<IHealthObservationService, HealthObservationService>();
+
+// Register strategies
+builder.Services.AddScoped<ISeasonService, SeasonService>();
+builder.Services.AddScoped<ICareStrategy>(sp => new DefaultCareStrategy());
+builder.Services.AddScoped<ICareStrategy>(sp => new SucculentCareStrategy());
+builder.Services.AddScoped<ICareStrategy>(sp => new TropicalCareStrategy());
+
+builder.Services.AddScoped<ICareStrategyService, CareStrategyService>();
 
 var app = builder.Build();
 

@@ -4,6 +4,7 @@ import { UpdatePlantDto } from '../../models/Plant/updatePlantDto';
 import './PlantForm.css';
 import { PlantHealthStatus } from '../../models/Plant/plantHealthStatus';
 import ImageUpload from '../common/ImageUpload';
+import { PlantType } from '../../models/Plant/plantType';
 
 interface PlantFormProps<T extends CreatePlantDto | UpdatePlantDto> {
   onSubmit: (data: T) => void;
@@ -20,6 +21,7 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
     initialData || {
       name: '',
       species: '',
+      plantType: PlantType.Default,
       acquisitionDate: '',
       location: '',
       ...(isEdit ? {} : { healthStatus: PlantHealthStatus.Healthy }), // Only include healthStatus for new plants
@@ -40,6 +42,7 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
     setForm((prev) => ({
       ...prev,
       [name]: name === 'healthStatus' ? Number(value) as PlantHealthStatus : value,
+      [name]: name === 'plantType' ? Number(value) as PlantType : value,
     }));
   };
 
@@ -49,6 +52,14 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
   };
 
   const healthStatusOptions = Object.entries(PlantHealthStatus)
+    .filter(([key, value]) => typeof value === 'number')
+    .map(([key, value]) => (
+      <option key={value as number} value={value as number}>
+        {key}
+      </option>
+    ));
+
+  const plantTypeOptions = Object.entries(PlantType)
     .filter(([key, value]) => typeof value === 'number')
     .map(([key, value]) => (
       <option key={value as number} value={value as number}>
@@ -80,6 +91,19 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
           onChange={handleChange}
           required
         />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="plantType">Plant Type:</label>
+        <select
+          id="plantType"
+          name="plantType"
+          value={form.plantType}
+          onChange={handleChange}
+          required
+        >
+          {plantTypeOptions}
+        </select>
       </div>
 
       <div className="form-group">
