@@ -1,0 +1,108 @@
+.care-recommendations-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .care-strategy-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+  }
+  
+  .care-strategy-header h3 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+  }
+  
+  .strategy-description {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 5px;
+  }
+  
+  .current-season {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+  }
+  
+  .care-schedule {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .care-item {
+    display: flex;
+    align-items: flex-start;
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    min-width: 200px;
+    flex: 1;
+  }
+  
+  .care-icon {
+    font-size: 24px;
+    margin-right: 15px;
+  }
+  
+  .care-details h4 {
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+  }
+  
+  .care-details p {
+    margin: 0 0 5px 0;
+    color: #555;
+  }
+  
+  .next-date {
+    font-weight: 500;
+    color: #3498db;
+  }
+  
+  .environment-recommendations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .env-item {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .env-item h4 {
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+  }
+  
+  .env-item p {
+    margin: 0;
+    color: #555;
+  }
+  
+  .loading-recommendations,
+  .error-recommendations,
+  .no-recommendations {
+    padding: 15px;
+    border-radius: 6px;
+    background: #f8f9fa;
+    text-align: center;
+    color: #666;
+  }
+  
+  .error-recommendations {
+    background: #ffeeee;
+    color: #e74c3c;
+  }

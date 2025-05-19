@@ -14,6 +14,7 @@ import HealthStatusIndicator from '../components/common/HealthStatusIndicator';
 import ImageDisplay from '../components/common/ImageDisplay';
 import './PlantDetailPage.css';
 import { getPlantTypeName } from '../utils/plantTypeUtils';
+import PlantCareRecommendations from '../components/care/PlantCareRecommendations';
 
 const PlantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -137,6 +138,11 @@ const PlantDetailPage: React.FC = () => {
             Delete Plant
           </button>
         </div>
+      </div>
+
+      <div className="plant-care-section">
+        <h2>Care Recommendations</h2>
+        <PlantCareRecommendations plantId={parseInt(id!, 10)} />
       </div>
 
       <div className="plant-health-section">
