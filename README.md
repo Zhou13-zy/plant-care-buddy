@@ -32,24 +32,43 @@ A digital plant care management system designed to help users track and maintain
 
 ## Project Structure
 
-### Frontend (React + TypeScript)
-- Modern, responsive UI
-- Component-based architecture
-- Type-safe development
-- Clean and intuitive user interface
+### Frontend
+- **Framework**: React 18 with TypeScript
+- **State Management**: React Hooks
+- **Styling**: CSS Modules
+- **Routing**: React Router v6
+- **HTTP Client**: Axios
+- **Build Tool**: Create React App
+- **Package Manager**: npm
 
-### Backend (.NET)
-- Clean architecture implementation
-- Domain-driven design
-- RESTful API endpoints
-- Strategy pattern for care recommendations
+### Backend
+- **Framework**: .NET 8
+- **Architecture**: Clean Architecture
+- **ORM**: Entity Framework Core 8
+- **Database**: SQL Server
+- **API**: RESTful with ASP.NET Core Web API
+- **Authentication**: JWT (planned)
+- **File Storage**: Local file system (with interface for cloud storage)
+- **Design Patterns**:
+  - Repository Pattern
+  - Strategy Pattern (for care recommendations)
+  - DTO Pattern
+  - Service Layer Pattern
+
+### Development Tools
+- **IDE**: Visual Studio 2022
+- **Version Control**: Git
+- **Database Management**: SQL Server Management Studio
+- **API Testing**: Swagger
+
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js (for frontend)
-- .NET SDK (for backend)
-- SQL Server (or compatible database)
+- Node.js 18+ (for frontend)
+- .NET 8 SDK (for backend)
+- SQL Server 2022 (or compatible database)
+- Visual Studio 2022 (recommended)
 
 ### Frontend Setup
 ```bash
@@ -83,3 +102,11 @@ dotnet run
 - User authentication and authorization
 - Analytics and insights
 - Mobile experience optimization
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
