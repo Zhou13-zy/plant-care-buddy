@@ -29,7 +29,7 @@ namespace PlantCareBuddy.API.Controllers
         /// <param name="plantId">ID of the plant</param>
         /// <returns>Care recommendations based on plant type and conditions</returns>
         [HttpGet]
-        public async Task<ActionResult<CareRecommendationDto>> GetRecommendations(int plantId)
+        public async Task<ActionResult<CareRecommendationDto>> GetRecommendations(Guid plantId)
         {
             // Get the plant
             var plantDto = await _plantService.GetPlantByIdAsync(plantId);

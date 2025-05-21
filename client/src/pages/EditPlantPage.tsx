@@ -32,7 +32,7 @@ const EditPlantPage: React.FC = () => {
   const handleUpdatePlant = async (data: UpdatePlantDto) => {
     if (!id) return;
     try {
-      await updatePlant(Number(id), data);
+      await updatePlant(id, data);
       alert('Plant updated successfully!');
       navigate(`/plants/${id}`);
     } catch (error) {

@@ -30,7 +30,7 @@ namespace PlantCareBuddy.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PlantDto>> GetPlant(int id)
+        public async Task<ActionResult<PlantDto>> GetPlant(Guid id)
         {
             var plant = await _plantService.GetPlantByIdAsync(id);
             if (plant == null)
@@ -60,7 +60,7 @@ namespace PlantCareBuddy.API.Controllers
             return Ok(createdPlants);
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<PlantDto>> UpdatePlant(int id, [FromForm] UpdatePlantDto dto)
+        public async Task<ActionResult<PlantDto>> UpdatePlant(Guid id, [FromForm] UpdatePlantDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -72,7 +72,7 @@ namespace PlantCareBuddy.API.Controllers
             return Ok(updatedPlant);
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePlant(int id)
+        public async Task<IActionResult> DeletePlant(Guid id)
         {
             var success = await _plantService.DeletePlantAsync(id);
             if (!success)

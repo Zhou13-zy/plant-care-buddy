@@ -32,7 +32,7 @@ namespace PlantCareBuddy.API.Controllers
         /// Gets care events for a specific plant.
         /// </summary>
         [HttpGet("plant/{plantId}")]
-        public async Task<ActionResult<IEnumerable<CareEventDto>>> GetCareEventsByPlant(int plantId)
+        public async Task<ActionResult<IEnumerable<CareEventDto>>> GetCareEventsByPlant(Guid plantId)
         {
             var careEvents = await _careEventService.GetCareEventsByPlantIdAsync(plantId);
             return Ok(careEvents);
@@ -42,7 +42,7 @@ namespace PlantCareBuddy.API.Controllers
         /// Gets a specific care event by ID.
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<ActionResult<CareEventDto>> GetCareEvent(int id)
+        public async Task<ActionResult<CareEventDto>> GetCareEvent(Guid id)
         {
             var careEvent = await _careEventService.GetCareEventByIdAsync(id);
             if (careEvent == null)
@@ -73,7 +73,7 @@ namespace PlantCareBuddy.API.Controllers
         /// Updates an existing care event.
         /// </summary>
         [HttpPut("{id}")]
-        public async Task<ActionResult<CareEventDto>> UpdateCareEvent(int id, [FromForm] UpdateCareEventDto dto)
+        public async Task<ActionResult<CareEventDto>> UpdateCareEvent(Guid id, [FromForm] UpdateCareEventDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -88,7 +88,7 @@ namespace PlantCareBuddy.API.Controllers
         /// Deletes a care event.
         /// </summary>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCareEvent(int id)
+        public async Task<IActionResult> DeleteCareEvent(Guid id)
         {
             var success = await _careEventService.DeleteCareEventAsync(id);
             if (!success)

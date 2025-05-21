@@ -12,7 +12,7 @@ const EditCareEventPage: React.FC = () => {
   return (
     <div>
       <h1>Edit Care Event</h1>
-      <CareEventForm careEventId={parseInt(id, 10)} />
+      <CareEventForm careEventId={id} />
     </div>
   );
 };

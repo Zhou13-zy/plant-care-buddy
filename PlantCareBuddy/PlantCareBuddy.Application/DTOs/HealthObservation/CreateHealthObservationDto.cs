@@ -7,7 +7,7 @@ namespace PlantCareBuddy.Application.DTOs.HealthObservation
     public class CreateHealthObservationDto
     {
         [Required]
-        public int PlantId { get; set; }
+        public Guid PlantId { get; set; }
         [Required]
         public DateTime ObservationDate { get; set; }
         [Required]

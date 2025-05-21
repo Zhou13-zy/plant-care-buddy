@@ -13,8 +13,8 @@ import { HealthObservation } from '../../models/HealthObservation/healthObservat
 import { formatDate } from '../../utils/dateUtils';
 
 interface HealthObservationFormProps {
-  plantId?: number; // Optional: passed when creating an observation for a specific plant
-  observationId?: number; // Optional: passed when editing an existing observation
+  plantId?: string; // Optional: passed when creating an observation for a specific plant
+  observationId?: string; // Optional: passed when editing an existing observation
   onSuccess?: () => void; // Optional callback after successful submission
   initialData?: HealthObservation;  // Add this
 }
@@ -30,13 +30,13 @@ const HealthObservationForm: React.FC<HealthObservationFormProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
   const [formData, setFormData] = useState<{
-    plantId: number;
+    plantId: string;
     observationDate: string;
     healthStatus: PlantHealthStatus;
     notes: string;
     imagePath?: string;
   }>({
-    plantId: initialData?.plantId || plantId || 0,
+    plantId: initialData?.plantId || plantId || '',
     observationDate: initialData ? formatDate(initialData.observationDate) : new Date().toISOString().split('T')[0],
     healthStatus: initialData?.healthStatus || PlantHealthStatus.Healthy,
     notes: initialData?.notes || '',
@@ -119,7 +119,7 @@ const HealthObservationForm: React.FC<HealthObservationFormProps> = ({
           <div className="form-group">
             <label htmlFor="plantId">Plant ID:</label>
             <input
-              type="number"
+              type="string"
               id="plantId"
               name="plantId"
               value={formData.plantId}

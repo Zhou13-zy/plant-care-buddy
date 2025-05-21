@@ -9,8 +9,8 @@ import ImageUpload from '../common/ImageUpload';
 import './CareEventForm.css';
 
 interface CareEventFormProps {
-  plantId?: number; // Optional: passed when creating a care event for a specific plant
-  careEventId?: number; // Optional: passed when editing an existing care event
+  plantId?: string; // Optional: passed when creating a care event for a specific plant
+  careEventId?: string; // Optional: passed when editing an existing care event
   onSuccess?: () => void; // Optional callback after successful submission
 }
 
@@ -21,14 +21,14 @@ const CareEventForm: React.FC<CareEventFormProps> = ({ plantId, careEventId, onS
   const [selectedBeforePhoto, setSelectedBeforePhoto] = useState<File | null>(null);
   const [selectedAfterPhoto, setSelectedAfterPhoto] = useState<File | null>(null);
   const [formData, setFormData] = useState<{
-    plantId: number;
+    plantId: string;
     eventType: CareEventType;
     eventDate: string;
     notes: string;
     beforeImagePath: string;
     afterImagePath: string;
   }>({
-    plantId: plantId || 0,
+    plantId: plantId || '',
     eventType: CareEventType.Watering,
     eventDate: new Date().toISOString().split('T')[0], // Default to today
     notes: '',
@@ -132,7 +132,7 @@ const CareEventForm: React.FC<CareEventFormProps> = ({ plantId, careEventId, onS
           <div className="form-group">
             <label htmlFor="plantId">Plant ID:</label>
             <input
-              type="number"
+              type="string"
               id="plantId"
               name="plantId"
               value={formData.plantId}

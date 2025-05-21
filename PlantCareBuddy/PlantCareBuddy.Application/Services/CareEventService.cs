@@ -29,7 +29,7 @@ namespace PlantCareBuddy.Application.Services
             return careEvents.Select(MapToDto);
         }
 
-        public async Task<IEnumerable<CareEventDto>> GetCareEventsByPlantIdAsync(int plantId)
+        public async Task<IEnumerable<CareEventDto>> GetCareEventsByPlantIdAsync(Guid plantId)
         {
             var careEvents = await _context.CareEvents
                 .Include(ce => ce.Plant)
@@ -40,7 +40,7 @@ namespace PlantCareBuddy.Application.Services
             return careEvents.Select(MapToDto);
         }
 
-        public async Task<CareEventDto?> GetCareEventByIdAsync(int id)
+        public async Task<CareEventDto?> GetCareEventByIdAsync(Guid id)
         {
             var careEvent = await _context.CareEvents
                 .Include(ce => ce.Plant)
@@ -88,7 +88,7 @@ namespace PlantCareBuddy.Application.Services
 
             return MapToDto(careEvent);
         }
-        public async Task<CareEventDto?> UpdateCareEventAsync(int id, UpdateCareEventDto dto, IPhotoStorageService photoStorage)
+        public async Task<CareEventDto?> UpdateCareEventAsync(Guid id, UpdateCareEventDto dto, IPhotoStorageService photoStorage)
         {
             var careEvent = await _context.CareEvents
                 .Include(ce => ce.Plant)
@@ -131,7 +131,7 @@ namespace PlantCareBuddy.Application.Services
 
             return MapToDto(careEvent);
         }
-        public async Task<bool> DeleteCareEventAsync(int id)
+        public async Task<bool> DeleteCareEventAsync(Guid id)
         {
             var careEvent = await _context.CareEvents.FindAsync(id);
             if (careEvent == null) return false;

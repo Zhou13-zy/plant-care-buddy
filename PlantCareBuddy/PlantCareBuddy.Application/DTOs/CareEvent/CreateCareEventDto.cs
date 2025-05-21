@@ -7,7 +7,7 @@ namespace PlantCareBuddy.Application.DTOs.CareEvent
     public class CreateCareEventDto
     {
         [Required]
-        public int PlantId { get; set; }
+        public Guid PlantId { get; set; }
 
         [Required]
         public CareEventType EventType { get; set; }

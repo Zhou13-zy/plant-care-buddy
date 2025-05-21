@@ -8,7 +8,7 @@ namespace PlantCareBuddy.Domain.Entities
         {
             CareEvents = new HashSet<CareEvent>();
         }
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Species { get; set; }
         public PlantType PlantType { get; set; } = PlantType.Default;

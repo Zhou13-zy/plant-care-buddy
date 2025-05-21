@@ -24,11 +24,9 @@ namespace PlantCareBuddy.Infrastructure.Migrations
 
             modelBuilder.Entity("PlantCareBuddy.Domain.Entities.CareEvent", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AfterImagePath")
                         .HasMaxLength(500)
@@ -48,8 +46,8 @@ namespace PlantCareBuddy.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("PlantId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlantId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -60,11 +58,9 @@ namespace PlantCareBuddy.Infrastructure.Migrations
 
             modelBuilder.Entity("PlantCareBuddy.Domain.Entities.HealthObservation", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("HealthStatus")
                         .HasColumnType("int");
@@ -80,8 +76,8 @@ namespace PlantCareBuddy.Infrastructure.Migrations
                     b.Property<DateTime>("ObservationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PlantId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlantId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -92,11 +88,9 @@ namespace PlantCareBuddy.Infrastructure.Migrations
 
             modelBuilder.Entity("PlantCareBuddy.Domain.Entities.Plant", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("AcquisitionDate")
                         .HasColumnType("datetime2");

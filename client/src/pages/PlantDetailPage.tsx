@@ -42,7 +42,7 @@ const PlantDetailPage: React.FC = () => {
     if (!id) return;
     
     try {
-      const events = await getCareEventsByPlant(parseInt(id, 10));
+      const events = await getCareEventsByPlant(id);
       setCareEvents(events);
     } catch (error) {
       console.error('Error fetching care events:', error);
@@ -54,7 +54,7 @@ const PlantDetailPage: React.FC = () => {
     if (!id) return;
     
     try {
-      const observations = await getHealthObservationsByPlantId(parseInt(id, 10));
+      const observations = await getHealthObservationsByPlantId(id);
       setHealthObservations(observations);
     } catch (error) {
       console.error('Error fetching health observations:', error);
@@ -104,6 +104,7 @@ const PlantDetailPage: React.FC = () => {
 
   if (loading) return <div>Loading...</div>;
   if (!plant) return <div>Plant not found.</div>;
+  if (!id) return <div>Invalid plant ID.</div>;
 
   return (
     <div className="plant-detail-page">
@@ -142,20 +143,20 @@ const PlantDetailPage: React.FC = () => {
 
       <div className="plant-care-section">
         <h2>Care Recommendations</h2>
-        <PlantCareRecommendations plantId={parseInt(id!, 10)} />
+        <PlantCareRecommendations plantId={id as string} />
       </div>
 
       <div className="plant-health-section">
         <HealthObservationList 
           observations={healthObservations}
-          plantId={parseInt(id!, 10)}
+          plantId={id as string}
           onObservationDeleted={handleHealthObservationDeleted}
         />
       </div>
 
       <CareEventList 
         events={careEvents} 
-        plantId={parseInt(id!, 10)}
+        plantId={id as string}
         onEventDeleted={handleEventDeleted}
         onAddEvent={() => setIsAddEventModalOpen(true)}
       />
@@ -166,7 +167,7 @@ const PlantDetailPage: React.FC = () => {
         title="Add Care Event"
       >
         <CareEventForm 
-          plantId={parseInt(id!, 10)} 
+          plantId={id} 
           onSuccess={handleAddEventSuccess} 
         />
       </Modal>

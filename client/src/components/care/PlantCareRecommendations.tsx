@@ -5,7 +5,7 @@ import { CareRecommendation } from '../../models/Care/careRecommendation';
 import './PlantCareRecommendations.css';
 
 interface PlantCareRecommendationsProps {
-  plantId: number;
+  plantId: string;
 }
 
 const PlantCareRecommendations: React.FC<PlantCareRecommendationsProps> = ({ plantId }) => {

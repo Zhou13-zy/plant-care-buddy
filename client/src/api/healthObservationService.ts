@@ -9,12 +9,12 @@ export const getHealthObservations = async (): Promise<HealthObservation[]> => {
   return response.data;
 };
 
-export const getHealthObservationsByPlantId = async (plantId: number): Promise<HealthObservation[]> => {
+export const getHealthObservationsByPlantId = async (plantId: string): Promise<HealthObservation[]> => {
   const response = await api.get<HealthObservation[]>(`/health-observations/plant/${plantId}`);
   return response.data;
 };
 
-export const getHealthObservation = async (id: number): Promise<HealthObservation> => {
+export const getHealthObservation = async (id: string): Promise<HealthObservation> => {
   const response = await api.get<HealthObservation>(`/health-observations/${id}`);
   return response.data;
 };
@@ -35,7 +35,7 @@ export const createHealthObservation = async (healthObservation: CreateHealthObs
   return response.data;
 };
 
-export const updateHealthObservation = async (id: number, healthObservation: UpdateHealthObservationDto): Promise<HealthObservation> => {
+export const updateHealthObservation = async (id: string, healthObservation: UpdateHealthObservationDto): Promise<HealthObservation> => {
   const formData = new FormData();
   formData.append('observationDate', healthObservation.observationDate);
   formData.append('healthStatus', healthObservation.healthStatus.toString());
@@ -50,6 +50,6 @@ export const updateHealthObservation = async (id: number, healthObservation: Upd
   return response.data;
 };
 
-export const deletePlant = async (id: number | string): Promise<void> => {
+export const deletePlant = async (id: string): Promise<void> => {
     await api.delete(`/health-observations/${id}`);
   };

@@ -5,7 +5,7 @@ import { PlantHealthStatus } from '../../models/Plant/plantHealthStatus';
 import HealthStatusIndicator from '../common/HealthStatusIndicator';
 
 export interface Plant {
-  id: number;
+  id: string;
   name: string;
   species: string;
   location: string;

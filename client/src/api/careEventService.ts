@@ -8,12 +8,12 @@ export const getAllCareEvents = async (): Promise<CareEvent[]> => {
   return response.data;
 };
 
-export const getCareEventsByPlant = async (plantId: number): Promise<CareEvent[]> => {
+export const getCareEventsByPlant = async (plantId: string): Promise<CareEvent[]> => {
   const response = await api.get<CareEvent[]>(`/care-events/plant/${plantId}`);
   return response.data;
 };
 
-export const getCareEventById = async (id: number): Promise<CareEvent> => {
+export const getCareEventById = async (id: string): Promise<CareEvent> => {
   const response = await api.get<CareEvent>(`/care-events/${id}`);
   return response.data;
 };
@@ -33,7 +33,7 @@ export const createCareEvent = async (careEvent: CreateCareEventDto): Promise<Ca
   return response.data;
 };
 
-export const updateCareEvent = async (id: number, careEvent: UpdateCareEventDto): Promise<CareEvent> => {
+export const updateCareEvent = async (id: string, careEvent: UpdateCareEventDto): Promise<CareEvent> => {
   const formData = new FormData();
   formData.append('eventType', careEvent.eventType.toString());
   formData.append('eventDate', careEvent.eventDate);
@@ -47,6 +47,6 @@ export const updateCareEvent = async (id: number, careEvent: UpdateCareEventDto)
   return response.data;
 };
 
-export const deleteCareEvent = async (id: number): Promise<void> => {
+export const deleteCareEvent = async (id: string): Promise<void> => {
   await api.delete(`/care-events/${id}`);
 };

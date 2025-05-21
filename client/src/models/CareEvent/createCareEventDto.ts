@@ -1,7 +1,7 @@
 import { CareEventType } from './careEventType';
 
 export interface CreateCareEventDto {
-  plantId: number;
+  plantId: string;
   eventType: CareEventType;
   eventDate: string;
   notes?: string;

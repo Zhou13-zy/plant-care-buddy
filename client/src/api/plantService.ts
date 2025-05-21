@@ -8,7 +8,7 @@ export const getAllPlants = async (): Promise<Plant[]> => {
   return response.data;
 };
 
-export const getPlantById = async (id: number | string): Promise<Plant> => {
+export const getPlantById = async (id: string): Promise<Plant> => {
     const response = await api.get<Plant>(`/plants/${id}`);
     return response.data;
 };
@@ -31,7 +31,7 @@ export const addPlant = async (plant: CreatePlantDto) => {
   return response.data;
 };
 
-export const updatePlant = async (id: number, data: UpdatePlantDto): Promise<Plant> => {
+export const updatePlant = async (id: string, data: UpdatePlantDto): Promise<Plant> => {
   const formData = new FormData();
   formData.append('name', data.name);
   formData.append('species', data.species);
@@ -48,7 +48,7 @@ export const updatePlant = async (id: number, data: UpdatePlantDto): Promise<Pla
   return response.data;
 };
 
-export const deletePlant = async (id: number | string): Promise<void> => {
+export const deletePlant = async (id: string): Promise<void> => {
   await api.delete(`/plants/${id}`);
 };
 

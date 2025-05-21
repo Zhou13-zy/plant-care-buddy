@@ -1,5 +1,5 @@
 export interface CareRecommendation {
-    plantId: number;
+    plantId: string;
     plantName: string;
     strategyName: string;
     strategyDescription: string;

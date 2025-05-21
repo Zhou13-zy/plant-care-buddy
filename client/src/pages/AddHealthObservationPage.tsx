@@ -8,7 +8,7 @@ const AddHealthObservationPage: React.FC = () => {
   return (
     <div className="container">
       <HealthObservationForm 
-        plantId={plantId ? parseInt(plantId, 10) : undefined} 
+        plantId={plantId ?? undefined} 
       />
     </div>
   );

@@ -24,7 +24,7 @@ namespace PlantCareBuddy.Application.Services
             var plants = await _context.Plants.ToListAsync();
             return plants.Select(MapToDto);
         }
-        public async Task<PlantDto?> GetPlantByIdAsync(int id)
+        public async Task<PlantDto?> GetPlantByIdAsync(Guid id)
         {
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null) return null;
@@ -98,7 +98,7 @@ namespace PlantCareBuddy.Application.Services
 
             return plants.Select(MapToDto);
         }
-        public async Task<PlantDto?> UpdatePlantAsync(int id, UpdatePlantDto dto, IPhotoStorageService photoStorage)
+        public async Task<PlantDto?> UpdatePlantAsync(Guid id, UpdatePlantDto dto, IPhotoStorageService photoStorage)
         {
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null) return null;
@@ -127,7 +127,7 @@ namespace PlantCareBuddy.Application.Services
 
             return MapToDto(plant);
         }
-        public async Task<bool> DeletePlantAsync(int id)
+        public async Task<bool> DeletePlantAsync(Guid id)
         {
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null) return false;

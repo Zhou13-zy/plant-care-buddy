@@ -29,7 +29,7 @@ namespace PlantCareBuddy.Application.Services
             return observations.Select(MapToDto);
         }
 
-        public async Task<IEnumerable<HealthObservationDto>> GetHealthObservationsByPlantIdAsync(int plantId)
+        public async Task<IEnumerable<HealthObservationDto>> GetHealthObservationsByPlantIdAsync(Guid plantId)
         {
             var observations = await _context.HealthObservations
                 .Include(ho => ho.Plant)
@@ -40,7 +40,7 @@ namespace PlantCareBuddy.Application.Services
             return observations.Select(MapToDto);
         }
 
-        public async Task<HealthObservationDto?> GetHealthObservationByIdAsync(int id)
+        public async Task<HealthObservationDto?> GetHealthObservationByIdAsync(Guid id)
         {
             var observation = await _context.HealthObservations
                 .Include(ho => ho.Plant)
@@ -95,7 +95,7 @@ namespace PlantCareBuddy.Application.Services
             return MapToDto(observation);
         }
 
-        public async Task<HealthObservationDto?> UpdateHealthObservationAsync(int id, UpdateHealthObservationDto dto, IPhotoStorageService photoStorage)
+        public async Task<HealthObservationDto?> UpdateHealthObservationAsync(Guid id, UpdateHealthObservationDto dto, IPhotoStorageService photoStorage)
         {
             var observation = await _context.HealthObservations
                 .Include(ho => ho.Plant)
@@ -141,7 +141,7 @@ namespace PlantCareBuddy.Application.Services
             return MapToDto(observation);
         }
 
-        public async Task<bool> DeleteHealthObservationAsync(int id)
+        public async Task<bool> DeleteHealthObservationAsync(Guid id)
         {
             var observation = await _context.HealthObservations.FindAsync(id);
             if (observation == null) return false;

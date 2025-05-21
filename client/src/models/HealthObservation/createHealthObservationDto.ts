@@ -1,7 +1,7 @@
 import { PlantHealthStatus } from '../Plant/plantHealthStatus';
 
 export interface CreateHealthObservationDto {
-  plantId: number;
+  plantId: string;
   observationDate: string;
   healthStatus: PlantHealthStatus;
   notes: string;

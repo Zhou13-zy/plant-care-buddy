@@ -6,10 +6,10 @@ namespace PlantCareBuddy.Application.Interfaces
     public interface ICareEventService
     {
         Task<IEnumerable<CareEventDto>> GetAllCareEventsAsync();
-        Task<IEnumerable<CareEventDto>> GetCareEventsByPlantIdAsync(int plantId);
-        Task<CareEventDto?> GetCareEventByIdAsync(int id);
+        Task<IEnumerable<CareEventDto>> GetCareEventsByPlantIdAsync(Guid plantId);
+        Task<CareEventDto?> GetCareEventByIdAsync(Guid id);
         Task<CareEventDto> CreateCareEventAsync(CreateCareEventDto dto, IPhotoStorageService photoStorage);
-        Task<CareEventDto?> UpdateCareEventAsync(int id, UpdateCareEventDto dto, IPhotoStorageService photoStorage);
-        Task<bool> DeleteCareEventAsync(int id);
+        Task<CareEventDto?> UpdateCareEventAsync(Guid id, UpdateCareEventDto dto, IPhotoStorageService photoStorage);
+        Task<bool> DeleteCareEventAsync(Guid id);
     }
 }

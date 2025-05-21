@@ -12,8 +12,8 @@ using PlantCareBuddy.Infrastructure.Persistence;
 namespace PlantCareBuddy.Infrastructure.Migrations
 {
     [DbContext(typeof(PlantCareBuddyContext))]
-    [Migration("20250515115805_AddNextHealthCheckDateToPlant")]
-    partial class AddNextHealthCheckDateToPlant
+    [Migration("20250521114050_OverHaulDB")]
+    partial class OverHaulDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,17 @@ namespace PlantCareBuddy.Infrastructure.Migrations
 
             modelBuilder.Entity("PlantCareBuddy.Domain.Entities.CareEvent", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("AfterImagePath")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("BeforeImagePath")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
@@ -39,16 +45,12 @@ namespace PlantCareBuddy.Infrastructure.Migrations
                     b.Property<int>("EventType")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImagePath")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<string>("Notes")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("PlantId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlantId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -59,11 +61,9 @@ namespace PlantCareBuddy.Infrastructure.Migrations
 
             modelBuilder.Entity("PlantCareBuddy.Domain.Entities.HealthObservation", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("HealthStatus")
                         .HasColumnType("int");
@@ -79,8 +79,8 @@ namespace PlantCareBuddy.Infrastructure.Migrations
                     b.Property<DateTime>("ObservationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PlantId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlantId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -91,11 +91,9 @@ namespace PlantCareBuddy.Infrastructure.Migrations
 
             modelBuilder.Entity("PlantCareBuddy.Domain.Entities.Plant", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("AcquisitionDate")
                         .HasColumnType("datetime2");
@@ -119,6 +117,9 @@ namespace PlantCareBuddy.Infrastructure.Migrations
                     b.Property<string>("Notes")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("PlantType")
+                        .HasColumnType("int");
 
                     b.Property<string>("PrimaryImagePath")
                         .HasMaxLength(500)

@@ -1,8 +1,8 @@
 import { CareEventType } from './careEventType';
 
 export interface CareEvent {
-  id: number;
-  plantId: number;
+  id: string;
+  plantId: string;
   plantName: string;
   eventType: CareEventType;
   eventTypeName: string;

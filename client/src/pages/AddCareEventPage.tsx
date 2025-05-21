@@ -8,7 +8,7 @@ const AddCareEventPage: React.FC = () => {
   return (
     <div>
       <h1>Add Care Event</h1>
-      <CareEventForm plantId={plantId ? parseInt(plantId, 10) : undefined} />
+      <CareEventForm plantId={plantId ?? undefined} />
     </div>
   );
 };

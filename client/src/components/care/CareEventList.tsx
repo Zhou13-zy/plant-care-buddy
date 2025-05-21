@@ -9,7 +9,7 @@ import './CareEventList.css';
 
 interface CareEventListProps {
   events: CareEvent[];
-  plantId: number;
+  plantId: string;
   onEventDeleted?: () => void;
   onAddEvent?: () => void;
 }
@@ -22,7 +22,7 @@ const CareEventList: React.FC<CareEventListProps> = ({
 }) => {
   const navigate = useNavigate();
   const [filter, setFilter] = useState<CareEventType | 'all'>('all');
-  const [isDeleting, setIsDeleting] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   // Filter events based on selected type
   const filteredEvents = filter === 'all' 
@@ -34,11 +34,11 @@ const CareEventList: React.FC<CareEventListProps> = ({
     (a, b) => new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime()
   );
 
-  const handleEdit = (eventId: number) => {
+  const handleEdit = (eventId: string) => {
     navigate(`/care-events/${eventId}/edit`);
   };
 
-  const handleDelete = async (eventId: number) => {
+  const handleDelete = async (eventId: string) => {
     if (window.confirm('Are you sure you want to delete this care event?')) {
       setIsDeleting(eventId);
       try {

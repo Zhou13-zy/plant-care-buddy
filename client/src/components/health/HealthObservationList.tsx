@@ -9,7 +9,7 @@ import ImageDisplay from '../common/ImageDisplay';
 
 interface HealthObservationListProps {
   observations: HealthObservation[];
-  plantId: number;
+  plantId: string;
   onObservationDeleted: () => void;
 }
 
@@ -24,11 +24,11 @@ const HealthObservationList: React.FC<HealthObservationListProps> = ({
     navigate(`/plants/${plantId}/health-observations/new`);
   };
 
-  const handleEditObservation = (observationId: number) => {
+  const handleEditObservation = (observationId: string) => {
     navigate(`/health-observations/${observationId}/edit`);
   };
 
-  const handleDeleteObservation = async (observationId: number) => {
+  const handleDeleteObservation = async (observationId: string) => {
     if (window.confirm('Are you sure you want to delete this health observation?')) {
       try {
         await deletePlant(observationId);

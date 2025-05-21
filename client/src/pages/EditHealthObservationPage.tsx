@@ -15,7 +15,7 @@ const EditHealthObservationPage: React.FC = () => {
     const fetchObservation = async () => {
       if (!observationId) return;
       try {
-        const observation = await getHealthObservation(Number(observationId));
+        const observation = await getHealthObservation(observationId);
         setInitialData(observation);
       } catch (error) {
         console.error('Error fetching health observation:', error);
@@ -34,7 +34,7 @@ const EditHealthObservationPage: React.FC = () => {
   return (
     <div className="container">
       <HealthObservationForm 
-        observationId={Number(observationId)}
+        observationId={observationId}
         initialData={initialData}
       />
     </div>

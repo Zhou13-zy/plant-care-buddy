@@ -5,7 +5,7 @@
     /// </summary>
     public class CareRecommendationDto
     {
-        public int PlantId { get; set; }
+        public Guid PlantId { get; set; }
 
         public string PlantName { get; set; }
 

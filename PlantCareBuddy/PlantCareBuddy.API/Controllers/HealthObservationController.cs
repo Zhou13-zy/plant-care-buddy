@@ -26,7 +26,7 @@ namespace PlantCareBuddy.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<HealthObservationDto>> GetById(int id)
+        public async Task<ActionResult<HealthObservationDto>> GetById(Guid id)
         {
             var observation = await _healthObservationService.GetHealthObservationByIdAsync(id);
             if (observation == null)
@@ -36,7 +36,7 @@ namespace PlantCareBuddy.API.Controllers
         }
 
         [HttpGet("plant/{plantId}")]
-        public async Task<ActionResult<IEnumerable<HealthObservationDto>>> GetByPlantId(int plantId)
+        public async Task<ActionResult<IEnumerable<HealthObservationDto>>> GetByPlantId(Guid plantId)
         {
             var observations = await _healthObservationService.GetHealthObservationsByPlantIdAsync(plantId);
             return Ok(observations);
@@ -57,7 +57,7 @@ namespace PlantCareBuddy.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<HealthObservationDto>> Update(int id, [FromForm] UpdateHealthObservationDto updateDto)
+        public async Task<ActionResult<HealthObservationDto>> Update(Guid id, [FromForm] UpdateHealthObservationDto updateDto)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace PlantCareBuddy.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             var result = await _healthObservationService.DeleteHealthObservationAsync(id);
             if (!result)

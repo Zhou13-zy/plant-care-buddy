@@ -5,9 +5,9 @@ namespace PlantCareBuddy.Domain.Entities
 {
     public class CareEvent
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int PlantId { get; set; }
+        public Guid PlantId { get; set; }
 
         // Navigation property
         public virtual Plant Plant { get; set; }
