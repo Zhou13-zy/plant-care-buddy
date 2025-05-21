@@ -11,12 +11,14 @@ interface HealthObservationListProps {
   observations: HealthObservation[];
   plantId: string;
   onObservationDeleted: () => void;
+  onAddObservation?: () => void;
 }
 
 const HealthObservationList: React.FC<HealthObservationListProps> = ({ 
   observations, 
   plantId, 
-  onObservationDeleted 
+  onObservationDeleted,
+  onAddObservation
 }) => {
   const navigate = useNavigate();
   
@@ -47,7 +49,7 @@ const HealthObservationList: React.FC<HealthObservationListProps> = ({
         <h2>Health Observations</h2>
         <button 
           className="add-observation-button"
-          onClick={handleAddObservation}
+          onClick={onAddObservation}
         >
           Add Observation
         </button>
@@ -76,6 +78,7 @@ const HealthObservationList: React.FC<HealthObservationListProps> = ({
                     <ImageDisplay 
                       imagePath={observation.imagePath} 
                       alt="Health observation" 
+                      style={{ maxWidth: '100%', maxHeight: '180px', borderRadius: '6px' }}
                     />
                   </div>
                 )}

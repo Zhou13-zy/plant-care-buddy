@@ -1,0 +1,21 @@
+.add-health-observation-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 70vh;
+  padding: 40px 0;
+}
+
+.add-health-observation-title {
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #145c16;
+}
+
+.add-health-observation-page-container form {
+  width: 100%;
+  max-width: 520px;
+} 

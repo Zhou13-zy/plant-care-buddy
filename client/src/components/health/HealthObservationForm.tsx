@@ -23,7 +23,7 @@ const HealthObservationForm: React.FC<HealthObservationFormProps> = ({
   plantId, 
   observationId, 
   onSuccess,
-  initialData 
+  initialData
 }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);

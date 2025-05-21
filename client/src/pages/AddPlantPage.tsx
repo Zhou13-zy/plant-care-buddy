@@ -3,6 +3,7 @@ import PlantForm from '../components/plants/PlantForm';
 import { addPlant } from '../api/plantService';
 import { useNavigate } from 'react-router-dom';
 import { CreatePlantDto } from '../models/Plant/createPlantDto';
+import './AddPlantPage.css';
 
 const AddPlantPage: React.FC = () => {
   const navigate = useNavigate();
@@ -18,8 +19,7 @@ const AddPlantPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Add a New Plant</h1>
+    <div className="add-plant-page-container">
       <PlantForm<CreatePlantDto> onSubmit={handleAddPlant} />
     </div>
   );

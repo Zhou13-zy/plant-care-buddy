@@ -4,6 +4,7 @@ import HealthObservationForm from '../components/health/HealthObservationForm';
 import { getHealthObservation } from '../api/healthObservationService';
 import { HealthObservation } from '../models/HealthObservation/healthObservation';
 import { formatDate } from '../utils/dateUtils';
+import './EditHealthObservationPage.css';
 
 const EditHealthObservationPage: React.FC = () => {
   const { observationId } = useParams<{ observationId: string }>();
@@ -32,7 +33,7 @@ const EditHealthObservationPage: React.FC = () => {
   if (!initialData) return <div>Health observation not found</div>;
 
   return (
-    <div className="container">
+    <div className="edit-health-observation-page-container">
       <HealthObservationForm 
         observationId={observationId}
         initialData={initialData}

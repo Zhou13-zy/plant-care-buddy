@@ -4,7 +4,7 @@ import './Modal.css';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title: string;
+  title?: string;
   children: React.ReactNode;
 }
 
@@ -36,7 +36,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
     <div className="modal-backdrop" onClick={handleBackdropClick}>
       <div className="modal-content">
         <div className="modal-header">
-          <h2>{title}</h2>
           <button className="modal-close-button" onClick={onClose}>
             &times;
           </button>

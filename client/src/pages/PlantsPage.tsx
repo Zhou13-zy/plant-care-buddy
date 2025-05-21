@@ -3,7 +3,8 @@ import { getAllPlants, searchPlants } from '../api/plantService';
 import { Plant } from '../models/Plant/plant';
 import PlantList from '../components/plants/PlantList';
 import SearchBar from '../components/plants/SearchBar';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
+import './PlantsPage.css';
 
 const PlantsPage: React.FC = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
@@ -62,8 +63,11 @@ const PlantsPage: React.FC = () => {
   if (loading) return <div>Loading plants...</div>;
 
   return (
-    <div>
-      <h1>My Plants</h1>
+    <div className="plants-page-container">
+      <div className="plants-page-header">
+        <h1>My Plants</h1>
+        <Link to="/add-plant" className="add-plant-btn">+ Add Plant</Link>
+      </div>
       <SearchBar
         filters={filters}
         setFilters={setFilters}

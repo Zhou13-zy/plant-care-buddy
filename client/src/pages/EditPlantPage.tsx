@@ -5,6 +5,7 @@ import { getPlantById, updatePlant } from '../api/plantService';
 import { Plant } from '../models/Plant/plant';
 import { UpdatePlantDto } from '../models/Plant/updatePlantDto';
 import { formatDate } from '../utils/dateUtils';
+import './EditPlantPage.css';
 
 const EditPlantPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,8 +46,7 @@ const EditPlantPage: React.FC = () => {
   if (!initialData) return <div>Plant not found</div>;
 
   return (
-    <div>
-      <h1>Edit Plant</h1>
+    <div className="edit-plant-page-container">
       <PlantForm<UpdatePlantDto>
         onSubmit={handleUpdatePlant} 
         initialData={{

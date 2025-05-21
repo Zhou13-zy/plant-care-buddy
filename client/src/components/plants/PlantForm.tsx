@@ -69,6 +69,7 @@ const PlantForm = <T extends CreatePlantDto | UpdatePlantDto>({
 
   return (
     <form onSubmit={handleSubmit} className="plant-form">
+      <h2>{isEdit ? 'Edit Plant' : 'Add Plant'}</h2>
       <div className="form-group">
         <label htmlFor="name">Name:</label>
         <input

@@ -11,7 +11,6 @@ const EditCareEventPage: React.FC = () => {
   
   return (
     <div>
-      <h1>Edit Care Event</h1>
       <CareEventForm careEventId={id} />
     </div>
   );

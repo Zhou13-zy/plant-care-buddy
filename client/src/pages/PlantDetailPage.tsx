@@ -15,6 +15,7 @@ import ImageDisplay from '../components/common/ImageDisplay';
 import './PlantDetailPage.css';
 import { getPlantTypeName } from '../utils/plantTypeUtils';
 import PlantCareRecommendations from '../components/care/PlantCareRecommendations';
+import HealthObservationForm from '../components/health/HealthObservationForm';
 
 const PlantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,6 +24,7 @@ const PlantDetailPage: React.FC = () => {
   const [healthObservations, setHealthObservations] = useState<HealthObservation[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
+  const [isAddObservationModalOpen, setIsAddObservationModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -102,64 +104,74 @@ const PlantDetailPage: React.FC = () => {
     fetchHealthObservations();
   };
 
+  const handleAddObservationSuccess = () => {
+    setIsAddObservationModalOpen(false);
+    fetchHealthObservations();
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!plant) return <div>Plant not found.</div>;
   if (!id) return <div>Invalid plant ID.</div>;
 
   return (
     <div className="plant-detail-page">
-      <div className="plant-detail">
-        <h1>{plant.name}</h1>
-        {plant.primaryImagePath && (
-          <div className="plant-photo">
-            <ImageDisplay
-              imagePath={plant.primaryImagePath}
-              alt={plant.name}
-              style={{ maxWidth: 300, maxHeight: 300, borderRadius: 8, marginBottom: 16 }}
-            />
+      <div className="plant-detail-top">
+        <div className="plant-detail-card">
+          <h1>{plant.name}</h1>
+          {plant.primaryImagePath && (
+            <div className="plant-photo">
+              <ImageDisplay
+                imagePath={plant.primaryImagePath}
+                alt={plant.name}
+                style={{ maxWidth: '100%', maxHeight: '340px', borderRadius: '12px' }}
+              />
+            </div>
+          )}
+          <p><strong>Species:</strong> {plant.species}</p>
+          <p><strong>Plant Type:</strong> {getPlantTypeName(plant.plantType)}</p>
+          <p><strong>Location:</strong> {plant.location}</p>
+          <p><strong>Acquisition Date:</strong> {plant.acquisitionDate}</p>
+          <p>
+            <strong>Health Status:</strong>
+            <HealthStatusIndicator status={plant.healthStatus} size="medium" />
+          </p>
+          <p><strong>Next Health Check Date:</strong> {plant.nextHealthCheckDate}</p>
+          {plant.notes && (
+            <p><strong>Notes:</strong> {plant.notes}</p>
+          )}
+          <div className="plant-actions">
+            <Link to={`/plants/${id}/edit`} className="edit-button">
+              Edit Plant
+            </Link>
+            <button className="delete-button" onClick={handleDelete}>
+              Delete Plant
+            </button>
           </div>
-        )}
-        <p><strong>Species:</strong> {plant.species}</p>
-        <p><strong>Plant Type:</strong> {getPlantTypeName(plant.plantType)}</p>
-        <p><strong>Location:</strong> {plant.location}</p>
-        <p><strong>Acquisition Date:</strong> {plant.acquisitionDate}</p>
-        <p>
-          <strong>Health Status:</strong>
-          <HealthStatusIndicator status={plant.healthStatus} size="medium" />
-        </p>
-        <p><strong>Next Health Check Date:</strong> {plant.nextHealthCheckDate}</p>
-        {plant.notes && (
-          <p><strong>Notes:</strong> {plant.notes}</p>
-        )}
-        <div className="plant-actions">
-          <Link to={`/plants/${id}/edit`} className="edit-button">
-            Edit Plant
-          </Link>
-          <button className="delete-button" onClick={handleDelete}>
-            Delete Plant
-          </button>
+        </div>
+        <div className="plant-care-card">
+          <h2>Care Recommendations</h2>
+          <PlantCareRecommendations plantId={id as string} />
         </div>
       </div>
 
-      <div className="plant-care-section">
-        <h2>Care Recommendations</h2>
-        <PlantCareRecommendations plantId={id as string} />
-      </div>
-
-      <div className="plant-health-section">
+      <div className="plant-section">
         <HealthObservationList 
           observations={healthObservations}
           plantId={id as string}
           onObservationDeleted={handleHealthObservationDeleted}
+          onAddObservation={() => setIsAddObservationModalOpen(true)}
         />
       </div>
 
-      <CareEventList 
-        events={careEvents} 
-        plantId={id as string}
-        onEventDeleted={handleEventDeleted}
-        onAddEvent={() => setIsAddEventModalOpen(true)}
-      />
+      <div className="plant-section">
+        <h2>Care History</h2>
+        <CareEventList 
+          events={careEvents} 
+          plantId={id as string}
+          onEventDeleted={handleEventDeleted}
+          onAddEvent={() => setIsAddEventModalOpen(true)}
+        />
+      </div>
 
       <Modal
         isOpen={isAddEventModalOpen}
@@ -169,6 +181,17 @@ const PlantDetailPage: React.FC = () => {
         <CareEventForm 
           plantId={id} 
           onSuccess={handleAddEventSuccess} 
+        />
+      </Modal>
+
+      <Modal
+        isOpen={isAddObservationModalOpen}
+        onClose={() => setIsAddObservationModalOpen(false)}
+        title="Add Health Observation"
+      >
+        <HealthObservationForm 
+          plantId={id}
+          onSuccess={handleAddObservationSuccess}
         />
       </Modal>
     </div>

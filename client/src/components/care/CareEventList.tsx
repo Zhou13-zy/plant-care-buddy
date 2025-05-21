@@ -134,12 +134,7 @@ const CareEventList: React.FC<CareEventListProps> = ({
                       <ImageDisplay 
                         imagePath={event.beforeImagePath} 
                         alt={`Before ${event.eventTypeName}`}
-                        style={{ 
-                          width: '150px', 
-                          height: '120px', 
-                          objectFit: 'cover',
-                          borderRadius: '4px'
-                        }}
+                        style={{ maxWidth: '100%', maxHeight: '120px', borderRadius: '4px' }}
                       />
                     </div>
                   )}
@@ -150,12 +145,7 @@ const CareEventList: React.FC<CareEventListProps> = ({
                       <ImageDisplay 
                         imagePath={event.afterImagePath} 
                         alt={`After ${event.eventTypeName}`}
-                        style={{ 
-                          width: '150px', 
-                          height: '120px', 
-                          objectFit: 'cover',
-                          borderRadius: '4px'
-                        }}
+                        style={{ maxWidth: '100%', maxHeight: '120px', borderRadius: '4px' }}
                       />
                     </div>
                   )}
