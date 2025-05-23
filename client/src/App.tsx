@@ -9,6 +9,7 @@ import EditPlantPage from './pages/EditPlantPage';
 import EditCareEventPage from './pages/EditCareEventPage';
 import AddCareEventPage from './pages/AddCareEventPage';
 import EditHealthObservationPage from './pages/EditHealthObservationPage';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/plants/:plantId/care-events/add" element={<AddCareEventPage />} />
         <Route path="/care-events/:id/edit" element={<EditCareEventPage />} />
         <Route path="/health-observations/:observationId/edit" element={<EditHealthObservationPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
       </Routes>
     </Router>
   );
