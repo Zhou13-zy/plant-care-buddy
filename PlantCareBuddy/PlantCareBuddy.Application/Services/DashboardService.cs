@@ -24,17 +24,15 @@ namespace PlantCareBuddy.Application.Services
 
         public async Task<DashboardOverviewDto> GetDashboardOverviewAsync()
         {
-            var plantsTask = GetPlantsNeedingAttentionAsync();
-            var careTasksTask = GetUpcomingCareTasksAsync();
-            var statsTask = GetDashboardStatsAsync();
-
-            await Task.WhenAll(plantsTask, careTasksTask, statsTask);
+            var plants = await GetPlantsNeedingAttentionAsync();
+            var careTasks = await GetUpcomingCareTasksAsync();
+            var stats = await GetDashboardStatsAsync();
 
             return new DashboardOverviewDto
             {
-                PlantsNeedingAttention = await plantsTask,
-                UpcomingCareTasks = await careTasksTask,
-                Stats = await statsTask
+                PlantsNeedingAttention = plants,
+                UpcomingCareTasks = careTasks,
+                Stats = stats
             };
         }
 
