@@ -87,10 +87,50 @@ namespace PlantCareBuddy.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
+        public void UpdateTitle(string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Title is required.");
+            Title = title;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void UpdateDescription(string description)
+        {
+            Description = description;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void UpdateDueDate(DateTime dueDate)
+        {
+            if (dueDate < DateTime.UtcNow.Date)
+                throw new ArgumentException("DueDate cannot be in the past.");
+            DueDate = dueDate;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void UpdateRecurrence(RecurrencePattern recurrence)
+        {
+            Recurrence = recurrence;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void UpdateIntensity(CareIntensity intensity)
+        {
+            Intensity = intensity;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
         public void UpdateStrategyParameters(string parameters)
         {
             StrategyParameters = parameters;
             LastStrategyAdjustment = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void SetStrategyOverride(bool isOverride)
+        {
+            IsStrategyOverride = isOverride;
             UpdatedAt = DateTime.UtcNow;
         }
     }
