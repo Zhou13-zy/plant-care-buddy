@@ -7,6 +7,8 @@
         Repotting,
         Pruning,
         PestCheck,
-        Custom
+        Custom,
+        Note,
+        Inspection
     }
 }
