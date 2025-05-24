@@ -1,0 +1,116 @@
+.dashboardContainer {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.section h3 {
+  margin-bottom: 1rem;
+  color: #2d6a4f;
+  font-size: 1.3rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.3rem;
+}
+
+.statsList {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.statsList li {
+  background: #f1faee;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #264653;
+}
+
+.attentionList, .careList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.attentionList li, .careList li {
+  padding: 0.7rem 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.overdue {
+  color: #d90429;
+  font-weight: bold;
+}
+
+.actionButton {
+  background: #2a9d8f;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1.1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(42,157,143,0.08);
+}
+
+.actionButton:hover,
+.actionButton:focus {
+  background: #21867a;
+  outline: none;
+}
+
+.attentionCard {
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(42,157,143,0.07);
+  border-left: 6px solid #2a9d8f;
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 1.5rem 1.2rem 1.2rem;
+  transition: box-shadow 0.2s;
+  min-width: 320px;
+  max-width: 600px;
+}
+
+.attentionCard.urgent {
+  border-left: 6px solid #d90429;
+  background: #fff0f0;
+}
+
+.attentionCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.attentionCardTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #264653;
+}
+
+.attentionCardDetails {
+  margin-bottom: 0.7rem;
+  color: #222;
+}
+
+.attentionCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}

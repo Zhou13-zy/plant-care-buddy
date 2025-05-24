@@ -51,9 +51,13 @@ A digital plant care management system designed to help users track and maintain
 - **File Storage**: Local file system (with interface for cloud storage)
 - **Design Patterns**:
   - Repository Pattern
+    - The repository pattern is used to abstract and encapsulate all data access logic for each main entity (such as Plant, CareEvent, GrowthPhoto, Reminder, etc.). This approach separates business logic from data access, making the codebase more maintainable, testable, and scalable. Repository interfaces are defined in the domain layer and implemented in the infrastructure layer, ensuring that services and controllers interact with data through clean, consistent interfaces rather than direct database queries.
   - Strategy Pattern (for care recommendations)
+    - The strategy pattern enables Plant Care Buddy to provide flexible, plant-specific care recommendations by encapsulating different care algorithms (such as default, succulent, or tropical strategies) as interchangeable components. This allows the system to select and apply the most appropriate care logic for each plant type or condition, making the application extensible and adaptable to new care approaches without changing core logic.
   - DTO Pattern
+    - The Data Transfer Object (DTO) pattern is used to define simple, serializable objects for transferring data between the backend and frontend (or between layers of the backend). This pattern helps decouple the internal domain models from the data exposed via APIs, improving security, versioning, and maintainability. DTOs ensure that only the necessary data is sent or received, and that changes to internal models do not directly impact API contracts.
   - Service Layer Pattern
+    - The service layer pattern organizes business logic into dedicated service classes, which act as intermediaries between controllers (API endpoints) and repositories (data access). This pattern centralizes and encapsulates business rules, validation, and orchestration, making the codebase easier to maintain, test, and extend. In Plant Care Buddy, services handle operations such as care recommendation generation, plant management, and care event processing.
 
 ### Development Tools
 - **IDE**: Visual Studio 2022

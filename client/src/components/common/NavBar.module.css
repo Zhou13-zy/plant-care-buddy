@@ -1,0 +1,29 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  background: #264653;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 2rem;
+  border-radius: 0 0 12px 12px;
+}
+
+.navlink {
+  color: #f1faee;
+  text-decoration: none;
+  margin-right: 2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+}
+
+.navlink:last-child {
+  margin-right: 0;
+}
+
+.navlink:hover, .navlink.active {
+  background: #2a9d8f;
+  color: #fff;
+}

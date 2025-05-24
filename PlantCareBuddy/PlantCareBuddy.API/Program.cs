@@ -35,12 +35,9 @@ builder.Services.AddDbContext<PlantCareBuddyContext>(options =>
 builder.Services.AddScoped<IPlantService, PlantService>();
 builder.Services.AddScoped<ICareEventService, CareEventService>();
 builder.Services.AddScoped<IHealthObservationService, HealthObservationService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 builder.Services.AddPhotoStorage(builder.Configuration);
-
-builder.Services.AddScoped<IPlantService, PlantService>();
-builder.Services.AddScoped<ICareEventService, CareEventService>();
-builder.Services.AddScoped<IHealthObservationService, HealthObservationService>();
 
 // Register strategies
 builder.Services.AddScoped<ISeasonService, SeasonService>();

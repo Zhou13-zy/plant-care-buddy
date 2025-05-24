@@ -737,6 +737,29 @@ When implementing LINQ in Plant Buddy, the following simple practices will help 
 
 By following these basic LINQ practices, Plant Buddy will maintain good performance while keeping the code clean and maintainable.
 
+#### 5.5.8 Repository Pattern Implementation Guidelines
+
+The repository pattern is used in Plant Buddy to abstract data access logic and provide a clean, testable interface for interacting with the database. This pattern helps separate business logic from data access, making the codebase more maintainable and testable.
+
+**Purpose:**
+- Encapsulate all data access logic for an entity (e.g., Plant, CareEvent) in a repository class.
+- Expose only the operations needed by the application (such as retrieving, adding, updating, or deleting data, as well as custom queries).
+- Allow the rest of the application to interact with repositories via interfaces, not direct database queries.
+
+**Benefits:**
+- Separation of concerns between business logic and data access
+- Easier unit testing (repositories can be mocked)
+- Centralized and consistent data access code
+- Improved maintainability and scalability
+
+**General Usage:**
+- Define repository interfaces in the Domain layer for each main entity (such as Plant, CareEvent, GrowthPhoto, Reminder, etc.).
+- Implement these interfaces in the Infrastructure layer, where the actual data access logic is written.
+- Register repository implementations in the dependency injection container so they can be injected into services and controllers.
+- Use repository methods for all data access throughout the application, ensuring that business logic and presentation layers remain decoupled from data storage details.
+
+This approach should be followed for all main entities in Plant Buddy to ensure a clean, maintainable, and testable architecture.
+
 ## 6. User Experience Guidelines
 
 ### 6.1 Design Principles
