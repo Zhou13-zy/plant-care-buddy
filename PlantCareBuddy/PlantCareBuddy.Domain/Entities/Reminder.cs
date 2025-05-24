@@ -17,7 +17,7 @@ namespace PlantCareBuddy.Domain.Entities
         public DateTime DueDate { get; private set; }
 
         // Recurrence
-        public RecurrencePattern Recurrence { get; private set; }
+        public RecurrencePattern? Recurrence { get; private set; }
 
         // Completion
         public bool IsCompleted { get; private set; }
@@ -109,7 +109,7 @@ namespace PlantCareBuddy.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void UpdateRecurrence(RecurrencePattern recurrence)
+        public void UpdateRecurrence(RecurrencePattern? recurrence)
         {
             Recurrence = recurrence;
             UpdatedAt = DateTime.UtcNow;

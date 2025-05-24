@@ -15,10 +15,14 @@ public class ReminderService : IReminderService
 
     public async Task<ReminderDto> CreateReminderAsync(CreateReminderDto dto)
     {
-        var recurrence = RecurrencePattern.Create(
-            dto.Recurrence.Type, dto.Recurrence.Interval, dto.Recurrence.EndDate,
-            dto.Recurrence.OccurrenceCount, dto.Recurrence.DaysOfWeek, dto.Recurrence.DayOfMonth
-        );
+        RecurrencePattern? recurrence = null;
+        if (dto.Recurrence != null)
+        {
+            recurrence = RecurrencePattern.Create(
+                dto.Recurrence.Type, dto.Recurrence.Interval, dto.Recurrence.EndDate,
+                dto.Recurrence.OccurrenceCount, dto.Recurrence.DaysOfWeek, dto.Recurrence.DayOfMonth
+            );
+        }
         var reminder = Reminder.Create(
             dto.PlantId, dto.Type, dto.Title, dto.Description, dto.DueDate, recurrence,
             dto.Intensity, dto.StrategyId, dto.StrategyParameters, dto.IsStrategyOverride
@@ -48,11 +52,14 @@ public class ReminderService : IReminderService
         reminder.UpdateDescription(dto.Description);
         reminder.UpdateDueDate(dto.DueDate);
 
-        // Map DTO to value object here
-        var recurrence = RecurrencePattern.Create(
-            dto.Recurrence.Type, dto.Recurrence.Interval, dto.Recurrence.EndDate,
-            dto.Recurrence.OccurrenceCount, dto.Recurrence.DaysOfWeek, dto.Recurrence.DayOfMonth
-        );
+        RecurrencePattern? recurrence = null;
+        if (dto.Recurrence != null)
+        {
+            recurrence = RecurrencePattern.Create(
+                dto.Recurrence.Type, dto.Recurrence.Interval, dto.Recurrence.EndDate,
+                dto.Recurrence.OccurrenceCount, dto.Recurrence.DaysOfWeek, dto.Recurrence.DayOfMonth
+            );
+        }
         reminder.UpdateRecurrence(recurrence);
 
         reminder.UpdateIntensity(dto.Intensity);

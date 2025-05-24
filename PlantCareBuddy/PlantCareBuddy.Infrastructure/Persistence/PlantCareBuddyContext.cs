@@ -128,8 +128,8 @@ namespace PlantCareBuddy.Infrastructure.Persistence
                 // RecurrencePattern as owned type
                 entity.OwnsOne(r => r.Recurrence, recurrence =>
                 {
-                    recurrence.Property(rp => rp.Type).IsRequired();
-                    recurrence.Property(rp => rp.Interval).IsRequired();
+                    recurrence.Property(rp => rp.Type);
+                    recurrence.Property(rp => rp.Interval);
                     recurrence.Property(rp => rp.EndDate);
                     recurrence.Property(rp => rp.OccurrenceCount);
                     recurrence.Property(rp => rp.DaysOfWeek)
