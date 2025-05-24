@@ -2025,7 +2025,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 **Purpose:** Establish the data model for plant care reminders that leverages care strategies, enabling the scheduling and tracking of recurring maintenance tasks customized for each plant's specific needs.
 
 **Requirements:**
-- Design Reminder entity with all necessary properties
+- Design Reminder entity with necessary properties
 - Create ReminderType enum for categorization
 - Establish relationship to Plant entity
 - Add scheduling and recurrence properties
@@ -2034,6 +2034,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Store strategy parameters with reminders for context
 - Support strategy override for reminder customization
 - Track strategy compliance for each reminder
+- Integrate with existing dashboard's needs attention system
 
 **Technology:**
 - C# Entity classes
@@ -2056,6 +2057,7 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Database migration for new table
 - Repository methods for reminders
 - Strategy integration in reminder creation workflow
+- Integration with dashboard needs attention system
 
 **Reference:** README.md Section 6 includes CareReminders in the database schema with relationships to Plants.
 
@@ -2068,18 +2070,24 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Create DTOs for reminder operations
 - Add endpoints for filtering reminders
 - Support recurring reminder generation
+- Integrate with dashboard data endpoints
+- Add endpoints for strategy-based reminder generation
+- Implement reminder completion tracking
+- Add endpoints for reminder statistics
 
 **Technology:**
 - ASP.NET Core Controllers
 - Service pattern
 - Date/time calculations
 - Recurrence pattern implementation
+- Dashboard integration
 
 **Design Patterns:**
 - Repository pattern
 - Service pattern
 - Specification pattern for queries
 - Strategy pattern for recurrence types
+- Adapter pattern for dashboard integration
 
 **Output:**
 - ReminderController with endpoints
@@ -2087,6 +2095,8 @@ namespace PlantBuddy.Infrastructure.Extensions
 - DTOs for reminders
 - Filtering endpoints
 - Recurrence handling logic
+- Dashboard data integration
+- Strategy-based reminder generation
 
 **Reference:** README.md Section 3.5 (Care Reminders) outlines the reminder system requirements.
 
@@ -2099,18 +2109,25 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Implement status indicators (due, overdue)
 - Add mark as complete functionality
 - Support filtering and sorting
+- Integrate with existing dashboard layout
+- Add quick actions consistent with dashboard
+- Implement strategy compliance indicators
+- Add reminder statistics visualization
+- Support bulk actions on reminders
 
 **Technology:**
 - React components
 - Date grouping and formatting
 - Status visualization
 - Filter controls
+- Dashboard integration
 
 **Design Patterns:**
 - Composite pattern for reminder structure
 - Strategy pattern for different views
 - Command pattern for reminder actions
 - Observer pattern for updates
+- Adapter pattern for dashboard integration
 
 **Output:**
 - RemindersView.tsx component
@@ -2118,6 +2135,9 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Status indicators
 - Completion controls
 - Filter/sort functionality
+- Dashboard integration
+- Strategy compliance visualization
+- Bulk action interface
 
 **Reference:** README.md Section 9.3 (Smart Care Reminders) describes the reminder functionality from a user perspective.
 
@@ -2130,18 +2150,25 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Implement recurrence pattern selection
 - Add date/time picker
 - Include validation for reminder parameters
+- Integrate with existing strategy system
+- Add care intensity level selection
+- Support vacation planning
+- Implement strategy override options
+- Add reminder templates based on strategies
 
 **Technology:**
 - React form components
 - Date/time picker
 - Recurrence pattern UI
 - Form validation
+- Strategy integration
 
 **Design Patterns:**
 - Strategy pattern for reminder types
 - Builder pattern for recurrence rules
 - Composite pattern for form structure
 - Validator pattern for form validation
+- Adapter pattern for strategy integration
 
 **Output:**
 - ReminderForm.tsx component
@@ -2149,6 +2176,11 @@ namespace PlantBuddy.Infrastructure.Extensions
 - Recurrence pattern interface
 - Date/time selection
 - Validation rules
+- Strategy integration
+- Care intensity controls
+- Vacation planning interface
+- Strategy override options
+- Template selection
 
 **Reference:** README.md Section 9.3 mentions generating personalized care schedules based on plant requirements.
 
