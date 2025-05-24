@@ -5,11 +5,16 @@ import DashboardStats from "../components/dashboard/DashboardStats";
 import PlantsNeedingAttention from "../components/dashboard/PlantsNeedingAttention";
 import UpcomingCareTasks from "../components/dashboard/UpcomingCareTasks";
 import styles from "../components/dashboard/dashboard.module.css";
+import { getAllReminders } from "../api/reminderService";
+import { ReminderDto } from "../models/Reminder/reminderDto";
+import RemindersView from "../components/dashboard/RemindersView";
 
 const DashboardPage: React.FC = () => {
   const [data, setData] = useState<DashboardOverviewDto | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reminders, setReminders] = useState<ReminderDto[]>([]);
+  const [remindersLoading, setRemindersLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -17,6 +22,11 @@ const DashboardPage: React.FC = () => {
       .then(setData)
       .catch(() => setError("Failed to load dashboard data"))
       .finally(() => setLoading(false));
+
+    getAllReminders()
+      .then(setReminders)
+      .catch(() => setReminders([]))
+      .finally(() => setRemindersLoading(false));
   }, []);
 
   if (loading) return <div>Loading dashboard...</div>;
@@ -29,6 +39,7 @@ const DashboardPage: React.FC = () => {
       <DashboardStats stats={data.stats} />
       <PlantsNeedingAttention plants={data.plantsNeedingAttention} />
       <UpcomingCareTasks tasks={data.upcomingCareTasks} />
+      <RemindersView reminders={reminders} loading={remindersLoading} />
     </div>
   );
 };

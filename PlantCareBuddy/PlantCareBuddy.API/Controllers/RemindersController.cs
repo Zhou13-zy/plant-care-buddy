@@ -58,4 +58,11 @@ public class RemindersController : ControllerBase
         if (completed == null) return NotFound();
         return Ok(completed);
     }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ReminderDto>>> GetAll()
+    {
+        var reminders = await _reminderService.GetAllRemindersAsync();
+        return Ok(reminders);
+    }
 }
