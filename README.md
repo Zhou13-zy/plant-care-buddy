@@ -30,6 +30,14 @@ A digital plant care management system designed to help users track and maintain
 - Light and humidity recommendations
 - Next care dates calculation
 
+### Care Planning & Reminders
+- Create, edit, and delete care reminders for any plant
+- Support for recurring reminders (daily, weekly, monthly, custom)
+- Strategy-aware reminders: automatically generated based on plant type and care strategy
+- Track completion, snooze, and history of care tasks
+- Integrate reminders with dashboard and upcoming care tasks
+- Custom reminders for vacations, special care, or user-defined needs
+
 ## Technical Overview
 
 ### Tech Stack
@@ -85,6 +93,12 @@ A digital plant care management system designed to help users track and maintain
   - Centralizes business rules and validation
   - Improves maintainability and testability
   - Handles complex operations and orchestration
+
+- **Reminder Entity & Recurrence Pattern**
+  - Stores each care task as a persistent, editable record
+  - Supports flexible recurrence (daily, weekly, monthly, custom)
+  - Links reminders to care strategies for personalized scheduling
+  - Enables completion tracking, snooze, and care history
 
 ## Project Structure
 
