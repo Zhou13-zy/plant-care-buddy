@@ -37,3 +37,8 @@ export const markReminderAsComplete = async (id: string): Promise<ReminderDto> =
   const response = await api.post<ReminderDto>(`/reminders/${id}/complete`);
   return response.data;
 };
+
+export const getAllReminders = async (): Promise<ReminderDto[]> => {
+  const response = await api.get<ReminderDto[]>('/reminders');
+  return response.data;
+};

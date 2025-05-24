@@ -86,6 +86,13 @@ public class ReminderService : IReminderService
         await _reminderRepository.UpdateAsync(reminder);
         return MapToDto(reminder);
     }
+
+    public async Task<IEnumerable<ReminderDto>> GetAllRemindersAsync()
+    {
+        var reminders = await _reminderRepository.GetAllAsync();
+        return reminders.Select(MapToDto);
+    }
+
     private static ReminderDto MapToDto(Reminder reminder)
     {
         return new ReminderDto

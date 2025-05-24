@@ -19,6 +19,12 @@ public class ReminderRepository : IReminderRepository
             .Where(r => r.DueDate >= from && r.DueDate <= to && !r.IsCompleted)
             .ToListAsync();
 
+    public async Task<IEnumerable<Reminder>> GetAllAsync() =>
+        await _context.Reminders
+            .Include(r => r.Plant)
+            .OrderBy(r => r.DueDate)
+            .ToListAsync();
+
     public async Task AddAsync(Reminder reminder)
     {
         _context.Reminders.Add(reminder);
