@@ -36,6 +36,7 @@ builder.Services.AddScoped<IPlantService, PlantService>();
 builder.Services.AddScoped<ICareEventService, CareEventService>();
 builder.Services.AddScoped<IHealthObservationService, HealthObservationService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IReminderRepository, ReminderRepository>();
 
 builder.Services.AddPhotoStorage(builder.Configuration);
 
