@@ -30,9 +30,11 @@ A digital plant care management system designed to help users track and maintain
 - Light and humidity recommendations
 - Next care dates calculation
 
-## Project Structure
+## Technical Overview
 
-### Frontend
+### Tech Stack
+
+#### Frontend
 - **Framework**: React 18 with TypeScript
 - **State Management**: React Hooks
 - **Styling**: CSS Modules
@@ -41,30 +43,113 @@ A digital plant care management system designed to help users track and maintain
 - **Build Tool**: Create React App
 - **Package Manager**: npm
 
-### Backend
+#### Backend
 - **Framework**: .NET 8
 - **Architecture**: Clean Architecture
 - **ORM**: Entity Framework Core 8
 - **Database**: SQL Server
 - **API**: RESTful with ASP.NET Core Web API
-- **Authentication**: JWT (planned)
+- **Authentication**: JWT
+- **Real-time Updates**: SignalR
 - **File Storage**: Local file system (with interface for cloud storage)
-- **Design Patterns**:
-  - Repository Pattern
-    - The repository pattern is used to abstract and encapsulate all data access logic for each main entity (such as Plant, CareEvent, GrowthPhoto, Reminder, etc.). This approach separates business logic from data access, making the codebase more maintainable, testable, and scalable. Repository interfaces are defined in the domain layer and implemented in the infrastructure layer, ensuring that services and controllers interact with data through clean, consistent interfaces rather than direct database queries.
-  - Strategy Pattern (for care recommendations)
-    - The strategy pattern enables Plant Care Buddy to provide flexible, plant-specific care recommendations by encapsulating different care algorithms (such as default, succulent, or tropical strategies) as interchangeable components. This allows the system to select and apply the most appropriate care logic for each plant type or condition, making the application extensible and adaptable to new care approaches without changing core logic.
-  - DTO Pattern
-    - The Data Transfer Object (DTO) pattern is used to define simple, serializable objects for transferring data between the backend and frontend (or between layers of the backend). This pattern helps decouple the internal domain models from the data exposed via APIs, improving security, versioning, and maintainability. DTOs ensure that only the necessary data is sent or received, and that changes to internal models do not directly impact API contracts.
-  - Service Layer Pattern
-    - The service layer pattern organizes business logic into dedicated service classes, which act as intermediaries between controllers (API endpoints) and repositories (data access). This pattern centralizes and encapsulates business rules, validation, and orchestration, making the codebase easier to maintain, test, and extend. In Plant Care Buddy, services handle operations such as care recommendation generation, plant management, and care event processing.
 
-### Development Tools
+#### Development Tools
 - **IDE**: Visual Studio 2022
 - **Version Control**: Git
 - **Database Management**: SQL Server Management Studio
 - **API Testing**: Swagger
 
+### Architecture & Design Patterns
+
+#### Core Design Patterns
+- **Repository Pattern**
+  - Abstracts and encapsulates data access logic
+  - Separates business logic from data access
+  - Improves maintainability and testability
+  - Provides consistent data access interface
+
+- **Strategy Pattern**
+  - Enables flexible, plant-specific care recommendations
+  - Encapsulates different care algorithms
+  - Allows runtime strategy selection
+  - Supports strategy sharing and adaptation
+
+- **DTO Pattern**
+  - Defines data transfer objects for API communication
+  - Decouples internal models from API contracts
+  - Improves security and versioning
+  - Controls data exposure
+
+- **Service Layer Pattern**
+  - Organizes business logic into dedicated services
+  - Centralizes business rules and validation
+  - Improves maintainability and testability
+  - Handles complex operations and orchestration
+
+## Project Structure
+
+### Backend Structure
+```
+PlantCareBuddy/
+├── PlantCareBuddy.sln              # Visual Studio solution file
+├── PlantCareBuddy.Domain/          # Domain entities and business rules
+├── PlantCareBuddy.Application/     # Application services and business logic
+├── PlantCareBuddy.Infrastructure/  # Data access and external services
+└── PlantCareBuddy.API/             # Web API and UI hosting
+```
+
+### Frontend Structure
+```
+client/
+├── public/                 # Static assets
+├── src/                    # Source code
+│   ├── api/                # API service layer
+│   ├── components/         # Reusable UI components
+│   ├── models/             # TypeScript interfaces
+│   ├── pages/              # Page components
+│   ├── utils/              # Helper functions
+│   ├── App.tsx            # Main application component
+│   ├── index.tsx          # Application entry point
+│   └── [other config files]
+├── package.json           # Dependencies and scripts
+└── tsconfig.json         # TypeScript configuration
+```
+
+### Layer Responsibilities
+
+#### Domain Layer
+- Contains core business entities
+- Defines business rules and validations
+- Houses domain-specific exceptions
+- Independent of other layers
+
+#### Application Layer
+- Contains business logic and use cases
+- Defines DTOs for data transfer
+- Houses service interfaces
+- Manages object mapping
+- Coordinates between domain and infrastructure
+
+#### Infrastructure Layer
+- Implements data access (EF Core)
+- Handles external services
+- Contains repository implementations
+- Manages file storage
+- Handles notifications
+
+#### API Layer
+- Exposes RESTful endpoints
+- Handles HTTP requests/responses
+- Manages authentication/authorization
+- Hosts SignalR hubs
+- Contains middleware
+
+#### Frontend Layer
+- Manages user interface
+- Handles state management
+- Communicates with backend API
+- Provides real-time updates
+- Manages routing and navigation
 
 ## Getting Started
 
@@ -106,11 +191,3 @@ dotnet run
 - User authentication and authorization
 - Analytics and insights
 - Mobile experience optimization
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
