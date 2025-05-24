@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PlantCareBuddy.Domain.Entities;
 
 namespace PlantCareBuddy.Infrastructure.Persistence
@@ -12,6 +13,7 @@ namespace PlantCareBuddy.Infrastructure.Persistence
         public DbSet<Plant> Plants { get; set; }
         public DbSet<CareEvent> CareEvents { get; set; }
         public DbSet<HealthObservation> HealthObservations { get; set; }
+        public DbSet<Reminder> Reminders { get; set; }
 
 
 
@@ -69,6 +71,8 @@ namespace PlantCareBuddy.Infrastructure.Persistence
                     .WithMany(p => p.CareEvents)
                     .HasForeignKey(e => e.PlantId)
                     .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(e => e.PlantId);
             });
             modelBuilder.Entity<HealthObservation>(entity =>
             {
@@ -90,6 +94,62 @@ namespace PlantCareBuddy.Infrastructure.Persistence
                     .WithMany(p => p.HealthObservations)
                     .HasForeignKey(e => e.PlantId)
                     .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(e => e.PlantId);
+            });
+            modelBuilder.Entity<Reminder>(entity =>
+            {
+                entity.HasKey(r => r.Id);
+
+                entity.Property(r => r.Title)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(r => r.Description)
+                    .HasMaxLength(500);
+
+                entity.Property(r => r.StrategyParameters)
+                    .HasMaxLength(1000);
+
+                entity.Property(r => r.DueDate)
+                    .IsRequired();
+
+                entity.Property(r => r.IsCompleted)
+                    .IsRequired();
+
+                entity.Property(r => r.Intensity)
+                    .IsRequired();
+
+                entity.HasOne(r => r.Plant)
+                    .WithMany(p => p.Reminders)
+                    .HasForeignKey(r => r.PlantId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                // RecurrencePattern as owned type
+                entity.OwnsOne(r => r.Recurrence, recurrence =>
+                {
+                    recurrence.Property(rp => rp.Type).IsRequired();
+                    recurrence.Property(rp => rp.Interval).IsRequired();
+                    recurrence.Property(rp => rp.EndDate);
+                    recurrence.Property(rp => rp.OccurrenceCount);
+                    recurrence.Property(rp => rp.DaysOfWeek)
+                        .HasConversion(
+                            v => string.Join(',', v),
+                            v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                  .Select(d => (DayOfWeek)Enum.Parse(typeof(DayOfWeek), d))
+                                  .ToArray())
+                        .Metadata.SetValueComparer(new ValueComparer<DayOfWeek[]>(
+                            (c1, c2) => c1.SequenceEqual(c2),
+                            c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                            c => c.ToArray()
+                        ));
+                    recurrence.Property(rp => rp.DayOfMonth);
+                });
+
+                entity.HasIndex(r => r.PlantId);
+                entity.HasIndex(r => r.DueDate);
+                entity.HasIndex(r => r.IsCompleted);
+                entity.HasIndex(r => r.StrategyId);
             });
         }
 
