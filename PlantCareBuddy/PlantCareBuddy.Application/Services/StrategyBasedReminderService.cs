@@ -47,11 +47,7 @@ namespace PlantCareBuddy.Application.Services
                     "Watering",
                     $"Water your {plant.Name}",
                     nextWatering,
-                    wateringRecurrence,
-                    CareIntensity.Balanced,
-                    strategyId: null,
-                    strategyParameters: "",
-                    isStrategyOverride: false
+                    wateringRecurrence
                 ));
             }
 
@@ -77,11 +73,7 @@ namespace PlantCareBuddy.Application.Services
                     "Fertilizing",
                     $"Fertilize your {plant.Name}",
                     nextFertilizing,
-                    fertilizingRecurrence,
-                    CareIntensity.Balanced,
-                    strategyId: null,
-                    strategyParameters: "",
-                    isStrategyOverride: false
+                    fertilizingRecurrence
                 ));
             }
 

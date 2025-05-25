@@ -108,16 +108,10 @@ namespace PlantCareBuddy.Infrastructure.Persistence
                 entity.Property(r => r.Description)
                     .HasMaxLength(500);
 
-                entity.Property(r => r.StrategyParameters)
-                    .HasMaxLength(1000);
-
                 entity.Property(r => r.DueDate)
                     .IsRequired();
 
                 entity.Property(r => r.IsCompleted)
-                    .IsRequired();
-
-                entity.Property(r => r.Intensity)
                     .IsRequired();
 
                 entity.HasOne(r => r.Plant)
@@ -149,7 +143,6 @@ namespace PlantCareBuddy.Infrastructure.Persistence
                 entity.HasIndex(r => r.PlantId);
                 entity.HasIndex(r => r.DueDate);
                 entity.HasIndex(r => r.IsCompleted);
-                entity.HasIndex(r => r.StrategyId);
             });
         }
 

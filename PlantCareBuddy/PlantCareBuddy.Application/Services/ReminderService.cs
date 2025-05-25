@@ -36,8 +36,7 @@ public class ReminderService : IReminderService
             );
         }
         var reminder = Reminder.Create(
-            dto.PlantId, dto.Type, dto.Title, dto.Description, dto.DueDate, recurrence,
-            dto.Intensity, dto.StrategyId, dto.StrategyParameters, dto.IsStrategyOverride
+            dto.PlantId, dto.Type, dto.Title, dto.Description, dto.DueDate, recurrence
         );
         await _reminderRepository.AddAsync(reminder);
         return MapToDto(reminder);
@@ -73,10 +72,6 @@ public class ReminderService : IReminderService
             );
         }
         reminder.UpdateRecurrence(recurrence);
-
-        reminder.UpdateIntensity(dto.Intensity);
-        reminder.UpdateStrategyParameters(dto.StrategyParameters);
-        reminder.SetStrategyOverride(dto.IsStrategyOverride);
 
         await _reminderRepository.UpdateAsync(reminder);
         return MapToDto(reminder);
@@ -230,12 +225,8 @@ public class ReminderService : IReminderService
                 DaysOfWeek = reminder.Recurrence.DaysOfWeek,
                 DayOfMonth = reminder.Recurrence.DayOfMonth
             },
-            Intensity = reminder.Intensity,
             IsCompleted = reminder.IsCompleted,
             CompletedDate = reminder.CompletedDate,
-            StrategyId = reminder.StrategyId,
-            StrategyParameters = reminder.StrategyParameters,
-            IsStrategyOverride = reminder.IsStrategyOverride,
             CreatedAt = reminder.CreatedAt,
             UpdatedAt = reminder.UpdatedAt
         };

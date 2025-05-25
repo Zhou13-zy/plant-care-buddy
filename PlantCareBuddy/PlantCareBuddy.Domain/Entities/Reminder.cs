@@ -23,13 +23,6 @@ namespace PlantCareBuddy.Domain.Entities
         public bool IsCompleted { get; private set; }
         public DateTime? CompletedDate { get; private set; }
 
-        // Strategy
-        public Guid? StrategyId { get; private set; }
-        public string StrategyParameters { get; private set; }
-        public bool IsStrategyOverride { get; private set; }
-        public DateTime? LastStrategyAdjustment { get; private set; }
-        public CareIntensity Intensity { get; private set; }
-
         // Audit
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdatedAt { get; private set; }
@@ -42,11 +35,7 @@ namespace PlantCareBuddy.Domain.Entities
             string title,
             string description,
             DateTime dueDate,
-            RecurrencePattern recurrence,
-            CareIntensity intensity,
-            Guid? strategyId = null,
-            string strategyParameters = null,
-            bool isStrategyOverride = false)
+            RecurrencePattern recurrence)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("Title is required.");
@@ -63,10 +52,6 @@ namespace PlantCareBuddy.Domain.Entities
                 Description = description,
                 DueDate = dueDate,
                 Recurrence = recurrence,
-                Intensity = intensity,
-                StrategyId = strategyId,
-                StrategyParameters = strategyParameters,
-                IsStrategyOverride = isStrategyOverride,
                 CreatedAt = DateTime.UtcNow,
                 IsCompleted = false
             };
@@ -112,25 +97,6 @@ namespace PlantCareBuddy.Domain.Entities
         public void UpdateRecurrence(RecurrencePattern? recurrence)
         {
             Recurrence = recurrence;
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void UpdateIntensity(CareIntensity intensity)
-        {
-            Intensity = intensity;
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void UpdateStrategyParameters(string parameters)
-        {
-            StrategyParameters = parameters;
-            LastStrategyAdjustment = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void SetStrategyOverride(bool isOverride)
-        {
-            IsStrategyOverride = isOverride;
             UpdatedAt = DateTime.UtcNow;
         }
     }

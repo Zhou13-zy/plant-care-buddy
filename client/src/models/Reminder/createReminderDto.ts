@@ -7,8 +7,4 @@ export interface CreateReminderDto {
   description: string;
   dueDate: string;
   recurrence?: RecurrencePatternDto | null;
-  intensity: string;
-  strategyId?: string | null;
-  strategyParameters?: string | null;
-  isStrategyOverride: boolean;
 }
