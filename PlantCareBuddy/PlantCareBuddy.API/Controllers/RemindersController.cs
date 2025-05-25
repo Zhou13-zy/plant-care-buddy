@@ -65,4 +65,11 @@ public class RemindersController : ControllerBase
         var reminders = await _reminderService.GetAllRemindersAsync();
         return Ok(reminders);
     }
+
+    [HttpPost("{plantId}/generate-strategy-reminders")]
+    public async Task<ActionResult<IEnumerable<ReminderDto>>> GenerateStrategyReminders(Guid plantId)
+    {
+        var reminders = await _reminderService.GenerateStrategyRemindersAsync(plantId);
+        return Ok(reminders);
+    }
 }

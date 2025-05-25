@@ -48,6 +48,7 @@ builder.Services.AddScoped<ICareStrategy>(sp => new SucculentCareStrategy());
 builder.Services.AddScoped<ICareStrategy>(sp => new TropicalCareStrategy());
 
 builder.Services.AddScoped<ICareStrategyService, CareStrategyService>();
+builder.Services.AddScoped<IStrategyBasedReminderService, StrategyBasedReminderService>();
 
 var app = builder.Build();
 

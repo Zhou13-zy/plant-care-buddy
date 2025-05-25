@@ -42,7 +42,7 @@ namespace PlantCareBuddy.Application.Services
                     wateringRecurrence,
                     CareIntensity.Balanced,
                     strategyId: null,
-                    strategyParameters: null,
+                    strategyParameters: "",
                     isStrategyOverride: false
                 ));
             }
@@ -64,7 +64,7 @@ namespace PlantCareBuddy.Application.Services
                     fertilizingRecurrence,
                     CareIntensity.Balanced,
                     strategyId: null,
-                    strategyParameters: null,
+                    strategyParameters: "",
                     isStrategyOverride: false
                 ));
             }
