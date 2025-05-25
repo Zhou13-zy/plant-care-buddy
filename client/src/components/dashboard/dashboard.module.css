@@ -200,3 +200,22 @@
   padding: 1rem;
   text-align: center;
 }
+
+.reminderMeta {
+  font-size: 0.95rem;
+  color: #388e3c;
+  margin-bottom: 0.2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.reminderPlantName {
+  color: #2a9d8f;
+  font-weight: 500;
+}
+
+.reminderPlantDivider {
+  color: #bdbdbd;
+  margin: 0 0.3rem;
+}

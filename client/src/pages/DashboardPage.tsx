@@ -6,14 +6,14 @@ import PlantsNeedingAttention from "../components/dashboard/PlantsNeedingAttenti
 import UpcomingCareTasks from "../components/dashboard/UpcomingCareTasks";
 import styles from "../components/dashboard/dashboard.module.css";
 import { getAllReminders } from "../api/reminderService";
-import { ReminderDto } from "../models/Reminder/reminderDto";
+import { Reminder } from "../models/Reminder/reminder";
 import RemindersView from "../components/dashboard/RemindersView";
 
 const DashboardPage: React.FC = () => {
   const [data, setData] = useState<DashboardOverviewDto | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [reminders, setReminders] = useState<ReminderDto[]>([]);
+  const [reminders, setReminders] = useState<Reminder[]>([]);
   const [remindersLoading, setRemindersLoading] = useState(true);
 
   useEffect(() => {
