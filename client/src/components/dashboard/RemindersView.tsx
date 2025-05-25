@@ -1,10 +1,10 @@
 import React from "react";
-import { ReminderDto } from "../../models/Reminder/reminderDto";
+import { Reminder } from "../../models/Reminder/reminder";
 import { markReminderAsComplete, deleteReminder } from "../../api/reminderService";
 import styles from "./dashboard.module.css"; // Use your existing CSS module
 
 interface RemindersViewProps {
-  reminders: ReminderDto[];
+  reminders: Reminder[];
   loading: boolean;
 }
 
@@ -37,16 +37,29 @@ const RemindersView: React.FC<RemindersViewProps> = ({ reminders, loading }) => 
         {reminders.map(reminder => (
           <li key={reminder.id} className={styles.reminderCard}>
             <div className={styles.reminderHeader}>
-              <span className={styles.reminderTitle}>{reminder.title}</span>
+              <span className={styles.reminderTitle}>
+                {reminder.title} 
+              </span>
               <span className={styles.reminderDue}>
                 Due: {new Date(reminder.dueDate).toLocaleDateString()}
+                {!reminder.isCompleted && new Date(reminder.dueDate) < new Date() && (
+                  <span className={styles.overdue}>Overdue</span>
+                )}
               </span>
             </div>
-            {reminder.recurrence && (
-              <div className={styles.reminderRecurrence}>
-                Repeats: {reminder.recurrence.type} (every {reminder.recurrence.interval})
-              </div>
-            )}
+            <div className={styles.reminderMeta}>
+              {reminder.plantName && (
+                <span className={styles.reminderPlantName}>
+                  <strong>Plant:</strong> {reminder.plantName}
+                </span>
+              )}
+              {reminder.recurrence && (
+                <span className={styles.reminderRecurrence}>
+                  | Repeats: {reminder.recurrence.type} (every {reminder.recurrence.interval})
+                </span>
+              )}
+            </div>
+            <div className={styles.reminderDescription}>{reminder.description}</div>
             <div className={styles.reminderActions}>
               {reminder.isCompleted ? (
                 <span className={styles.completed}>✔ Completed</span>

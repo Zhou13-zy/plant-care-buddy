@@ -1,29 +1,29 @@
 import api from './axiosConfig';
-import { ReminderDto } from '../models/Reminder/reminderDto';
+import { Reminder } from '../models/Reminder/reminder';
 import { CreateReminderDto } from '../models/Reminder/createReminderDto';
 import { UpdateReminderDto } from '../models/Reminder/updateReminderDto';
 
 // Get all reminders for a plant
-export const getRemindersByPlantId = async (plantId: string): Promise<ReminderDto[]> => {
-  const response = await api.get<ReminderDto[]>(`/reminders/plant/${plantId}`);
+export const getRemindersByPlantId = async (plantId: string): Promise<Reminder[]> => {
+  const response = await api.get<Reminder[]>(`/reminders/plant/${plantId}`);
   return response.data;
 };
 
 // Get a single reminder by ID
-export const getReminderById = async (id: string): Promise<ReminderDto> => {
-  const response = await api.get<ReminderDto>(`/reminders/${id}`);
+export const getReminderById = async (id: string): Promise<Reminder> => {
+  const response = await api.get<Reminder>(`/reminders/${id}`);
   return response.data;
 };
 
 // Create a new reminder
-export const createReminder = async (data: CreateReminderDto): Promise<ReminderDto> => {
-  const response = await api.post<ReminderDto>('/reminders', data);
+export const createReminder = async (data: CreateReminderDto): Promise<Reminder> => {
+  const response = await api.post<Reminder>('/reminders', data);
   return response.data;
 };
 
 // Update an existing reminder
-export const updateReminder = async (id: string, data: UpdateReminderDto): Promise<ReminderDto> => {
-  const response = await api.put<ReminderDto>(`/reminders/${id}`, data);
+export const updateReminder = async (id: string, data: UpdateReminderDto): Promise<Reminder> => {
+  const response = await api.put<Reminder>(`/reminders/${id}`, data);
   return response.data;
 };
 
@@ -33,12 +33,17 @@ export const deleteReminder = async (id: string): Promise<void> => {
 };
 
 // Mark a reminder as complete
-export const markReminderAsComplete = async (id: string): Promise<ReminderDto> => {
-  const response = await api.post<ReminderDto>(`/reminders/${id}/complete`);
+export const markReminderAsComplete = async (id: string): Promise<Reminder> => {
+  const response = await api.post<Reminder>(`/reminders/${id}/complete`);
   return response.data;
 };
 
-export const getAllReminders = async (): Promise<ReminderDto[]> => {
-  const response = await api.get<ReminderDto[]>('/reminders');
+export const getAllReminders = async (): Promise<Reminder[]> => {
+  const response = await api.get<Reminder[]>('/reminders');
+  return response.data;
+};
+
+export const generateRemindersForPlant = async (plantId: string): Promise<Reminder[]> => {
+  const response = await api.post<Reminder[]>(`/reminders/${plantId}/generate-strategy-reminders`);
   return response.data;
 };
