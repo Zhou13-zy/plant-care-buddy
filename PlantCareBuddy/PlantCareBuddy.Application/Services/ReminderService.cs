@@ -1,16 +1,26 @@
-﻿using PlantCareBuddy.Application.DTOs.Plant;
+﻿using Microsoft.EntityFrameworkCore;
+using PlantCareBuddy.Application.DTOs.Plant;
 using PlantCareBuddy.Application.DTOs.Reminder;
 using PlantCareBuddy.Application.Interfaces;
+using PlantCareBuddy.Application.Services;
 using PlantCareBuddy.Domain.Entities;
 using PlantCareBuddy.Domain.ValueObjects;
+using PlantCareBuddy.Infrastructure.Persistence;
 
 public class ReminderService : IReminderService
 {
     private readonly IReminderRepository _reminderRepository;
+    private readonly IStrategyBasedReminderService _strategyBasedReminderService;
+    private readonly PlantCareBuddyContext _context;
 
-    public ReminderService(IReminderRepository reminderRepository)
+    public ReminderService(
+        IReminderRepository reminderRepository, 
+        IStrategyBasedReminderService strategyBasedReminderService,
+        PlantCareBuddyContext context)
     {
         _reminderRepository = reminderRepository;
+        _strategyBasedReminderService = strategyBasedReminderService;
+        _context = context;
     }
 
     public async Task<ReminderDto> CreateReminderAsync(CreateReminderDto dto)
@@ -90,6 +100,26 @@ public class ReminderService : IReminderService
     public async Task<IEnumerable<ReminderDto>> GetAllRemindersAsync()
     {
         var reminders = await _reminderRepository.GetAllAsync();
+        return reminders.Select(MapToDto);
+    }
+
+    public async Task<IEnumerable<ReminderDto>> GenerateStrategyRemindersAsync(Guid plantId)
+    {
+        var plant = await _context.Plants
+            .Include(p => p.CareEvents)
+            .FirstOrDefaultAsync(p => p.Id == plantId);
+
+        if (plant == null)
+            throw new Exception("Plant not found.");
+
+        var reminders = _strategyBasedReminderService.GenerateRemindersForPlant(plant);
+
+        foreach (var reminder in reminders)
+        {
+            await _reminderRepository.AddAsync(reminder);
+        }
+        await _context.SaveChangesAsync();
+
         return reminders.Select(MapToDto);
     }
 

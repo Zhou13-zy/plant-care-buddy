@@ -11,5 +11,6 @@ namespace PlantCareBuddy.Application.Interfaces
         Task<bool> DeleteReminderAsync(Guid id);
         Task<ReminderDto?> MarkAsCompletedAsync(Guid id);
         Task<IEnumerable<ReminderDto>> GetAllRemindersAsync();
+        Task<IEnumerable<ReminderDto>> GenerateStrategyRemindersAsync(Guid plantId);
     }
 }
