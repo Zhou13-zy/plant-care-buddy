@@ -4,8 +4,10 @@ using PlantCareBuddy.Application.DTOs.Reminder;
 using PlantCareBuddy.Application.Interfaces;
 using PlantCareBuddy.Application.Services;
 using PlantCareBuddy.Domain.Entities;
+using PlantCareBuddy.Domain.Enums;
 using PlantCareBuddy.Domain.ValueObjects;
 using PlantCareBuddy.Infrastructure.Persistence;
+using System.Diagnostics;
 
 public class ReminderService : IReminderService
 {
@@ -92,9 +94,93 @@ public class ReminderService : IReminderService
     {
         var reminder = await _reminderRepository.GetByIdAsync(id);
         if (reminder == null) return null;
-        reminder.MarkAsCompleted();
-        await _reminderRepository.UpdateAsync(reminder);
+
+        // Create a care event for the completed reminder
+        var careEvent = new CareEvent
+        {
+            PlantId = reminder.PlantId,
+            EventType = (CareEventType)reminder.Type,
+            EventDate = DateTime.UtcNow,
+            Notes = $"Completed reminder: {reminder.Title}"
+        };
+        await _context.CareEvents.AddAsync(careEvent);
+
+        if (reminder.Recurrence != null)
+        {
+            // For recurring reminders, calculate next occurrence from current date
+            var nextDueDate = CalculateNextDueDate(DateTime.UtcNow, reminder.Recurrence);
+
+            // Check if recurrence should end
+            bool shouldEnd = false;
+            
+            // Check end date
+            if (reminder.Recurrence.EndDate.HasValue && 
+                reminder.Recurrence.EndDate.Value <= DateTime.UtcNow)
+            {
+                shouldEnd = true;
+            }
+            
+            // Check occurrence count if not already ending and if it's set
+            if (!shouldEnd && reminder.Recurrence.OccurrenceCount.HasValue)
+            {
+                // Get count of completed events for this reminder
+                var completedCount = await _context.CareEvents
+                    .CountAsync(e => e.PlantId == reminder.PlantId && 
+                                   e.EventType == (CareEventType)reminder.Type);
+                
+                if (completedCount >= reminder.Recurrence.OccurrenceCount.Value)
+                {
+                    shouldEnd = true;
+                }
+            }
+
+            if (shouldEnd)
+            {
+                // If recurrence should end, mark as completed
+                reminder.MarkAsCompleted();
+            }
+            else
+            {
+                // For recurring reminders that should continue, reactivate with next due date
+                reminder.ReactivateForNextOccurrence(nextDueDate);
+            }
+        }
+        else
+        {
+            // For non-recurring reminders, just mark as completed
+            reminder.MarkAsCompleted();
+        }
+
+        // Save all changes (both the care event and the reminder update)
+        await _context.SaveChangesAsync();
         return MapToDto(reminder);
+    }
+
+    private DateTime CalculateNextDueDate(DateTime baseDate, RecurrencePattern recurrence)
+    {
+        // Ensure the base date is at the start of the day
+        baseDate = baseDate.Date;
+
+        switch (recurrence.Type)
+        {
+            case RecurrenceType.Daily:
+                return baseDate.AddDays(recurrence.Interval);
+
+            case RecurrenceType.Weekly:
+                return baseDate.AddDays(7 * recurrence.Interval);
+
+            case RecurrenceType.Monthly:
+                return baseDate.AddMonths(recurrence.Interval);
+
+            case RecurrenceType.Yearly:
+                return baseDate.AddYears(recurrence.Interval);
+
+            case RecurrenceType.Custom:
+                return baseDate.AddDays(recurrence.Interval);
+
+            default:
+                throw new ArgumentException($"Unsupported recurrence type: {recurrence.Type}");
+        }
     }
 
     public async Task<IEnumerable<ReminderDto>> GetAllRemindersAsync()

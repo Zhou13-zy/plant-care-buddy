@@ -2,12 +2,12 @@
 {
     public class RecurrencePattern
     {
-        public RecurrenceType Type { get; private set; }
-        public int Interval { get; private set; }
-        public DateTime? EndDate { get; private set; }
-        public int? OccurrenceCount { get; private set; }
-        public DayOfWeek[] DaysOfWeek { get; private set; }
-        public int? DayOfMonth { get; private set; }
+        public RecurrenceType Type { get; set; }
+        public int Interval { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int? OccurrenceCount { get; set; }
+        public DayOfWeek[]? DaysOfWeek { get; set; }
+        public int? DayOfMonth { get; set; }
 
         private RecurrencePattern() { } // For EF
 
@@ -16,7 +16,7 @@
             int interval,
             DateTime? endDate = null,
             int? occurrenceCount = null,
-            DayOfWeek[] daysOfWeek = null,
+            DayOfWeek[]? daysOfWeek = null,
             int? dayOfMonth = null)
         {
             // General validation

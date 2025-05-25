@@ -56,6 +56,9 @@ const RemindersView: React.FC<RemindersViewProps> = ({ reminders, loading }) => 
               {reminder.recurrence && (
                 <span className={styles.reminderRecurrence}>
                   | Repeats: {reminder.recurrence.type} (every {reminder.recurrence.interval})
+                  {reminder.isCompleted && (
+                    <span> | Next: {new Date(reminder.dueDate).toLocaleDateString()}</span>
+                  )}
                 </span>
               )}
             </div>

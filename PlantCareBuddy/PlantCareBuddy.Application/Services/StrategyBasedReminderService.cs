@@ -31,7 +31,7 @@ namespace PlantCareBuddy.Application.Services
             {
                 var nextWatering = DateTime.Today.AddDays(wateringInterval);
                 var wateringRecurrence = RecurrencePattern.Create(
-                    RecurrenceType.Daily, wateringInterval);
+                    RecurrenceType.Custom, wateringInterval);
 
                 reminders.Add(Reminder.Create(
                     plant.Id,
@@ -53,7 +53,7 @@ namespace PlantCareBuddy.Application.Services
             {
                 var nextFertilizing = DateTime.Today.AddDays(fertilizingInterval);
                 var fertilizingRecurrence = RecurrencePattern.Create(
-                    RecurrenceType.Daily, fertilizingInterval);
+                    RecurrenceType.Custom, fertilizingInterval);
 
                 reminders.Add(Reminder.Create(
                     plant.Id,
