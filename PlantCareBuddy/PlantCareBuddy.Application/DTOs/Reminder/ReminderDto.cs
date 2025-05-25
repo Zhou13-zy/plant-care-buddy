@@ -7,6 +7,7 @@ namespace PlantCareBuddy.Application.DTOs.Reminder
     {
         public Guid Id { get; set; }
         public Guid PlantId { get; set; }
+        public string PlantName { get; set; }
         public ReminderType Type { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

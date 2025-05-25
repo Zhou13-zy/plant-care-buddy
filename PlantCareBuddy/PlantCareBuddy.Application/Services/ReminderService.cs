@@ -129,6 +129,7 @@ public class ReminderService : IReminderService
         {
             Id = reminder.Id,
             PlantId = reminder.PlantId,
+            PlantName = reminder.Plant.Name,
             Type = reminder.Type,
             Title = reminder.Title,
             Description = reminder.Description,

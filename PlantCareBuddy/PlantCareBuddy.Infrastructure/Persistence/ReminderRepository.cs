@@ -12,7 +12,10 @@ public class ReminderRepository : IReminderRepository
         await _context.Reminders.Include(r => r.Plant).FirstOrDefaultAsync(r => r.Id == id);
 
     public async Task<IEnumerable<Reminder>> GetByPlantIdAsync(Guid plantId) =>
-        await _context.Reminders.Where(r => r.PlantId == plantId).ToListAsync();
+        await _context.Reminders
+            .Include(r => r.Plant)
+            .Where(r => r.PlantId == plantId)
+            .ToListAsync();
 
     public async Task<IEnumerable<Reminder>> GetUpcomingAsync(DateTime from, DateTime to) =>
         await _context.Reminders

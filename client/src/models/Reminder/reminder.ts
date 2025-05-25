@@ -1,8 +1,9 @@
 import { RecurrencePatternDto } from "./recurrencePatternDto";
 
-export interface ReminderDto {
+export interface Reminder {
   id: string;
   plantId: string;
+  plantName: string;
   type: string;
   title: string;
   description: string;
