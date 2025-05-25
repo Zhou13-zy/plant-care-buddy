@@ -29,7 +29,15 @@ namespace PlantCareBuddy.Application.Services
             int wateringInterval = strategy.GetWateringFrequencyDays(season);
             if (wateringInterval > 0)
             {
-                var nextWatering = DateTime.Today.AddDays(wateringInterval);
+                // Find the most recent watering event
+                var lastWatering = plant.CareEvents?
+                    .Where(e => e.EventType == CareEventType.Watering)
+                    .OrderByDescending(e => e.EventDate)
+                    .FirstOrDefault();
+
+                DateTime nextWatering = lastWatering != null
+                    ? lastWatering.EventDate.Date.AddDays(wateringInterval)
+                    : DateTime.Today;
                 var wateringRecurrence = RecurrencePattern.Create(
                     RecurrenceType.Custom, wateringInterval);
 
@@ -51,7 +59,15 @@ namespace PlantCareBuddy.Application.Services
             int fertilizingInterval = strategy.GetFertilizingFrequencyDays(season);
             if (fertilizingInterval > 0)
             {
-                var nextFertilizing = DateTime.Today.AddDays(fertilizingInterval);
+                // Find the most recent fertilizing event
+                var lastFertilizing = plant.CareEvents?
+                    .Where(e => e.EventType == CareEventType.Fertilizing)
+                    .OrderByDescending(e => e.EventDate)
+                    .FirstOrDefault();
+
+                DateTime nextFertilizing = lastFertilizing != null
+                    ? lastFertilizing.EventDate.Date.AddDays(fertilizingInterval)
+                    : DateTime.Today;
                 var fertilizingRecurrence = RecurrencePattern.Create(
                     RecurrenceType.Custom, fertilizingInterval);
 
