@@ -196,7 +196,8 @@ public class ReminderService : IReminderService
                 EndDate = reminder.Recurrence.EndDate,
                 OccurrenceCount = reminder.Recurrence.OccurrenceCount,
                 DaysOfWeek = reminder.Recurrence.DaysOfWeek,
-                DayOfMonth = reminder.Recurrence.DayOfMonth
+                DayOfMonth = reminder.Recurrence.DayOfMonth,
+                MonthOfYear = reminder.Recurrence.MonthOfYear
             },
             IsCompleted = reminder.IsCompleted,
             CompletedDate = reminder.CompletedDate,

@@ -29,8 +29,8 @@ export function getRecurrenceDescription(recurrence: RecurrencePatternDto): stri
         return `On the ${recurrence.dayOfMonth}${getOrdinal(recurrence.dayOfMonth)} of every ${recurrence.interval} month${recurrence.interval > 1 ? "s" : ""}`;
       return `Every ${recurrence.interval} month${recurrence.interval > 1 ? "s" : ""}`;
     case RecurrenceType.Yearly:
-      if (recurrence.dayOfMonth)
-        return `On the ${recurrence.dayOfMonth}${getOrdinal(recurrence.dayOfMonth)} of every year`;
+      if (recurrence.dayOfMonth && recurrence.monthOfYear)
+        return `On the ${recurrence.dayOfMonth}${getOrdinal(recurrence.dayOfMonth)} of ${getMonthName(recurrence.monthOfYear)}`;
       return `Every year`;
     default:
       return `${typeLabel} (every ${recurrence.interval})`;
@@ -45,4 +45,11 @@ export function getOrdinal(n: number) {
     case 3: return "rd";
     default: return "th";
   }
+}
+
+function getMonthName(month: number) {
+  return [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ][month - 1];
 }

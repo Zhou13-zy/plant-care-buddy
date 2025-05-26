@@ -11,5 +11,6 @@ namespace PlantCareBuddy.Application.DTOs.Reminder
         public int? OccurrenceCount { get; set; }
         public DayOfWeek[] DaysOfWeek { get; set; }
         public int? DayOfMonth { get; set; }
+        public int? MonthOfYear { get; set; }
     }
 }

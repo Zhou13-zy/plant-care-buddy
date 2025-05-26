@@ -141,7 +141,8 @@ namespace PlantCareBuddy.Domain.Strategies
             return RecurrencePattern.Create(
                 RecurrenceType.Yearly,
                 interval: 1,
-                dayOfMonth: 1
+                dayOfMonth: 1,
+                monthOfYear: 5 // Example: May 1st every year
             );
         }
 

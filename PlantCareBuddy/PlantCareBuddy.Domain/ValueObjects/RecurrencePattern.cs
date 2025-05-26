@@ -14,6 +14,7 @@ namespace PlantCareBuddy.Domain.ValueObjects
         public int? OccurrenceCount { get; private set; }
         public DayOfWeek[]? DaysOfWeek { get; private set; }
         public int? DayOfMonth { get; private set; }
+        public int? MonthOfYear { get; private set; }
         #endregion
 
         #region Constructors
@@ -27,9 +28,10 @@ namespace PlantCareBuddy.Domain.ValueObjects
             DateTime? endDate = null,
             int? occurrenceCount = null,
             DayOfWeek[]? daysOfWeek = null,
-            int? dayOfMonth = null)
+            int? dayOfMonth = null,
+            int? monthOfYear = null)
         {
-            ValidateParameters(type, interval, endDate, occurrenceCount, daysOfWeek, dayOfMonth);
+            ValidateParameters(type, interval, endDate, occurrenceCount, daysOfWeek, dayOfMonth, monthOfYear);
 
             return new RecurrencePattern
             {
@@ -38,7 +40,8 @@ namespace PlantCareBuddy.Domain.ValueObjects
                 EndDate = endDate,
                 OccurrenceCount = occurrenceCount,
                 DaysOfWeek = daysOfWeek,
-                DayOfMonth = dayOfMonth
+                DayOfMonth = dayOfMonth,
+                MonthOfYear = monthOfYear
             };
         }
         #endregion
@@ -48,7 +51,7 @@ namespace PlantCareBuddy.Domain.ValueObjects
         {
             try
             {
-                ValidateParameters(Type, Interval, EndDate, OccurrenceCount, DaysOfWeek, DayOfMonth);
+                ValidateParameters(Type, Interval, EndDate, OccurrenceCount, DaysOfWeek, DayOfMonth, MonthOfYear);
                 return true;
             }
             catch
@@ -98,7 +101,8 @@ namespace PlantCareBuddy.Domain.ValueObjects
             DateTime? endDate,
             int? occurrenceCount,
             DayOfWeek[]? daysOfWeek,
-            int? dayOfMonth)
+            int? dayOfMonth,
+            int? monthOfYear)
         {
             if (interval <= 0)
                 throw new ArgumentException("Interval must be greater than 0", nameof(interval));
@@ -118,7 +122,7 @@ namespace PlantCareBuddy.Domain.ValueObjects
 
                 case RecurrenceType.Monthly:
                 case RecurrenceType.Yearly:
-                    ValidateMonthlyYearlyParameters(daysOfWeek, dayOfMonth);
+                    ValidateMonthlyYearlyParameters(daysOfWeek, dayOfMonth, monthOfYear);
                     break;
 
                 case RecurrenceType.Custom:
@@ -144,10 +148,12 @@ namespace PlantCareBuddy.Domain.ValueObjects
                 throw new ArgumentException("Weekly recurrence should not specify day of month");
         }
 
-        private static void ValidateMonthlyYearlyParameters(DayOfWeek[]? daysOfWeek, int? dayOfMonth)
+        private static void ValidateMonthlyYearlyParameters(DayOfWeek[]? daysOfWeek, int? dayOfMonth, int? monthOfYear)
         {
             if (!dayOfMonth.HasValue || dayOfMonth.Value < 1 || dayOfMonth.Value > 31)
                 throw new ArgumentException("Monthly/Yearly recurrence requires valid day of month (1-31)");
+            if (monthOfYear.HasValue && (monthOfYear.Value < 1 || monthOfYear.Value > 12))
+                throw new ArgumentException("Monthly/Yearly recurrence requires valid month of year (1-12)");
             if (daysOfWeek != null)
                 throw new ArgumentException("Monthly/Yearly recurrence should not specify days of week");
         }
@@ -196,17 +202,10 @@ namespace PlantCareBuddy.Domain.ValueObjects
 
         private DateTime CalculateNextYearlyDate(DateTime currentDate)
         {
-            var nextDate = currentDate.AddYears(Interval);
-
-            // Handle February 29th in leap years
-            if (DayOfMonth == 29 && nextDate.Month == 2)
-            {
-                var daysInMonth = DateTime.DaysInMonth(nextDate.Year, nextDate.Month);
-                var targetDay = Math.Min(DayOfMonth.Value, daysInMonth);
-                return new DateTime(nextDate.Year, nextDate.Month, targetDay);
-            }
-
-            return new DateTime(nextDate.Year, nextDate.Month, DayOfMonth!.Value);
+            var nextYear = currentDate.Year + Interval;
+            var month = MonthOfYear!.Value;
+            var day = Math.Min(DayOfMonth!.Value, DateTime.DaysInMonth(nextYear, month));
+            return new DateTime(nextYear, month, day);
         }
 
         private DateTime CalculateNextCustomDate(DateTime currentDate)
@@ -221,7 +220,7 @@ namespace PlantCareBuddy.Domain.ValueObjects
                 RecurrenceType.Daily => $"Every {Interval} day(s)",
                 RecurrenceType.Weekly => $"Every {Interval} week(s) on {string.Join(", ", DaysOfWeek!.Select(d => d.ToString()))}",
                 RecurrenceType.Monthly => $"Every {Interval} month(s) on day {DayOfMonth}",
-                RecurrenceType.Yearly => $"Every {Interval} year(s) on day {DayOfMonth}",
+                RecurrenceType.Yearly => $"Every {Interval} year(s) on {MonthOfYear}/{DayOfMonth}",
                 RecurrenceType.Custom => GetCustomDescription(),
                 _ => throw new ArgumentException($"Unsupported recurrence type: {Type}")
             };

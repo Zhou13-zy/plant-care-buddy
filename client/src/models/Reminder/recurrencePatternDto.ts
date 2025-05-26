@@ -7,4 +7,5 @@ export interface RecurrencePatternDto {
     occurrenceCount?: number;
     daysOfWeek?: string[];
     dayOfMonth?: number;
+    monthOfYear?: number;
   }
