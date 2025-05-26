@@ -2,84 +2,87 @@
 using PlantCareBuddy.Domain.Entities;
 using PlantCareBuddy.Domain.Enums;
 using PlantCareBuddy.Domain.Interfaces;
-using PlantCareBuddy.Domain.ValueObjects;
 
-namespace PlantCareBuddy.Application.Services
+public class StrategyBasedReminderService : IStrategyBasedReminderService
 {
-    public class StrategyBasedReminderService : IStrategyBasedReminderService
+    private readonly ICareStrategyService _careStrategyService;
+    private readonly ISeasonService _seasonService;
+
+    public StrategyBasedReminderService(
+        ICareStrategyService careStrategyService,
+        ISeasonService seasonService)
     {
-        private readonly ICareStrategyService _careStrategyService;
-        private readonly ISeasonService _seasonService;
+        _careStrategyService = careStrategyService;
+        _seasonService = seasonService;
+    }
 
-        public StrategyBasedReminderService(
-            ICareStrategyService careStrategyService,
-            ISeasonService seasonService)
+    public IEnumerable<Reminder> GenerateRemindersForPlant(Plant plant)
+    {
+        var reminders = new List<Reminder>();
+        var strategy = _careStrategyService.GetStrategyForPlant(plant);
+        var season = _seasonService.GetCurrentSeason();
+
+        // Generate reminders for each reminder type
+        foreach (ReminderType reminderType in Enum.GetValues(typeof(ReminderType)))
         {
-            _careStrategyService = careStrategyService;
-            _seasonService = seasonService;
+            // Skip Custom and Note types as they're handled separately
+            if (reminderType == ReminderType.Custom || reminderType == ReminderType.Note)
+                continue;
+
+            var recurrence = strategy.GetCareRecurrence(reminderType, season);
+            if (recurrence == null)
+                continue;
+
+            // Find the most recent care event of this type
+            var lastEvent = plant.CareEvents?
+                .Where(e => (CareEventType)reminderType == e.EventType)
+                .OrderByDescending(e => e.EventDate)
+                .FirstOrDefault();
+
+            // Calculate next due date
+            DateTime nextDueDate = lastEvent != null
+                ? recurrence.CalculateNextDueDate(lastEvent.EventDate)
+                : DateTime.Today;
+
+            // Create the reminder
+            reminders.Add(Reminder.Create(
+                plant.Id,
+                reminderType,
+                GetReminderTitle(reminderType, plant.Name),
+                GetReminderDescription(reminderType, plant.Name),
+                nextDueDate,
+                recurrence
+            ));
         }
 
-        public IEnumerable<Reminder> GenerateRemindersForPlant(Plant plant)
+        return reminders;
+    }
+
+    private string GetReminderTitle(ReminderType type, string plantName)
+    {
+        return type switch
         {
-            var reminders = new List<Reminder>();
-            var strategy = _careStrategyService.GetStrategyForPlant(plant);
-            var season = _seasonService.GetCurrentSeason();
+            ReminderType.Watering => "Watering",
+            ReminderType.Fertilizing => "Fertilizing",
+            ReminderType.Repotting => "Repotting",
+            ReminderType.Pruning => "Pruning",
+            ReminderType.PestCheck => "Pest Check",
+            ReminderType.Inspection => "Plant Inspection",
+            _ => type.ToString()
+        };
+    }
 
-            // Watering Reminder
-            int wateringInterval = strategy.GetWateringFrequencyDays(season);
-            if (wateringInterval > 0)
-            {
-                // Find the most recent watering event
-                var lastWatering = plant.CareEvents?
-                    .Where(e => e.EventType == CareEventType.Watering)
-                    .OrderByDescending(e => e.EventDate)
-                    .FirstOrDefault();
-
-                DateTime nextWatering = lastWatering != null
-                    ? lastWatering.EventDate.Date.AddDays(wateringInterval)
-                    : DateTime.Today;
-                var wateringRecurrence = RecurrencePattern.Create(
-                    RecurrenceType.Custom, wateringInterval);
-
-                reminders.Add(Reminder.Create(
-                    plant.Id,
-                    ReminderType.Watering,
-                    "Watering",
-                    $"Water your {plant.Name}",
-                    nextWatering,
-                    wateringRecurrence
-                ));
-            }
-
-            // Fertilizing Reminder
-            int fertilizingInterval = strategy.GetFertilizingFrequencyDays(season);
-            if (fertilizingInterval > 0)
-            {
-                // Find the most recent fertilizing event
-                var lastFertilizing = plant.CareEvents?
-                    .Where(e => e.EventType == CareEventType.Fertilizing)
-                    .OrderByDescending(e => e.EventDate)
-                    .FirstOrDefault();
-
-                DateTime nextFertilizing = lastFertilizing != null
-                    ? lastFertilizing.EventDate.Date.AddDays(fertilizingInterval)
-                    : DateTime.Today;
-                var fertilizingRecurrence = RecurrencePattern.Create(
-                    RecurrenceType.Custom, fertilizingInterval);
-
-                reminders.Add(Reminder.Create(
-                    plant.Id,
-                    ReminderType.Fertilizing,
-                    "Fertilizing",
-                    $"Fertilize your {plant.Name}",
-                    nextFertilizing,
-                    fertilizingRecurrence
-                ));
-            }
-
-            // Add more care types as needed (e.g., repotting, pruning, etc.)
-
-            return reminders;
-        }
+    private string GetReminderDescription(ReminderType type, string plantName)
+    {
+        return type switch
+        {
+            ReminderType.Watering => $"Time to water your {plantName}",
+            ReminderType.Fertilizing => $"Time to fertilize your {plantName}",
+            ReminderType.Repotting => $"Your {plantName} might need repotting",
+            ReminderType.Pruning => $"Time to prune your {plantName}",
+            ReminderType.PestCheck => $"Check {plantName} for pests",
+            ReminderType.Inspection => $"Inspect {plantName} for overall health",
+            _ => $"Care reminder for your {plantName}"
+        };
     }
 }

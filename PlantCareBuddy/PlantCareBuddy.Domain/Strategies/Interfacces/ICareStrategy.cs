@@ -1,5 +1,6 @@
 ﻿using PlantCareBuddy.Domain.Entities;
 using PlantCareBuddy.Domain.Enums;
+using PlantCareBuddy.Domain.ValueObjects;
 
 namespace PlantCareBuddy.Domain.Strategies.Interfacces
 {
@@ -39,5 +40,7 @@ namespace PlantCareBuddy.Domain.Strategies.Interfacces
         /// Determine if this strategy applies to the given plant
         /// </summary>
         bool IsApplicableForPlant(Plant plant);
+
+        RecurrencePattern GetCareRecurrence(ReminderType reminderType, Season season);
     }
 }
