@@ -103,7 +103,7 @@ public class ReminderService : IReminderService
         if (reminder.Recurrence != null)
         {
             // For recurring reminders, calculate next occurrence from current date
-            var nextDueDate = CalculateNextDueDate(DateTime.UtcNow, reminder.Recurrence);
+            var nextDueDate = reminder.Recurrence.CalculateNextDueDate(DateTime.UtcNow);
 
             // Check if recurrence should end
             bool shouldEnd = false;
@@ -149,33 +149,6 @@ public class ReminderService : IReminderService
         // Save all changes (both the care event and the reminder update)
         await _context.SaveChangesAsync();
         return MapToDto(reminder);
-    }
-
-    private DateTime CalculateNextDueDate(DateTime baseDate, RecurrencePattern recurrence)
-    {
-        // Ensure the base date is at the start of the day
-        baseDate = baseDate.Date;
-
-        switch (recurrence.Type)
-        {
-            case RecurrenceType.Daily:
-                return baseDate.AddDays(recurrence.Interval);
-
-            case RecurrenceType.Weekly:
-                return baseDate.AddDays(7 * recurrence.Interval);
-
-            case RecurrenceType.Monthly:
-                return baseDate.AddMonths(recurrence.Interval);
-
-            case RecurrenceType.Yearly:
-                return baseDate.AddYears(recurrence.Interval);
-
-            case RecurrenceType.Custom:
-                return baseDate.AddDays(recurrence.Interval);
-
-            default:
-                throw new ArgumentException($"Unsupported recurrence type: {recurrence.Type}");
-        }
     }
 
     public async Task<IEnumerable<ReminderDto>> GetAllRemindersAsync()
