@@ -36,6 +36,8 @@ builder.Services.AddScoped<IPlantService, PlantService>();
 builder.Services.AddScoped<ICareEventService, CareEventService>();
 builder.Services.AddScoped<IHealthObservationService, HealthObservationService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IReminderRepository, ReminderRepository>();
+builder.Services.AddScoped<IReminderService, ReminderService>();
 
 builder.Services.AddPhotoStorage(builder.Configuration);
 
@@ -46,6 +48,7 @@ builder.Services.AddScoped<ICareStrategy>(sp => new SucculentCareStrategy());
 builder.Services.AddScoped<ICareStrategy>(sp => new TropicalCareStrategy());
 
 builder.Services.AddScoped<ICareStrategyService, CareStrategyService>();
+builder.Services.AddScoped<IStrategyBasedReminderService, StrategyBasedReminderService>();
 
 var app = builder.Build();
 

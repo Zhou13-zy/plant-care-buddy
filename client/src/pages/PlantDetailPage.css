@@ -158,3 +158,40 @@
     max-width: 100%;
   }
 }
+
+.reminders-section {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(42,157,143,0.07);
+}
+
+.reminders-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.primary-action {
+  background: #2a9d8f;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.primary-action:disabled {
+  background: #b2dfdb;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #d90429;
+  margin-bottom: 1rem;
+}

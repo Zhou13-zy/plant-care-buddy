@@ -8,7 +8,16 @@
 }
 
 .section {
-  margin-bottom: 2.5rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .section h3 {
@@ -113,4 +122,100 @@
   align-items: center;
   justify-content: flex-end;
   margin-top: 0.5rem;
+}
+
+.reminderList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reminderCard {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reminderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reminderTitle {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.reminderDue {
+  color: #00796b;
+  font-weight: 400;
+}
+
+.reminderRecurrence {
+  font-size: 0.95rem;
+  color: #757575;
+}
+
+.reminderActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.completeButton {
+  background: #26a69a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.deleteButton {
+  background: #e57373;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.completed {
+  color: #388e3c;
+  font-weight: 600;
+}
+
+.loading {
+  color: #757575;
+  padding: 1rem;
+}
+
+.emptyState {
+  color: #757575;
+  padding: 1rem;
+  text-align: center;
+}
+
+.reminderMeta {
+  font-size: 0.95rem;
+  color: #388e3c;
+  margin-bottom: 0.2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.reminderPlantName {
+  color: #2a9d8f;
+  font-weight: 500;
+}
+
+.reminderPlantDivider {
+  color: #bdbdbd;
+  margin: 0 0.3rem;
 }

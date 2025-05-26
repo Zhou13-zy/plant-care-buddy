@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlantCareBuddy.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using PlantCareBuddy.Infrastructure.Persistence;
 namespace PlantCareBuddy.Infrastructure.Migrations
 {
     [DbContext(typeof(PlantCareBuddyContext))]
-    partial class PlantCareBuddyContextModelSnapshot : ModelSnapshot
+    [Migration("20250524104509_AddReminder")]
+    partial class AddReminder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,11 +155,28 @@ namespace PlantCareBuddy.Infrastructure.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Intensity")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsStrategyOverride")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastStrategyAdjustment")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("PlantId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("StrategyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("StrategyParameters")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -176,6 +196,8 @@ namespace PlantCareBuddy.Infrastructure.Migrations
                     b.HasIndex("IsCompleted");
 
                     b.HasIndex("PlantId");
+
+                    b.HasIndex("StrategyId");
 
                     b.ToTable("Reminders");
                 });
@@ -219,6 +241,7 @@ namespace PlantCareBuddy.Infrastructure.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<string>("DaysOfWeek")
+                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<DateTime?>("EndDate")
@@ -243,7 +266,8 @@ namespace PlantCareBuddy.Infrastructure.Migrations
 
                     b.Navigation("Plant");
 
-                    b.Navigation("Recurrence");
+                    b.Navigation("Recurrence")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PlantCareBuddy.Domain.Entities.Plant", b =>

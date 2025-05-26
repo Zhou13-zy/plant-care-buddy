@@ -30,6 +30,27 @@ A digital plant care management system designed to help users track and maintain
 - Light and humidity recommendations
 - Next care dates calculation
 
+### Care Planning & Reminders
+- Create, edit, and delete care reminders for any plant
+- Support for recurring reminders (custom interval-based, extensible for more patterns)
+- Strategy-aware reminders
+- Dashboard integration
+- Custom reminders for special needs
+
+### How Reminders Work
+
+**Reminder Generation**
+- The system uses the plant's care strategy and care history to determine the next due date for each care type.
+- If a care event (e.g., watering) exists, the next reminder is scheduled for the recommended interval after the last event.
+- If no care event exists, the reminder is scheduled for today (first-time care).
+
+**Reminder Completion**
+- Marking a reminder as complete logs a care event.
+- For recurring reminders, the next occurrence is automatically scheduled based on the recurrence pattern and the date of completion.
+
+**Recurrence System Extensibility**
+- The recurrence system is designed to be extensible, with support for advanced patterns (weekly, monthly, specific days, end dates, occurrence counts, etc.) planned for future releases.
+
 ## Technical Overview
 
 ### Tech Stack
@@ -85,6 +106,13 @@ A digital plant care management system designed to help users track and maintain
   - Centralizes business rules and validation
   - Improves maintainability and testability
   - Handles complex operations and orchestration
+
+- **Reminder Entity & Recurrence Pattern**
+  - Stores each care task as a persistent, editable record
+  - Supports flexible recurrence (currently using custom interval-based recurrence; fields for daily, weekly, monthly, yearly, days of week, day of month, end date, and occurrence count are present and ready for future use)
+  - Reminders are generated based on care strategies and the plant's actual care history (e.g., last watering/fertilizing event)
+  - Marking a reminder as complete logs a care event and, if recurring, schedules the next due date based on the current completion date and recurrence interval
+  - Enables completion tracking, snooze, and care history
 
 ## Project Structure
 

@@ -6,6 +6,7 @@ import { HealthObservation } from '../models/HealthObservation/healthObservation
 import { deletePlant, getPlantById } from '../api/plantService';
 import { getCareEventsByPlant } from '../api/careEventService';
 import { getHealthObservationsByPlantId } from '../api/healthObservationService';
+import { generateRemindersForPlant, getRemindersByPlantId } from '../api/reminderService';
 import CareEventList from '../components/care/CareEventList';
 import CareEventForm from '../components/care/CareEventForm';
 import Modal from '../components/common/Modal';
@@ -16,6 +17,8 @@ import './PlantDetailPage.css';
 import { getPlantTypeName } from '../utils/plantTypeUtils';
 import PlantCareRecommendations from '../components/care/PlantCareRecommendations';
 import HealthObservationForm from '../components/health/HealthObservationForm';
+import RemindersView from '../components/dashboard/RemindersView';
+import { Reminder } from '../models/Reminder/reminder';
 
 const PlantDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,6 +28,10 @@ const PlantDetailPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
   const [isAddObservationModalOpen, setIsAddObservationModalOpen] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [reminders, setReminders] = useState<Reminder[]>([]);
+  const [remindersLoading, setRemindersLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -66,16 +73,30 @@ const PlantDetailPage: React.FC = () => {
     }
   }, [id]);
 
+  const fetchReminders = useCallback(async () => {
+    if (!id) return;
+    setRemindersLoading(true);
+    try {
+      const data = await getRemindersByPlantId(id);
+      setReminders(data);
+    } catch {
+      setReminders([]);
+    } finally {
+      setRemindersLoading(false);
+    }
+  }, [id]);
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       await fetchPlantData();
       await fetchCareEvents();
       await fetchHealthObservations();
+      await fetchReminders();
     };
     
     fetchData();
-  }, [id, fetchPlantData, fetchCareEvents, fetchHealthObservations]);
+  }, [id, fetchPlantData, fetchCareEvents, fetchHealthObservations, fetchReminders]);
 
   const handleDelete = async () => {
     if (!plant) return;
@@ -107,6 +128,19 @@ const PlantDetailPage: React.FC = () => {
   const handleAddObservationSuccess = () => {
     setIsAddObservationModalOpen(false);
     fetchHealthObservations();
+  };
+
+  const handleGenerateReminders = async () => {
+    setGenerating(true);
+    setError(null);
+    try {
+      await generateRemindersForPlant(plant!.id);
+      await fetchReminders();
+    } catch (err) {
+      setError('Failed to generate reminders. Please try again.');
+    } finally {
+      setGenerating(false);
+    }
   };
 
   if (loading) return <div>Loading...</div>;
@@ -171,6 +205,21 @@ const PlantDetailPage: React.FC = () => {
           onEventDeleted={handleEventDeleted}
           onAddEvent={() => setIsAddEventModalOpen(true)}
         />
+      </div>
+
+      <div className="reminders-section">
+        <div className="reminders-header">
+          <h2>Reminders</h2>
+          <button
+            className="primary-action"
+            onClick={handleGenerateReminders}
+            disabled={generating}
+          >
+            {generating ? "Generating..." : "Generate Recommended Reminders"}
+          </button>
+        </div>
+        {error && <div className="error-message">{error}</div>}
+        <RemindersView reminders={reminders} loading={remindersLoading} />
       </div>
 
       <Modal
