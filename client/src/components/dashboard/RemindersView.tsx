@@ -2,6 +2,7 @@ import React from "react";
 import { Reminder } from "../../models/Reminder/reminder";
 import { markReminderAsComplete, deleteReminder } from "../../api/reminderService";
 import styles from "./dashboard.module.css"; // Use your existing CSS module
+import { getRecurrenceDescription } from "../../utils/recurrenceUtils";
 
 interface RemindersViewProps {
   reminders: Reminder[];
@@ -55,7 +56,7 @@ const RemindersView: React.FC<RemindersViewProps> = ({ reminders, loading }) => 
               )}
               {reminder.recurrence && (
                 <span className={styles.reminderRecurrence}>
-                  | Repeats: {reminder.recurrence.type} (every {reminder.recurrence.interval})
+                  | Repeats: {reminder.recurrence && getRecurrenceDescription(reminder.recurrence)}
                   {reminder.isCompleted && (
                     <span> | Next: {new Date(reminder.dueDate).toLocaleDateString()}</span>
                   )}

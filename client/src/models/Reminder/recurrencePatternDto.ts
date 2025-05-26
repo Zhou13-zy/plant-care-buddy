@@ -1,5 +1,7 @@
+import { RecurrenceType } from "./recurrenceType";
+
 export interface RecurrencePatternDto {
-    type: string;
+    type: RecurrenceType;
     interval: number;
     endDate?: string;
     occurrenceCount?: number;
