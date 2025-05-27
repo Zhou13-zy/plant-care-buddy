@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlantCareBuddy.Domain.Entities;
-using PlantCareBuddy.Domain.Interfaces;
+using PlantCareBuddy.Domain.Enums;
 using PlantCareBuddy.Infrastructure.Persistence;
 
 public class ReminderRepository : IReminderRepository
@@ -48,5 +48,11 @@ public class ReminderRepository : IReminderRepository
             _context.Reminders.Remove(reminder);
             await _context.SaveChangesAsync();
         }
+    }
+
+    public async Task<bool> ActiveReminderExistsAsync(Guid plantId, ReminderType type)
+    {
+        return await _context.Reminders
+            .AnyAsync(r => r.PlantId == plantId && r.Type == type && !r.IsCompleted);
     }
 }

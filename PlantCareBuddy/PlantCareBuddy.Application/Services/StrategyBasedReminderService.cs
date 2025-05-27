@@ -7,27 +7,35 @@ public class StrategyBasedReminderService : IStrategyBasedReminderService
 {
     private readonly ICareStrategyService _careStrategyService;
     private readonly ISeasonService _seasonService;
+    private readonly IReminderRepository _reminderRepository;
 
     public StrategyBasedReminderService(
         ICareStrategyService careStrategyService,
-        ISeasonService seasonService)
+        ISeasonService seasonService,
+        IReminderRepository reminderRepository)
     {
         _careStrategyService = careStrategyService;
         _seasonService = seasonService;
+        _reminderRepository = reminderRepository;
     }
 
-    public IEnumerable<Reminder> GenerateRemindersForPlant(Plant plant)
+    public async Task<IEnumerable<Reminder>> GenerateRemindersForPlantAsync(Plant plant)
     {
         var reminders = new List<Reminder>();
-        var strategy = _careStrategyService.GetStrategyForPlant(plant);
+        // Get all active (not completed) reminders for this plant
+        var existingReminders = plant.Reminders.Where(r => !r.IsCompleted).ToList();
         var season = _seasonService.GetCurrentSeason();
+        var strategy = _careStrategyService.GetStrategyForPlant(plant);
 
-        // Generate reminders for each reminder type
         foreach (ReminderType reminderType in Enum.GetValues(typeof(ReminderType)))
         {
             // Skip Custom and Note types as they're handled separately
             if (reminderType == ReminderType.Custom || reminderType == ReminderType.Note)
                 continue;
+
+            // Check for duplicate
+            if (await _reminderRepository.ActiveReminderExistsAsync(plant.Id, reminderType))
+                continue; // Skip creating this reminder
 
             var recurrence = strategy.GetCareRecurrence(reminderType, season);
             if (recurrence == null)

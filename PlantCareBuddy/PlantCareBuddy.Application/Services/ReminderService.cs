@@ -169,7 +169,8 @@ public class ReminderService : IReminderService
         if (plant == null)
             throw new Exception("Plant not found.");
 
-        var reminders = _strategyBasedReminderService.GenerateRemindersForPlant(plant);
+        // Await the task to get the actual IEnumerable<Reminder> result
+        var reminders = await _strategyBasedReminderService.GenerateRemindersForPlantAsync(plant);
 
         foreach (var reminder in reminders)
         {
