@@ -94,7 +94,10 @@ namespace PlantCareBuddy.Domain.Strategies
                 ReminderType.Fertilizing => GetFertilizingRecurrence(season),
                 ReminderType.Repotting => GetRepottingRecurrence(season),
                 ReminderType.Pruning => GetPruningRecurrence(season),
-                ReminderType.PestCheck => GetPestCheckRecurrence(season),
+                ReminderType.PestTreatment => GetPestTreatmentRecurrence(season),
+                ReminderType.Cleaning => GetCleaningRecurrence(season),
+                ReminderType.Misting => GetMistingRecurrence(season),
+                ReminderType.Rotating => GetRotatingRecurrence(season),
                 ReminderType.Inspection => GetInspectionRecurrence(season),
                 ReminderType.Custom => null, // Custom reminders are handled separately
                 ReminderType.Note => null,   // Notes don't have recurrence
@@ -155,12 +158,42 @@ namespace PlantCareBuddy.Domain.Strategies
             );
         }
 
-        protected virtual RecurrencePattern GetPestCheckRecurrence(Season season)
+        protected virtual RecurrencePattern GetPestTreatmentRecurrence(Season season)
         {
+            // Example: Pest treatment every 2 weeks
+            return RecurrencePattern.Create(
+                RecurrenceType.Weekly,
+                interval: 2,
+                daysOfWeek: new[] { DayOfWeek.Saturday }
+            );
+        }
+
+        protected virtual RecurrencePattern GetCleaningRecurrence(Season season)
+        {
+            // Example: Cleaning every month on the 1st
+            return RecurrencePattern.Create(
+                RecurrenceType.Monthly,
+                interval: 1,
+                dayOfMonth: 1
+            );
+        }
+
+        protected virtual RecurrencePattern GetMistingRecurrence(Season season)
+        {
+            // Example: Misting every 3 days
+            return RecurrencePattern.Create(
+                RecurrenceType.Daily,
+                interval: 3
+            );
+        }
+
+        protected virtual RecurrencePattern GetRotatingRecurrence(Season season)
+        {
+            // Example: Rotating every week on Sunday
             return RecurrencePattern.Create(
                 RecurrenceType.Weekly,
                 interval: 1,
-                daysOfWeek: new[] { DayOfWeek.Saturday }
+                daysOfWeek: new[] { DayOfWeek.Sunday }
             );
         }
 

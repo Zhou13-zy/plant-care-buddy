@@ -34,10 +34,14 @@ public class StrategyBasedReminderService : IStrategyBasedReminderService
                 continue;
 
             // Find the most recent care event of this type
-            var lastEvent = plant.CareEvents?
-                .Where(e => (CareEventType)reminderType == e.EventType)
-                .OrderByDescending(e => e.EventDate)
-                .FirstOrDefault();
+            CareEvent? lastEvent = null;
+            if (IsCareEventType(reminderType))
+            {
+                lastEvent = plant.CareEvents?
+                    .Where(e => (CareEventType)reminderType == e.EventType)
+                    .OrderByDescending(e => e.EventDate)
+                    .FirstOrDefault();
+            }
 
             // Calculate next due date
             DateTime nextDueDate = lastEvent != null
@@ -66,8 +70,13 @@ public class StrategyBasedReminderService : IStrategyBasedReminderService
             ReminderType.Fertilizing => "Fertilizing",
             ReminderType.Repotting => "Repotting",
             ReminderType.Pruning => "Pruning",
-            ReminderType.PestCheck => "Pest Check",
+            ReminderType.PestTreatment => "Pest Treatment",
+            ReminderType.Cleaning => "Cleaning",
+            ReminderType.Misting => "Misting",
+            ReminderType.Rotating => "Rotating",
             ReminderType.Inspection => "Plant Inspection",
+            ReminderType.Note => "Note",
+            ReminderType.Custom => "Custom Reminder",
             _ => type.ToString()
         };
     }
@@ -80,9 +89,19 @@ public class StrategyBasedReminderService : IStrategyBasedReminderService
             ReminderType.Fertilizing => $"Time to fertilize your {plantName}",
             ReminderType.Repotting => $"Your {plantName} might need repotting",
             ReminderType.Pruning => $"Time to prune your {plantName}",
-            ReminderType.PestCheck => $"Check {plantName} for pests",
+            ReminderType.PestTreatment => $"Check and treat {plantName} for pests",
+            ReminderType.Cleaning => $"Clean the leaves of {plantName}",
+            ReminderType.Misting => $"Mist your {plantName} for humidity",
+            ReminderType.Rotating => $"Rotate {plantName} for even growth",
             ReminderType.Inspection => $"Inspect {plantName} for overall health",
+            ReminderType.Note => $"Note for {plantName}",
+            ReminderType.Custom => $"Custom reminder for {plantName}",
             _ => $"Care reminder for your {plantName}"
         };
+    }
+
+    private bool IsCareEventType(ReminderType type)
+    {
+        return Enum.TryParse<CareEventType>(type.ToString(), out _);
     }
 }

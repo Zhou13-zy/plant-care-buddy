@@ -90,15 +90,18 @@ public class ReminderService : IReminderService
         var reminder = await _reminderRepository.GetByIdAsync(id);
         if (reminder == null) return null;
 
-        // Create a care event for the completed reminder
-        var careEvent = new CareEvent
+        // Create a care event for the completed reminder onlyy if the reminder type is a real care event
+        if (IsCareEventType(reminder.Type))
         {
-            PlantId = reminder.PlantId,
-            EventType = (CareEventType)reminder.Type,
-            EventDate = DateTime.UtcNow,
-            Notes = $"Completed reminder: {reminder.Title}"
-        };
-        await _context.CareEvents.AddAsync(careEvent);
+            var careEvent = new CareEvent
+            {
+                PlantId = reminder.PlantId,
+                EventType = (CareEventType)reminder.Type,
+                EventDate = DateTime.UtcNow,
+                Notes = $"Completed reminder: {reminder.Title}"
+            };
+            await _context.CareEvents.AddAsync(careEvent);
+        }
 
         if (reminder.Recurrence != null)
         {
@@ -204,5 +207,10 @@ public class ReminderService : IReminderService
             CreatedAt = reminder.CreatedAt,
             UpdatedAt = reminder.UpdatedAt
         };
+    }
+
+    private bool IsCareEventType(ReminderType type)
+    {
+        return Enum.TryParse<CareEventType>(type.ToString(), out _);
     }
 }
