@@ -56,6 +56,10 @@ public class StrategyBasedReminderService : IStrategyBasedReminderService
                 ? recurrence.CalculateNextDueDate(lastEvent.EventDate)
                 : DateTime.Today;
 
+            // Fix: Prevent due date in the past
+            if (nextDueDate < DateTime.Today)
+                nextDueDate = DateTime.Today;
+
             // Create the reminder
             reminders.Add(Reminder.Create(
                 plant.Id,
