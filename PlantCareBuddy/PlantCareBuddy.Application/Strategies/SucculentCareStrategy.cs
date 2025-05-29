@@ -1,6 +1,7 @@
 ﻿using PlantCareBuddy.Domain.Entities;
 using PlantCareBuddy.Domain.Enums;
 using PlantCareBuddy.Domain.Strategies;
+using PlantCareBuddy.Domain.ValueObjects;
 
 namespace PlantCareBuddy.Application.Strategies
 {
@@ -26,5 +27,39 @@ namespace PlantCareBuddy.Application.Strategies
 
         public override bool IsApplicableForPlant(Plant plant) =>
             plant.PlantType == PlantType.Succulent;
+
+        protected override RecurrencePattern GetWateringRecurrence(Season season)
+        {
+            return season switch
+            {
+                Season.Summer => RecurrencePattern.Create(
+                    RecurrenceType.Weekly,
+                    interval: 2,
+                    daysOfWeek: new[] { DayOfWeek.Monday }
+                ),
+                Season.Winter => RecurrencePattern.Create(
+                    RecurrenceType.Weekly,
+                    interval: 4,
+                    daysOfWeek: new[] { DayOfWeek.Monday }
+                ),
+                _ => RecurrencePattern.Create(
+                    RecurrenceType.Weekly,
+                    interval: 2,
+                    daysOfWeek: new[] { DayOfWeek.Monday }
+                )
+            };
+        }
+
+        protected override RecurrencePattern GetFertilizingRecurrence(Season season)
+        {
+            if (season == Season.Winter)
+                return null;
+
+            return RecurrencePattern.Create(
+                RecurrenceType.Monthly,
+                interval: 2,
+                dayOfMonth: 1
+            );
+        }
     }
 }

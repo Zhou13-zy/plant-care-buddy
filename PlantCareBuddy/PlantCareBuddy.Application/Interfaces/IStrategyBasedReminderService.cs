@@ -9,6 +9,6 @@ namespace PlantCareBuddy.Application.Interfaces
         /// </summary>
         /// <param name="plant">The plant to generate reminders for.</param>
         /// <returns>A list of generated Reminder entities.</returns>
-        IEnumerable<Reminder> GenerateRemindersForPlant(Plant plant);
+        Task<IEnumerable<Reminder>> GenerateRemindersForPlantAsync(Plant plant);
     }
 } 

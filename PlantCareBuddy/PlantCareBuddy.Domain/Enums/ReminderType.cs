@@ -6,7 +6,10 @@
         Fertilizing,
         Repotting,
         Pruning,
-        PestCheck,
+        PestTreatment,
+        Cleaning,
+        Misting,
+        Rotating,
         Custom,
         Note,
         Inspection

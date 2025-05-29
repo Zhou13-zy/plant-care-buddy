@@ -90,20 +90,23 @@ public class ReminderService : IReminderService
         var reminder = await _reminderRepository.GetByIdAsync(id);
         if (reminder == null) return null;
 
-        // Create a care event for the completed reminder
-        var careEvent = new CareEvent
+        // Create a care event for the completed reminder onlyy if the reminder type is a real care event
+        if (IsCareEventType(reminder.Type))
         {
-            PlantId = reminder.PlantId,
-            EventType = (CareEventType)reminder.Type,
-            EventDate = DateTime.UtcNow,
-            Notes = $"Completed reminder: {reminder.Title}"
-        };
-        await _context.CareEvents.AddAsync(careEvent);
+            var careEvent = new CareEvent
+            {
+                PlantId = reminder.PlantId,
+                EventType = (CareEventType)reminder.Type,
+                EventDate = DateTime.UtcNow,
+                Notes = $"Completed reminder: {reminder.Title}"
+            };
+            await _context.CareEvents.AddAsync(careEvent);
+        }
 
         if (reminder.Recurrence != null)
         {
             // For recurring reminders, calculate next occurrence from current date
-            var nextDueDate = CalculateNextDueDate(DateTime.UtcNow, reminder.Recurrence);
+            var nextDueDate = reminder.Recurrence.CalculateNextDueDate(DateTime.UtcNow);
 
             // Check if recurrence should end
             bool shouldEnd = false;
@@ -151,33 +154,6 @@ public class ReminderService : IReminderService
         return MapToDto(reminder);
     }
 
-    private DateTime CalculateNextDueDate(DateTime baseDate, RecurrencePattern recurrence)
-    {
-        // Ensure the base date is at the start of the day
-        baseDate = baseDate.Date;
-
-        switch (recurrence.Type)
-        {
-            case RecurrenceType.Daily:
-                return baseDate.AddDays(recurrence.Interval);
-
-            case RecurrenceType.Weekly:
-                return baseDate.AddDays(7 * recurrence.Interval);
-
-            case RecurrenceType.Monthly:
-                return baseDate.AddMonths(recurrence.Interval);
-
-            case RecurrenceType.Yearly:
-                return baseDate.AddYears(recurrence.Interval);
-
-            case RecurrenceType.Custom:
-                return baseDate.AddDays(recurrence.Interval);
-
-            default:
-                throw new ArgumentException($"Unsupported recurrence type: {recurrence.Type}");
-        }
-    }
-
     public async Task<IEnumerable<ReminderDto>> GetAllRemindersAsync()
     {
         var reminders = await _reminderRepository.GetAllAsync();
@@ -193,7 +169,8 @@ public class ReminderService : IReminderService
         if (plant == null)
             throw new Exception("Plant not found.");
 
-        var reminders = _strategyBasedReminderService.GenerateRemindersForPlant(plant);
+        // Await the task to get the actual IEnumerable<Reminder> result
+        var reminders = await _strategyBasedReminderService.GenerateRemindersForPlantAsync(plant);
 
         foreach (var reminder in reminders)
         {
@@ -223,12 +200,18 @@ public class ReminderService : IReminderService
                 EndDate = reminder.Recurrence.EndDate,
                 OccurrenceCount = reminder.Recurrence.OccurrenceCount,
                 DaysOfWeek = reminder.Recurrence.DaysOfWeek,
-                DayOfMonth = reminder.Recurrence.DayOfMonth
+                DayOfMonth = reminder.Recurrence.DayOfMonth,
+                MonthOfYear = reminder.Recurrence.MonthOfYear
             },
             IsCompleted = reminder.IsCompleted,
             CompletedDate = reminder.CompletedDate,
             CreatedAt = reminder.CreatedAt,
             UpdatedAt = reminder.UpdatedAt
         };
+    }
+
+    private bool IsCareEventType(ReminderType type)
+    {
+        return Enum.TryParse<CareEventType>(type.ToString(), out _);
     }
 }

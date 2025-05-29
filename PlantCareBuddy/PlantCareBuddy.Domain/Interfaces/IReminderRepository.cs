@@ -1,4 +1,5 @@
 ﻿using PlantCareBuddy.Domain.Entities;
+using PlantCareBuddy.Domain.Enums;
 
 public interface IReminderRepository
 {
@@ -9,4 +10,5 @@ public interface IReminderRepository
     Task AddAsync(Reminder reminder);
     Task UpdateAsync(Reminder reminder);
     Task DeleteAsync(Guid id);
+    Task<bool> ActiveReminderExistsAsync(Guid plantId, ReminderType type);
 }
